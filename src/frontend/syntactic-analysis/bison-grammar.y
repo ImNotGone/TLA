@@ -27,13 +27,17 @@
 }
 
 // IDs y tipos de los tokens terminales generados desde Flex.
-%token <token> ADD
-%token <token> SUB
-%token <token> MUL
-%token <token> DIV
+%token <token> ADD SUB MUL DIV MOD
+%token <token> AND OR NOT
+%token <token> EQ NE LT LE GT GE
+%token <token> ASSIGN
+%token <token> COMMA
+%token <token> OPEN_PARENTHESIS CLOSE_PARENTHESIS OPEN_CURL_BRACKETS CLOSE_CURL_BRACKETS SEMI_COLON
+%token <token> FOR IN WHILE IF ELSE
+%token <token> INT_TYPE
+%token <token> RED_BLACK_TREE_TYPE AVL_TREE_TYPE BST_TREE_TYPE
+%token <token> NEW_TREE PRINT INSERT REMOVE INORDER POSTORDER PREORDER REDUCE FIND MATCH ADD_TREE
 
-%token <token> OPEN_PARENTHESIS
-%token <token> CLOSE_PARENTHESIS
 
 %token <integer> INTEGER
 

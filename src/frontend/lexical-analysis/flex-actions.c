@@ -18,6 +18,7 @@
  * (mediante $1, $2, $3, etc.).
  */
 
+//TODO sacar esto de aca quizas, probablemente vaya a bison
 void BeginCommentPatternAction() {
 	LogDebug("BeginCommentPatternAction.");
 }

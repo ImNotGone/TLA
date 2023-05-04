@@ -71,7 +71,7 @@ token SubtractionOperatorPatternAction(const char * lexeme) {
 
 token DeclarePatternAction(const char* lexeme, const int length) {
     LogDebug("DeclarePatternAction: '%s' (length = %d).", lexeme, length);
-    char * varName = (char*) malloc(length + 1, sizeof(char));
+    char * varName = (char*) malloc((length + 1) * sizeof(char));
     strncpy(variableName, lexeme, length);
     varName[length-1] = '\0';
     yylval.string = variableName;

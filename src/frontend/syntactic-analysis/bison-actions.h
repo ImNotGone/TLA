@@ -51,8 +51,20 @@ int VariableFactorGrammarAction(const int value);
 int ConstantGrammarAction(const int value);
 
 //Funciones
-int OneParamFunctionGrammarAction(const int symbol);
-int TwoParamFunctionGrammarAction(const int symbol1, const int symbol2);
+int PrintFunctionGrammarAction(const int symbol);
+int MaxFunctionGrammarAction(const int symbol);
+int MinFunctionGrammarAction(const int symbol);
+int RootFunctionGrammarAction(const int symbol);
+int HeightFunctionGrammarAction(const int symbol);
+int InorderFunctionGrammarAction(const int symbol);
+int PostorderFunctionGrammarAction(const int symbol);
+int PreorderFunctionGrammarAction(const int symbol);
+int InsertFunctionGrammarAction(const int symbol1, const int symbol2);
+int RemoveFunctionGrammarAction(const int symbol1, const int symbol2);
+int ReduceFunctionGrammarAction(const int symbol1, const int symbol2);
+int FindFunctionGrammarAction(const int symbol1, const int symbol2);
+int PresentFunctionGrammarAction(const int symbol1, const int symbol2);
+int DeclarationFunctionGrammarAction(const int symbol1, const int symbol2);
 
 // Constantes.
 int IntegerConstantGrammarAction(const int value);

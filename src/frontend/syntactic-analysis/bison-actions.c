@@ -78,13 +78,73 @@ int WhileStatementGrammarAction(const int expression, const int block){
     return 1;
 }
 
-int OneParamFunctionGrammarAction(const int symbol){
-    LogDebug("\tOneParamFunctionGrammarAction(%d)", symbol);
+int PrintFunctionGrammarAction(const int symbol){
+    LogDebug("\tPrintFunctionGrammarAction(%d)", symbol);
     return 1;
 }
 
-int TwoParamFunctionGrammarAction(const int symbol1, const int symbol2){
-    LogDebug("\tWhileStatementGrammarAction(%d, %d)", symbol1, symbol2);
+int MaxFunctionGrammarAction(const int symbol){
+    LogDebug("\tMaxFunctionGrammarAction(%d)", symbol);
+    return 1;
+}
+
+int MinFunctionGrammarAction(const int symbol){
+    LogDebug("\tMinFunctionGrammarAction(%d)", symbol);
+    return 1;
+}
+
+int RootFunctionGrammarAction(const int symbol){
+    LogDebug("\tRootFunctionGrammarAction(%d)", symbol);
+    return 1;
+}
+
+int HeightFunctionGrammarAction(const int symbol){
+    LogDebug("\tHeightFunctionGrammarAction(%d)", symbol);
+    return 1;
+}
+
+int InorderFunctionGrammarAction(const int symbol){
+    LogDebug("\tInorderFunctionGrammarAction(%d)", symbol);
+    return 1;
+}
+
+int PostorderFunctionGrammarAction(const int symbol){
+    LogDebug("\tPostorderFunctionGrammarAction(%d)", symbol);
+    return 1;
+}
+
+int PreorderFunctionGrammarAction(const int symbol){
+    LogDebug("\tPreorderFunctionGrammarAction(%d)", symbol);
+    return 1;
+}
+
+int InsertFunctionGrammarAction(const int symbol1, const int symbol2){
+    LogDebug("\tInsertFunctionGrammarAction(%d, %d)", symbol1, symbol2);
+    return 1;
+}
+
+int RemoveFunctionGrammarAction(const int symbol1, const int symbol2){
+    LogDebug("\tRemoveFunctionGrammarAction(%d, %d)", symbol1, symbol2);
+    return 1;
+}
+
+int ReduceFunctionGrammarAction(const int symbol1, const int symbol2){
+    LogDebug("\tReduceFunctionGrammarAction(%d, %d)", symbol1, symbol2);
+    return 1;
+}
+
+int FindFunctionGrammarAction(const int symbol1, const int symbol2){
+    LogDebug("\tFindFunctionGrammarAction(%d, %d)", symbol1, symbol2);
+    return 1;
+}
+
+int PresentFunctionGrammarAction(const int symbol1, const int symbol2){
+    LogDebug("\tPresentFunctionGrammarAction(%d, %d)", symbol1, symbol2);
+    return 1;
+}
+
+int DeclarationFunctionGrammarAction(const int symbol1, const int symbol2){
+    LogDebug("\tDeclarationFunctionGrammarAction(%d, %d)", symbol1, symbol2);
     return 1;
 }
 

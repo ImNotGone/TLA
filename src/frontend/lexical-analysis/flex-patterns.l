@@ -70,7 +70,7 @@ declarationName     [A-Za-z][A-Za-z0-9]*
 "preorder"                                  {yylval.token = PREORDER; return PREORDER;}
 "reduce"                                    {yylval.token = REDUCE; return REDUCE;}
 "find"                                      {yylval.token = FIND; return FIND;}
-"match"                                     {yylval.token = MATCH; return MATCH;}
+"present"                                   {yylval.token = PRESENT; return PRESENT;}
 "<-"                                        { return ADD_TREE; }
 
 

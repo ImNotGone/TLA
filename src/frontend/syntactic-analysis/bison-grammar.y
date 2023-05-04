@@ -49,7 +49,7 @@
 %token <token> FOR IN WHILE IF ELSE
 %token <token> INT_TYPE
 %token <token> RED_BLACK_TREE_TYPE AVL_TREE_TYPE BST_TREE_TYPE
-%token <token> NEW_TREE PRINT INSERT REMOVE INORDER POSTORDER PREORDER REDUCE FIND MATCH ADD_TREE
+%token <token> NEW_TREE PRINT INSERT REMOVE INORDER POSTORDER PREORDER REDUCE FIND PRESENT ADD_TREE MAX MIN HEIGHT ROOT
 %token <token> SYMBOL
 
 %token <integer> INTEGER
@@ -114,16 +114,20 @@ for_statement: FOR SYMBOL IN range_expression block                             
 while_statement: WHILE OPEN_PARENTHESIS expression CLOSE_PARENTHESIS block               { $$ = WhileStatementGrammarAction($3, $5); }
                ;
 
-function_call: PRINT SYMBOL                                                              { $$ = OneParamFunctionGrammarAction($2); }
-             | INSERT SYMBOL expression                                                      { $$ = TwoParamFunctionGrammarAction($2, $3); }
-             | REMOVE SYMBOL expression                                                      { $$ = TwoParamFunctionGrammarAction($2, $3); }
-             | INORDER SYMBOL                                                            { $$ = OneParamFunctionGrammarAction($2); }
-             | POSTORDER SYMBOL                                                          { $$ = OneParamFunctionGrammarAction($2); }
-             | PREORDER SYMBOL                                                           { $$ = OneParamFunctionGrammarAction($2); }
-             | REDUCE expression SYMBOL                                                  { $$ = TwoParamFunctionGrammarAction($2, $3); }
-             | FIND SYMBOL expression                                                        { $$ = TwoParamFunctionGrammarAction($2, $3); }
-             | MATCH expression SYMBOL                                                   { $$ = TwoParamFunctionGrammarAction($2, $3); }
-             | declaration ADD_TREE SYMBOL                                                    { $$ = TwoParamFunctionGrammarAction($2, $3); }
+function_call: PRINT SYMBOL                                                              { $$ = PrintFunctionGrammarAction($2); }
+	     | MAX SYMBOL                                                            	 { $$ = MaxFunctionGrammarAction($2); }
+	     | MIN SYMBOL                                                              	 { $$ = MinFunctionGrammarAction($2); }
+	     | ROOT SYMBOL                                                               { $$ = RootFunctionGrammarAction($2); }
+	     | HEIGHT SYMBOL                                                             { $$ = HeightFunctionGrammarAction($2); }
+             | INSERT SYMBOL expression                                                  { $$ = InsertFunctionGrammarAction($2, $3); }
+             | REMOVE SYMBOL expression                                                  { $$ = RemoveFunctionGrammarAction($2, $3); }
+             | INORDER SYMBOL                                                            { $$ = InorderFunctionGrammarAction($2); }
+             | POSTORDER SYMBOL                                                          { $$ = PostorderFunctionGrammarAction($2); }
+             | PREORDER SYMBOL                                                           { $$ = PreorderFunctionGrammarAction($2); }
+             | REDUCE expression SYMBOL                                                  { $$ = ReduceFunctionGrammarAction($2, $3); }
+             | FIND SYMBOL expression                                                    { $$ = FindFunctionGrammarAction($2, $3); }
+             | PRESENT expression SYMBOL                                                 { $$ = PresentFunctionGrammarAction($2, $3); }
+             | declaration ADD_TREE SYMBOL                                               { $$ = DeclarationFunctionGrammarAction($2, $3); }
              ;
 
 declaration: NEW_TREE tree_type SYMBOL                                                   { $$ = TreeDeclarationGrammarAction($1); }

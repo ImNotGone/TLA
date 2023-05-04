@@ -85,7 +85,7 @@
 
 %%
 
-program: block                                                                           { $$ = ProgramGrammarAction($1); }
+program: statement_list                                                                  { $$ = ProgramGrammarAction($1); }
        ;
 
 
@@ -115,19 +115,20 @@ while_statement: WHILE OPEN_PARENTHESIS expression CLOSE_PARENTHESIS block      
                ;
 
 function_call: PRINT SYMBOL                                                              { $$ = OneParamFunctionGrammarAction($2); }
-             | INSERT SYMBOL SYMBOL                                                      { $$ = TwoParamFunctionGrammarAction($2, $3); }
-             | REMOVE SYMBOL SYMBOL                                                      { $$ = TwoParamFunctionGrammarAction($2, $3); }
+             | INSERT SYMBOL expression                                                      { $$ = TwoParamFunctionGrammarAction($2, $3); }
+             | REMOVE SYMBOL expression                                                      { $$ = TwoParamFunctionGrammarAction($2, $3); }
              | INORDER SYMBOL                                                            { $$ = OneParamFunctionGrammarAction($2); }
              | POSTORDER SYMBOL                                                          { $$ = OneParamFunctionGrammarAction($2); }
              | PREORDER SYMBOL                                                           { $$ = OneParamFunctionGrammarAction($2); }
              | REDUCE expression SYMBOL                                                  { $$ = TwoParamFunctionGrammarAction($2, $3); }
-             | FIND SYMBOL SYMBOL                                                        { $$ = TwoParamFunctionGrammarAction($2, $3); }
+             | FIND SYMBOL expression                                                        { $$ = TwoParamFunctionGrammarAction($2, $3); }
              | MATCH expression SYMBOL                                                   { $$ = TwoParamFunctionGrammarAction($2, $3); }
+             | declaration ADD_TREE SYMBOL                                                    { $$ = TwoParamFunctionGrammarAction($2, $3); }
              ;
 
 declaration: NEW_TREE tree_type SYMBOL                                                   { $$ = TreeDeclarationGrammarAction($1); }
            | INT_TYPE SYMBOL                                                             { $$ = IntDeclarationGrammarAction($1); }
-           | INT_TYPE SYMBOL ASSIGN expression                                           { $$ = IntDeclarationAndAssignmentGrammarAction($1, $3); } 
+           | INT_TYPE SYMBOL ASSIGN expression                                           { $$ = IntDeclarationAndAssignmentGrammarAction($1, $3); }
            ;
 
 assignment: SYMBOL ASSIGN expression                                                     { $$ = AssignmentGrammarAction($1, $3); }

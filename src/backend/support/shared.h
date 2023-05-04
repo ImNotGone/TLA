@@ -12,7 +12,13 @@ extern FILE * yyout;
 
 // La cantidad de caracteres en el lexema "yytext". Se debe leer en las
 // acciones de Flex, no en Bison.
+// Usamos ifdef para que los que usan mac puedan compilar
+#ifndef MAC_USER
+extern int yyleng;
+#endif
+#ifdef MAC_USER
 extern size_t yyleng;
+#endif
 
 // Variable global que contiene el número de la línea analizada.
 extern int yylineno;

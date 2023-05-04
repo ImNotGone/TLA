@@ -92,7 +92,7 @@ block: OPEN_CURL_BRACKETS statement_list CLOSE_CURL_BRACKETS                    
      ;
 
 statement_list: statement_list statement                                                  { $$ = StatementListGrammarAction($1, $2); }
-              | statement                                                                 { $$ = StatementListGrammarAction(NULL, $1); }
+              | statement                                                                 { $$ = StatementListGrammarAction(-1, $1); }
               ;
 
 statement: if_statement                                                                  { $$ = StatementGrammarAction($1); }
@@ -104,7 +104,7 @@ statement: if_statement                                                         
          ;
 
 if_statement: IF OPEN_PARENTHESIS expression CLOSE_PARENTHESIS block ELSE block          { $$ = IfStatementGrammarAction($3, $5, $7); }
-            | IF OPEN_PARENTHESIS expression CLOSE_PARENTHESIS block                     { $$ = IfStatementGrammarAction($3, $5, NULL); }
+            | IF OPEN_PARENTHESIS expression CLOSE_PARENTHESIS block                     { $$ = IfStatementGrammarAction($3, $5, -1); }
             ;
 
 for_statement: FOR SYMBOL IN range_expression block                                      { $$ = ForStatementGrammarAction($2, $4, $5); }

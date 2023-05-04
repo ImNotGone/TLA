@@ -23,7 +23,7 @@ int WhileStatementGrammarAction(const int expression, const int block);
 
 // Expresión.
 int AdditionExpressionGrammarAction(const int leftValue, const int rightValue);
-int SubtractionExpressionGrammarAction(const int leftValue, const int rightValue);
+int SubstractionExpressionGrammarAction(const int leftValue, const int rightValue);
 int MultiplicationExpressionGrammarAction(const int leftValue, const int rightValue);
 int DivisionExpressionGrammarAction(const int leftValue, const int rightValue);
 int FactorExpressionGrammarAction(const int value);

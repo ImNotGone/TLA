@@ -113,7 +113,7 @@ int AdditionExpressionGrammarAction(const int leftValue, const int rightValue) {
 	return Add(leftValue, rightValue);
 }
 
-int SubtractionExpressionGrammarAction(const int leftValue, const int rightValue) {
+int SubstractionExpressionGrammarAction(const int leftValue, const int rightValue) {
 	LogDebug("\tSubtractionExpressionGrammarAction(%d, %d)", leftValue, rightValue);
 	return Subtract(leftValue, rightValue);
 }

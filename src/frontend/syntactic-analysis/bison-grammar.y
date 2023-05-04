@@ -119,20 +119,20 @@ declaration: NEW_TREE tree_type SYMBOL                                          
 assignment: SYMBOL ASSIGN expression                                                     { $$ = AssignmentGrammarAction($1, $3); }
           ;
 
-expression: expression ADD expression                                                    { $$ = AdditionExpressionGrammarAction($1, $3, ADD); }
-          | expression SUB expression                                                    { $$ = SubstractionExpressionGrammarAction($1, $3, SUB); }
-          | expression MUL expression                                                    { $$ = MultiplicationExpressionGrammarAction($1, $3, MUL); }
-          | expression DIV expression                                                    { $$ = DivisionExpressionGrammarAction($1, $3, DIV); }
-          | expression MOD expression                                                    { $$ = ModulusExpressionGrammarAction($1, $3, MOD); }
-          | expression AND expression                                                    { $$ = AndExpressionGrammarAction($1, $3, AND); }
+expression: expression ADD expression                                                    { $$ = AdditionExpressionGrammarAction($1, $3); }
+          | expression SUB expression                                                    { $$ = SubstractionExpressionGrammarAction($1, $3); }
+          | expression MUL expression                                                    { $$ = MultiplicationExpressionGrammarAction($1, $3); }
+          | expression DIV expression                                                    { $$ = DivisionExpressionGrammarAction($1, $3); }
+          | expression MOD expression                                                    { $$ = ModulusExpressionGrammarAction($1, $3); }
+          | expression AND expression                                                    { $$ = AndExpressionGrammarAction($1, $3); }
           | NOT expression                                                               { $$ = NotExpressionGrammarAction($2); }
-          | expression OR expression                                                     { $$ = OrExpressionGrammarAction($1, $3, OR); }
-          | expression EQ expression                                                     { $$ = EqualityExpressionGrammarAction($1, $3, EQ); }
-          | expression NE expression                                                     { $$ = InequalityExpressionGrammarAction($1, $3, NE); }
-          | expression LT expression                                                     { $$ = LessThanExpressionGrammarAction($1, $3, LT); }
-          | expression LE expression                                                     { $$ = LessThanOrEqualExpressionGrammarAction($1, $3, LE); }
-          | expression GT expression                                                     { $$ = GreaterThanExpressionGrammarAction($1, $3, GT); }
-          | expression GE expression                                                     { $$ = GreaterThanOrEqualExpressionGrammarAction($1, $3, GE); }
+          | expression OR expression                                                     { $$ = OrExpressionGrammarAction($1, $3); }
+          | expression EQ expression                                                     { $$ = EqualityExpressionGrammarAction($1, $3); }
+          | expression NE expression                                                     { $$ = InequalityExpressionGrammarAction($1, $3); }
+          | expression LT expression                                                     { $$ = LessThanExpressionGrammarAction($1, $3); }
+          | expression LE expression                                                     { $$ = LessThanOrEqualExpressionGrammarAction($1, $3); }
+          | expression GT expression                                                     { $$ = GreaterThanExpressionGrammarAction($1, $3); }
+          | expression GE expression                                                     { $$ = GreaterThanOrEqualExpressionGrammarAction($1, $3); }
           | factor                                                                       { $$ = FactorExpressionGrammarAction($1); }
           ;
 

@@ -1,0 +1,13 @@
+new RBT t1;
+
+insert t1 1;
+insert t1 2;
+insert t1 3;
+
+print t1;
+
+remove t1 1;
+
+new AVL t2 <- t1;
+
+print t2;

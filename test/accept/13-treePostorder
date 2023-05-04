@@ -3,3 +3,5 @@ insert t1 1;
 insert t1 10;
 insert t1 5;
 postorder t1;
+preorder t1;
+inorder t1;

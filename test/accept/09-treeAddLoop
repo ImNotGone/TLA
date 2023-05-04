@@ -1,0 +1,4 @@
+new BST t1
+for n in (0,10){
+    insert t1 n;
+};

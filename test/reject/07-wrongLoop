@@ -1,0 +1,4 @@
+new AVL t1;
+for N in (0 to 10){
+    insert t1 N;
+};

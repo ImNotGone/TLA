@@ -63,6 +63,10 @@ declarationName     [A-Za-z][A-Za-z0-9]*
 
 "new"                                       {yylval.token = NEW_TREE; return NEW_TREE;}
 "print"                                     {yylval.token = PRINT; return PRINT;}
+"max"                                       {yylval.token = MAX; return MAX;}
+"min"                                       {yylval.token = MIN; return MIN;}
+"root"                                      {yylval.token = ROOT; return ROOT;}
+"height"                                    {yylval.token = HEIGHT; return HEIGHT;}
 "insert"                                    {yylval.token = INSERT; return INSERT;}
 "remove"                                    {yylval.token = REMOVE; return REMOVE;}
 "inorder"                                   {yylval.token = INORDER; return INORDER;}

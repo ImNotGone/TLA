@@ -55,6 +55,7 @@ elseif (CMAKE_C_COMPILER_ID STREQUAL "AppleClang")
     # Opciones para Clang.
     # add_compile_options(...)
 
+    add_compile_options(-DMAC_USER)
     # Compilar el scanner con Flex.
     add_custom_command(
             OUTPUT ../src/frontend/lexical-analysis/flex-scanner.c

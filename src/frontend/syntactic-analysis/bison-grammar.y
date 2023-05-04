@@ -100,15 +100,15 @@ for_statement: FOR SYMBOL IN range_expression block                             
 while_statement: WHILE OPEN_PARENTHESIS expression CLOSE_PARENTHESIS block               { $$ = WhileStatementGrammarAction($3, $5); }
                ;
 
-function_call: PRINT SYMBOL                                                              { $$ = OneParamFunctionGrammarAction($1); }
-             | INSERT SYMBOL SYMBOL                                                      { $$ = TwoParamFunctionGrammarAction($1); }
-             | REMOVE SYMBOL SYMBOL                                                      { $$ = TwoParamFunctionGrammarAction($1); }
-             | INORDER SYMBOL                                                            { $$ = OneParamFunctionGrammarAction($1); }
-             | POSTORDER SYMBOL                                                          { $$ = OneParamFunctionGrammarAction($1); }
-             | PREORDER SYMBOL                                                           { $$ = OneParamFunctionGrammarAction($1); }
-             | REDUCE expression SYMBOL                                                  { $$ = TwoParamFunctionGrammarAction($1); }
-             | FIND SYMBOL SYMBOL                                                        { $$ = TwoParamFunctionGrammarAction($1); }
-             | MATCH expression SYMBOL                                                   { $$ = TwoParamFunctionGrammarAction($1); }
+function_call: PRINT SYMBOL                                                              { $$ = OneParamFunctionGrammarAction($2); }
+             | INSERT SYMBOL SYMBOL                                                      { $$ = TwoParamFunctionGrammarAction($2, $3); }
+             | REMOVE SYMBOL SYMBOL                                                      { $$ = TwoParamFunctionGrammarAction($2, $3); }
+             | INORDER SYMBOL                                                            { $$ = OneParamFunctionGrammarAction($2); }
+             | POSTORDER SYMBOL                                                          { $$ = OneParamFunctionGrammarAction($2); }
+             | PREORDER SYMBOL                                                           { $$ = OneParamFunctionGrammarAction($2); }
+             | REDUCE expression SYMBOL                                                  { $$ = TwoParamFunctionGrammarAction($2, $3); }
+             | FIND SYMBOL SYMBOL                                                        { $$ = TwoParamFunctionGrammarAction($2, $3); }
+             | MATCH expression SYMBOL                                                   { $$ = TwoParamFunctionGrammarAction($2, $3); }
              ;
 
 declaration: NEW_TREE tree_type SYMBOL                                                   { $$ = TreeDeclarationGrammarAction($1); }

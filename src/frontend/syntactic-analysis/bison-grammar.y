@@ -85,14 +85,14 @@
 
 %%
 
-program: block                                                                          { $$ = ProgramGrammarAction($1); }
+program: block                                                                           { $$ = ProgramGrammarAction($1); }
        ;
 
 block: OPEN_CURL_BRACKETS statement_list CLOSE_CURL_BRACKETS                             { $$ = BlockGrammarAction($2); }
      ;
 
-statement_list: statement_list statement                                                  { $$ = StatementListGrammarAction($1, $2); }
-              | statement                                                                 { $$ = StatementListGrammarAction(-1, $1); }
+statement_list: statement_list statement                                                 { $$ = StatementListGrammarAction($1, $2); }
+              | statement                                                                { $$ = StatementListGrammarAction(-1, $1); }
               ;
 
 statement: if_statement                                                                  { $$ = StatementGrammarAction($1); }

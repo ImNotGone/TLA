@@ -14,6 +14,9 @@
 // Programa.
 int ProgramGrammarAction(const int value);
 
+// Block
+int BlockGrammarAction(int statementList);
+
 //Statements
 int StatementListGrammarAction(const int leftValue, const int rightValue);
 int StatementGrammarAction(const int value);
@@ -57,6 +60,7 @@ int IntegerConstantGrammarAction(const int value);
 int TreeDeclarationGrammarAction(const int symbol);
 int IntDeclarationGrammarAction(const int symbol);
 int IntDeclarationAndAssignmentGrammarAction(const int symbol, const int expression);
+int AssignmentGrammarAction(const int symbol, const int expression);
 
 int TreeTypeGrammarAction(const int value);
 

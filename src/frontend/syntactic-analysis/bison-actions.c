@@ -47,6 +47,11 @@ int ProgramGrammarAction(const int value) {
 	return value;
 }
 
+int BlockGrammarAction(int statementList) {
+    LogDebug("\tStGrammarAction(%d)", statementList);
+    return statementList;;
+}
+
 int StatementListGrammarAction(const int leftValue, const int rightValue) {
     LogDebug("\tStatementListGrammarAction(%d, %d)", leftValue, rightValue);
     return 1;
@@ -95,6 +100,11 @@ int IntDeclarationGrammarAction(const int symbol){
 
 int IntDeclarationAndAssignmentGrammarAction(const int symbol, const int expression){
     LogDebug("\tIntDeclarationAndAssignmentGrammarAction(%d, %d)", symbol, expression);
+    return 1;
+}
+
+int AssignmentGrammarAction(const int symbol, const int expression) {
+    LogDebug("\tAssignmentGrammarAction(%d, %d)", symbol, expression);
     return 1;
 }
 

@@ -17,9 +17,22 @@
 
 	// No-terminales (frontend).
 	int program;
-	int expression;
-	int factor;
-	int constant;
+    int block;
+    int statement_list;
+    int statement;
+    int if_statement;
+    int for_statement;
+    int while_statement;
+    int function_call;
+    int declaration;
+    int assignment;
+    int expression;
+    int range_expression;
+    int factor;
+    int constant;
+    int tree_type;
+
+
     char * varname;
 	// Terminales.
 	token token;

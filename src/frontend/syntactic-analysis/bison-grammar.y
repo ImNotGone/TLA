@@ -49,7 +49,7 @@
 
 // Reglas de asociatividad y precedencia (de menor a mayor).
 %left ADD SUB
-%left MUL DIV
+%left MUL DIV MOD
 
 // El símbolo inicial de la gramatica.
 %start program
@@ -63,6 +63,7 @@ expression: expression[left] ADD expression[right]					{ $$ = AdditionExpression
 	| expression[left] SUB expression[right]						{ $$ = SubtractionExpressionGrammarAction($left, $right); }
 	| expression[left] MUL expression[right]						{ $$ = MultiplicationExpressionGrammarAction($left, $right); }
 	| expression[left] DIV expression[right]						{ $$ = DivisionExpressionGrammarAction($left, $right); }
+    | expression[left] MOD expression[right]                        { $$ = ModulusExpressionGrammarAction($left, $right); }
 	| factor														{ $$ = FactorExpressionGrammarAction($1); }
 	;
 

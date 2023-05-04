@@ -67,6 +67,11 @@ int DivisionExpressionGrammarAction(const int leftValue, const int rightValue) {
 	return Divide(leftValue, rightValue);
 }
 
+int ModulusExpressionGrammarAction(const int leftValue, const int rightValue) {
+    LogDebug("\tModulusExpressionGrammarAction(%d, %d)", leftValue, rightValue);
+    return Modulus(leftValue, rightValue);
+}
+
 int FactorExpressionGrammarAction(const int value) {
 	LogDebug("\tFactorExpressionGrammarAction(%d)", value);
 	return value;

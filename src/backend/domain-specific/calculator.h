@@ -16,4 +16,6 @@ int Multiply(const int multiplicand, const int multiplier);
 
 int Divide(const int dividend, const int divisor);
 
+int Modulus(const int dividend, const int divisor);
+
 #endif

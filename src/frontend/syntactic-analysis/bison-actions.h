@@ -19,6 +19,7 @@ int AdditionExpressionGrammarAction(const int leftValue, const int rightValue);
 int SubtractionExpressionGrammarAction(const int leftValue, const int rightValue);
 int MultiplicationExpressionGrammarAction(const int leftValue, const int rightValue);
 int DivisionExpressionGrammarAction(const int leftValue, const int rightValue);
+int ModulusExpressionGrammarAction(const int leftValue, const int rightValue);
 int FactorExpressionGrammarAction(const int value);
 
 // Factores.

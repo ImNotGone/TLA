@@ -47,6 +47,67 @@ int ProgramGrammarAction(const int value) {
 	return value;
 }
 
+int StatementListGrammarAction(const int leftValue, const int rightValue) {
+    LogDebug("\tStatementListGrammarAction(%d, %d)", leftValue, rightValue);
+    return 1;
+}
+
+int StatementGrammarAction(const int value){
+    LogDebug("\tStatementGrammarAction(%d)", value);
+    return 1;
+}
+
+int IfStatementGrammarAction(const int exp, const int block1, const int block2) {
+    //Todo ver impresion de block2 en caso de NULL
+//    LogDebug("\tIfStatementGrammarAction(%d, %d, %d)", exp, block1, block2);
+    return 1;
+}
+
+int ForStatementGrammarAction(const int symbol, const int range_expression, const int block){
+    LogDebug("\tForStatementGrammarAction(%d, %d, %d)", symbol, range_expression, block);
+    return 1;
+}
+
+int WhileStatementGrammarAction(const int expression, const int block){
+    LogDebug("\tWhileStatementGrammarAction(%d, %d)", expression, block);
+    return 1;
+}
+
+int OneParamFunctionGrammarAction(const int symbol){
+    LogDebug("\tOneParamFunctionGrammarAction(%d)", symbol);
+    return 1;
+}
+
+int TwoParamFunctionGrammarAction(const int symbol1, const int symbol2){
+    LogDebug("\tWhileStatementGrammarAction(%d, %d)", symbol1, symbol2);
+    return 1;
+}
+
+int TreeDeclarationGrammarAction(const int symbol){
+    LogDebug("\tTreeDeclarationGrammarAction(%d)", symbol);
+    return 1;
+}
+
+int IntDeclarationGrammarAction(const int symbol){
+    LogDebug("\tIntDeclarationGrammarAction(%d)", symbol);
+    return 1;
+}
+
+int IntDeclarationAndAssignmentGrammarAction(const int symbol, const int expression){
+    LogDebug("\tIntDeclarationAndAssignmentGrammarAction(%d, %d)", symbol, expression);
+    return 1;
+}
+
+int RangeExpressionGrammarAction(const int exp1, const int exp2){
+    LogDebug("\tRangeExpressionGrammarAction(%d, %d)", exp1, exp2);
+    return 1;
+}
+
+int ParenthesisFactorGrammarAction(const int value){
+    LogDebug("\tParenthesisFactorGrammarAction(%d)", value);
+    return 1;
+}
+
 int AdditionExpressionGrammarAction(const int leftValue, const int rightValue) {
 	LogDebug("\tAdditionExpressionGrammarAction(%d, %d)", leftValue, rightValue);
 	return Add(leftValue, rightValue);
@@ -67,6 +128,70 @@ int DivisionExpressionGrammarAction(const int leftValue, const int rightValue) {
 	return Divide(leftValue, rightValue);
 }
 
+int ModulusExpressionGrammarAction(const int leftValue, const int rightValue) {
+    LogDebug("\tModulusExpressionGrammarAction(%d, %d)", leftValue, rightValue);
+//    return Modulus(leftValue, rightValue);
+    return 1;
+}
+
+int AndExpressionGrammarAction(const int leftValue, const int rightValue){
+    LogDebug("\tAndExpressionGrammarAction(%d, %d)", leftValue, rightValue);
+//    return And(leftValue, rightValue);
+    return 1;
+}
+
+int OrExpressionGrammarAction(const int leftValue, const int rightValue){
+    LogDebug("\tOrExpressionGrammarAction(%d, %d)", leftValue, rightValue);
+//    return Or(leftValue, rightValue);
+    return 1;
+}
+
+int NotExpressionGrammarAction(const int value){
+    LogDebug("\tNotExpressionGrammarAction(%d)", value);
+//    return Not(value);
+    return 1;
+}
+
+int GreaterThanExpressionGrammarAction(const int leftValue, const int rightValue){
+    LogDebug("\tGreaterThanExpressionGrammarAction(%d, %d)", leftValue, rightValue);
+//    return Greater(leftValue, rightValue);
+    return 1;
+
+}
+
+int GreaterThanOrEqualExpressionGrammarAction(const int leftValue, const int rightValue){
+    LogDebug("\tGreaterThanOrEqualExpressionGrammarAction(%d, %d)", leftValue, rightValue);
+//    return GreaterOrEqual(leftValue, rightValue);
+    return 1;
+
+}
+
+int LessThanExpressionGrammarAction(const int leftValue, const int rightValue){
+    LogDebug("\tLessThanExpressionGrammarAction(%d, %d)", leftValue, rightValue);
+//    return Lesser(leftValue, rightValue);
+    return 1;
+
+}
+
+int LessThanOrEqualExpressionGrammarAction(const int leftValue, const int rightValue){
+    LogDebug("\tLessThanOrEqualExpressionGrammarAction(%d, %d)", leftValue, rightValue);
+//    return LesserOrEqual(leftValue, rightValue);
+    return 1;
+
+}
+
+int EqualityExpressionGrammarAction(const int leftValue, const int rightValue){
+    LogDebug("\tEqualityExpressionGrammarAction(%d, %d)", leftValue, rightValue);
+//    return Equal(leftValue, rightValue);
+    return 1;
+}
+
+int InequalityExpressionGrammarAction(const int leftValue, const int rightValue){
+    LogDebug("\tInequalityExpressionGrammarAction(%d, %d)", leftValue, rightValue);
+//    return NotEqual(leftValue, rightValue);
+    return 1;
+}
+
 int FactorExpressionGrammarAction(const int value) {
 	LogDebug("\tFactorExpressionGrammarAction(%d)", value);
 	return value;
@@ -82,7 +207,24 @@ int ConstantFactorGrammarAction(const int value) {
 	return value;
 }
 
+int ConstantGrammarAction(const int value) {
+    LogDebug("\tConstantGrammarAction(%d)", value);
+    return value;
+}
+
+int VariableFactorGrammarAction(const int value) {
+    LogDebug("\tVariableFactorGrammarAction(%d)", value);
+    return value;
+}
+
+int TreeTypeGrammarAction(const int value) {
+    LogDebug("\tTreeTypeGrammarAction(%d)", value);
+    return value;
+}
+
 int IntegerConstantGrammarAction(const int value) {
 	LogDebug("\tIntegerConstantGrammarAction(%d)", value);
 	return value;
 }
+
+

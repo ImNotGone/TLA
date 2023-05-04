@@ -20,7 +20,7 @@
 	int expression;
 	int factor;
 	int constant;
-
+    char * varname;
 	// Terminales.
 	token token;
 	int integer;
@@ -37,7 +37,7 @@
 %token <token> INT_TYPE
 %token <token> RED_BLACK_TREE_TYPE AVL_TREE_TYPE BST_TREE_TYPE
 %token <token> NEW_TREE PRINT INSERT REMOVE INORDER POSTORDER PREORDER REDUCE FIND MATCH ADD_TREE
-
+%token <token> SYMBOL
 
 %token <integer> INTEGER
 

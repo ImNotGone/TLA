@@ -42,7 +42,7 @@ declarationName    [A-Za-z][A-Za-z0-9]*
 ">="                                        { return GE;}
 
 "="                                         { return ASSIGN;}
-","                                         { return COMA;}
+","                                         { return COMMA;}
 "("                                         { return OPEN_PARENTHESIS;}
 ")"                                         { return CLOSE_PARENTHESIS;}
 "{"                                         { return OPEN_CURL_BRACKETS;}

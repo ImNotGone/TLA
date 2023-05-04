@@ -5,22 +5,23 @@
 #include "../syntactic-analysis/bison-parser.h"
 
 // Aca se definen lso IDs de cada token para el scanner Flex que luego se le brindará su funcionalidad con bison
+/*
 typedef enum TokenID{
     UNKNOWN= 0, //Este valor hace fallar al analizador sintactico
-    /* Código de error de Bison, que permite abortar el escaneo de lexemas cuando
-     se presente un patrón desconocido. El número "257" coincide con el valor
-     que Bison le otorga por defecto, pero además permite que el resto de
-     tokens continúen desde el valor "258" lo que permite proteger los IDs
-     internos que Bison reserva para crear "tokens literales":*/
-//    YYUNDEF = 257,
+    // Código de error de Bison, que permite abortar el escaneo de lexemas cuando
+    // se presente un patrón desconocido. El número "257" coincide con el valor
+    // que Bison le otorga por defecto, pero además permite que el resto de
+    // tokens continúen desde el valor "258" lo que permite proteger los IDs
+    // internos que Bison reserva para crear "tokens literales":
+    YYUNDEF = 257,
 
     DECLARATION,
 
     // Operadores aritméticos.
-//    ADD,
-//    SUB,
-//    MUL,
-//    DIV,
+    ADD,
+    SUB,
+    MUL,
+    DIV,
     MOD,
 
     //Operadores logicos
@@ -41,8 +42,8 @@ typedef enum TokenID{
 
     //Simbolos de codigo
     COMA,
-//    OPEN_PARENTHESIS,
-//    CLOSE_PARENTHESIS,
+    OPEN_PARENTHESIS,
+    CLOSE_PARENTHESIS,
     OPEN_CURL_BRACKETS,
     CLOSE_CURL_BRACKETS,
     SEMI_COLON,
@@ -73,7 +74,7 @@ typedef enum TokenID{
     MATCH,
     ADD_TREE,
 } TokenID;
-
+*/
 /**
  * Se definen las acciones a ejecutar sobre cada patrón hallado mediante el
  * analizador léxico Flex. Este analizador solo puede identificar

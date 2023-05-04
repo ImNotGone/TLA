@@ -1,6 +1,7 @@
 #include "../../backend/support/logger.h"
 #include "flex-actions.h"
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * Implementación de "flex-actions.h".
@@ -72,9 +73,9 @@ token SubtractionOperatorPatternAction(const char * lexeme) {
 token DeclarePatternAction(const char* lexeme, const int length) {
     LogDebug("DeclarePatternAction: '%s' (length = %d).", lexeme, length);
     char * varName = (char*) malloc((length + 1) * sizeof(char));
-    strncpy(variableName, lexeme, length);
+    strncpy(varName, lexeme, length);
     varName[length-1] = '\0';
-    yylval.string = variableName;
+    yylval.string = varName;
     return DECLARATION;
 }
 

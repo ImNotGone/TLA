@@ -12,15 +12,15 @@ typedef enum TokenID{
      que Bison le otorga por defecto, pero además permite que el resto de
      tokens continúen desde el valor "258" lo que permite proteger los IDs
      internos que Bison reserva para crear "tokens literales":*/
-    YYUNDEF = 257,
+//    YYUNDEF = 257,
 
     DECLARATION,
 
     // Operadores aritméticos.
-    ADD,
-    SUB,
-    MUL,
-    DIV,
+//    ADD,
+//    SUB,
+//    MUL,
+//    DIV,
     MOD,
 
     //Operadores logicos
@@ -41,8 +41,8 @@ typedef enum TokenID{
 
     //Simbolos de codigo
     COMA,
-    OPEN_PARENTHESIS,
-    CLOSE_PARENTHESIS,
+//    OPEN_PARENTHESIS,
+//    CLOSE_PARENTHESIS,
     OPEN_CURL_BRACKETS,
     CLOSE_CURL_BRACKETS,
     SEMI_COLON,

@@ -1,0 +1,6 @@
+--include-directory=./src/frontend/lexical-analysis/
+--include-directory=./src/frontend/syntactic-analysis/
+--include-directory=./src/backend/
+--include-directory=./src/backend/code-generation/
+--include-directory=./src/backend/semantic-analysis/
+--include-directory=./src/backend/domain-specific/

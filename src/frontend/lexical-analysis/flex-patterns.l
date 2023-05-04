@@ -83,7 +83,7 @@ match                                       {yylval.token = MATCH; return MATCH;
 
 {whitespace}+								{ IgnoredPatternAction(yytext, yyleng); }
 
-{declarationName}								{ return DeclarationPatternAction(yytext, yyleng); }
+{declarationName}								{ return DeclarePatternAction(yytext, yyleng); }
 
 .											{ return UnknownPatternAction(yytext, yyleng); }
 

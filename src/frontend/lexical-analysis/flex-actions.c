@@ -69,6 +69,15 @@ token SubtractionOperatorPatternAction(const char * lexeme) {
 	return SUB;
 }
 
+token DeclarePatternAction(const char* lexeme, const int length) {
+    LogDebug("DeclarePatternAction: '%s' (length = %d).", lexeme, length);
+    char * varName = (char*) malloc(length + 1, sizeof(char));
+    strncpy(variableName, lexeme, length);
+    varName[length-1] = '\0';
+    yylval.string = variableName;
+    return DECLARATION;
+}
+
 token UnknownPatternAction(const char * lexeme, const int length) {
 	LogDebug("UnknownPatternAction: '%s' (length = %d).", lexeme, length);
 	yylval.token = YYUNDEF;

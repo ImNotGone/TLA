@@ -20,6 +20,7 @@
 digit			[0-9]
 endline			[\n]
 whitespace		[ \f\n\r\t\v]
+declarationName    [A-Za-z][A-Za-z0-9]*
 
 %%
 
@@ -80,7 +81,9 @@ match                                       {yylval.token = MATCH; return MATCH;
 
 {digit}+									{ return IntegerPatternAction(yytext, yyleng); }
 
-{whitespace}								{ IgnoredPatternAction(yytext, yyleng); }
+{whitespace}+								{ IgnoredPatternAction(yytext, yyleng); }
+
+{declarationName}								{ return DeclarationPatternAction(yytext, yyleng); }
 
 .											{ return UnknownPatternAction(yytext, yyleng); }
 

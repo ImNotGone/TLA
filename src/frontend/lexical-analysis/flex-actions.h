@@ -14,6 +14,8 @@ typedef enum TokenID{
      internos que Bison reserva para crear "tokens literales":*/
     YYUNDEF = 257,
 
+    DECLARATION,
+
     // Operadores aritméticos.
     ADD,
     SUB,
@@ -70,7 +72,6 @@ typedef enum TokenID{
     FIND,
     MATCH,
     ADD_TREE,
-
 } TokenID;
 
 /**
@@ -87,6 +88,10 @@ typedef enum TokenID{
  * asignar memoria dinámica, y por lo tanto, se debe saber exactamente el
  * largo de aquello que se va a almacenar.
  */
+
+
+//Declaracion de nombres de variablez
+ token DeclarePatternAction(const char* lexeme, const int length);
 
 // Bloque de comentarios multilínea.
 void BeginCommentPatternAction();

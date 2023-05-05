@@ -1,4 +1,0 @@
-new RBT t1;
-insert t1 1;
-insert t1 2;
-new AVL t2 <- t1;

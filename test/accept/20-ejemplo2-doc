@@ -1,0 +1,12 @@
+new AVL t1;
+
+int i;
+for i in (0, 99) {
+    remove t1 i;
+}
+
+for i in (0, 99) {
+    if(i % 2 == 0) {
+        remove t1 i;
+    }
+}

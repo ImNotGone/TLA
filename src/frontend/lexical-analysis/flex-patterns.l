@@ -17,10 +17,10 @@
 %x COMMENT
 
 /* Patrones reutilizables. */
-digit			[0-9]
-endline			[\n]
-whitespace		[ \f\n\r\t\v]
-declarationName    [A-Za-z][A-Za-z0-9]*
+digit			    [0-9]
+endline			    [\n]
+whitespace		    [ \f\n\r\t\v]
+declarationName     [A-Za-z][A-Za-z0-9]*
 
 %%
 
@@ -55,25 +55,29 @@ declarationName    [A-Za-z][A-Za-z0-9]*
 "if"                                        { return IF;}
 "else"                                      { return ELSE;}
 
-"int"                                         {yylval.token = INT_TYPE; return INT_TYPE;}
+"int"                                       {yylval.token = INT_TYPE; return INT_TYPE;}
 
-"RBT"                                         {yylval.token = RED_BLACK_TREE_TYPE; return RED_BLACK_TREE_TYPE;}
-"AVL"                                         {yylval.token = AVL_TREE_TYPE; return AVL_TREE_TYPE;}
-"BST"                                         {yylval.token = BST_TREE_TYPE; return BST_TREE_TYPE;}
+"RBT"                                       {yylval.token = RED_BLACK_TREE_TYPE; return RED_BLACK_TREE_TYPE;}
+"AVL"                                       {yylval.token = AVL_TREE_TYPE; return AVL_TREE_TYPE;}
+"BST"                                       {yylval.token = BST_TREE_TYPE; return BST_TREE_TYPE;}
 
-"new"                                         {yylval.token = NEW_TREE; return NEW_TREE;}
-"print"                                       {yylval.token = PRINT; return PRINT;}
-"insert"                                      {yylval.token = INSERT; return INSERT;}
-"remove"                                      {yylval.token = REMOVE; return REMOVE;}
-"inorder"                                     {yylval.token = INORDER; return INORDER;}
-"postorder"                                   {yylval.token = POSTORDER; return POSTORDER;}
-"preorder"                                    {yylval.token = PREORDER; return PREORDER;}
-"reduce"                                      {yylval.token = REDUCE; return REDUCE;}
-"find"                                        {yylval.token = FIND; return FIND;}
-"match"                                       {yylval.token = MATCH; return MATCH;}
+"new"                                       {yylval.token = NEW_TREE; return NEW_TREE;}
+"print"                                     {yylval.token = PRINT; return PRINT;}
+"max"                                       {yylval.token = MAX; return MAX;}
+"min"                                       {yylval.token = MIN; return MIN;}
+"root"                                      {yylval.token = ROOT; return ROOT;}
+"height"                                    {yylval.token = HEIGHT; return HEIGHT;}
+"insert"                                    {yylval.token = INSERT; return INSERT;}
+"remove"                                    {yylval.token = REMOVE; return REMOVE;}
+"inorder"                                   {yylval.token = INORDER; return INORDER;}
+"postorder"                                 {yylval.token = POSTORDER; return POSTORDER;}
+"preorder"                                  {yylval.token = PREORDER; return PREORDER;}
+"reduce"                                    {yylval.token = REDUCE; return REDUCE;}
+"find"                                      {yylval.token = FIND; return FIND;}
+"present"                                   {yylval.token = PRESENT; return PRESENT;}
 "<-"                                        { return ADD_TREE; }
 
-
+"//".*{endline}                             { ; }
 "/*"										{ BEGIN(COMMENT); BeginCommentPatternAction(); }
 <COMMENT>.									{ ; }
 <COMMENT>{endline}							{ ; }
@@ -83,7 +87,7 @@ declarationName    [A-Za-z][A-Za-z0-9]*
 
 {whitespace}+								{ IgnoredPatternAction(yytext, yyleng); }
 
-{declarationName}								{ return DeclarePatternAction(yytext, yyleng); }
+{declarationName}							{ return DeclarePatternAction(yytext, yyleng); }
 
 .											{ return UnknownPatternAction(yytext, yyleng); }
 

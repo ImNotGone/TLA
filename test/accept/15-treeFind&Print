@@ -1,0 +1,8 @@
+new BST t1;
+insert t1 1;
+insert t1 10;
+insert t1 5;
+insert t1 4;
+find t1 5;
+find t1 4;
+print t1;

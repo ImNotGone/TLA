@@ -1,0 +1,3 @@
+new RBT t1;
+new AVL t1;
+new BST t1;

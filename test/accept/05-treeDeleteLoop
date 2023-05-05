@@ -1,0 +1,9 @@
+new RBT t1;
+for n in (0,10){
+    insert t1 n;
+}
+for n in (0,10){
+    if(n%2==0){
+        remove t1 n;
+    }
+}

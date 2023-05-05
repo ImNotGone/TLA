@@ -22,7 +22,12 @@ Para construir el proyecto por completo, ejecute en la raíz del repositorio los
 
 ```bash
 user@machine:path/ $ chmod u+x --recursive script
+```
+
+luego ejecutar alguno de los siguientes 2 comandos
+```bash
 user@machine:path/ $ script/build.sh
+user@machine:path/ $ make all
 ```
 
 En un entorno _Microsoft Windows_, en cambio, se debe ejecutar:
@@ -38,13 +43,35 @@ Luego se deberá abrir la solución generada `bin\Compiler.sln` con el IDE _Micr
 Para compilar un programa, primero cree un archivo vacío denominado `program` (o el nombre que desee), con el siguiente contenido:
 
 ```
-123123 + 123 - 2 * (454 + 890 / 89)
+// Crear un nuevo arbol RBT
+new RBT t1;
+
+// Luego de cada modificacion, el arbol se balancea internamente
+insert t1 1;
+insert t1 2;
+insert t1 3;
+
+// Imprime el arbol balanceado como Red-Black-Tree
+print t1;
+
+// Elimina el nodo que contiene el 1
+remove t1 1;
+
+// Copia t1 (RBT) en t2 (AVL)
+new AVL t2 <- t1;
+
+// Imprime el arbol balanceado como AVL TREE
+print t2;
 ```
 
 Luego, ejecute el compilador desde el directorio raíz del proyecto, o desde cualquier otro lugar indicando el path hacia el script `start.sh` y pasando por parámetro el path hacia el programa a compilar:
 
 ```bash
 user@machine:path/ $ script/start.sh program
+```
+o asi:
+```bash
+user@machine:path/ $ make run FILE=./program
 ```
 
 En Windows:
@@ -53,7 +80,7 @@ En Windows:
 user@machine:path/ $ script\start.bat program
 ```
 
-Debería obtener el resultado correcto de evaluar el programa anterior: `122318`.
+Deberia generar 2 imagenes, una con el arbol en RBT otra con el arbol en AVL
 
 ## Testing
 
@@ -61,6 +88,10 @@ En Linux:
 
 ```bash
 user@machine:path/ $ script/test.sh
+```
+o asi:
+```bash
+user@machine:path/ $ make test
 ```
 
 En Windows:

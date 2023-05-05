@@ -77,7 +77,7 @@ declarationName     [A-Za-z][A-Za-z0-9]*
 "present"                                   {yylval.token = PRESENT; return PRESENT;}
 "<-"                                        { return ADD_TREE; }
 
-
+"//".*{endline}                             { ; }
 "/*"										{ BEGIN(COMMENT); BeginCommentPatternAction(); }
 <COMMENT>.									{ ; }
 <COMMENT>{endline}							{ ; }

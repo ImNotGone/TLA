@@ -1,13 +1,19 @@
+// Crear un nuevo arbol RBT
 new RBT t1;
 
+// Luego de cada modificacion, el arbol se balancea internamente
 insert t1 1;
 insert t1 2;
 insert t1 3;
 
+// Imprime el arbol balanceado como Red-Black-Tree
 print t1;
 
+// Elimina el nodo que contiene el 1
 remove t1 1;
 
+// Copia t1 (RBT) en t2 (AVL)
 new AVL t2 <- t1;
 
+// Imprime el arbol balanceado como AVL TREE
 print t2;

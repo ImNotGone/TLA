@@ -1,0 +1,5 @@
+/* False positive for now fix in backend */
+
+new RBT t1;
+new AVL t1;
+new BST t1;

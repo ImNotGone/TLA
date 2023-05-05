@@ -1,0 +1,12 @@
+// False positive for now
+// Fix in backend
+
+insert t1 10;
+
+remove t1 10;
+
+for i in (1,100) {
+    if (i == 3 | i == 6) {
+        insert t1 i;
+    }
+}

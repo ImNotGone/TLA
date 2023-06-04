@@ -115,10 +115,10 @@ while_statement: WHILE OPEN_PARENTHESIS expression CLOSE_PARENTHESIS block      
                ;
 
 function_call: PRINT SYMBOL                                                              { $$ = PrintFunctionGrammarAction($2); }
-	     | MAX SYMBOL                                                            	 { $$ = MaxFunctionGrammarAction($2); }
-	     | MIN SYMBOL                                                              	 { $$ = MinFunctionGrammarAction($2); }
-	     | ROOT SYMBOL                                                               { $$ = RootFunctionGrammarAction($2); }
-	     | HEIGHT SYMBOL                                                             { $$ = HeightFunctionGrammarAction($2); }
+	         | MAX SYMBOL                                                            	 { $$ = MaxFunctionGrammarAction($2); }
+	         | MIN SYMBOL                                                              	 { $$ = MinFunctionGrammarAction($2); }
+	         | ROOT SYMBOL                                                               { $$ = RootFunctionGrammarAction($2); }
+	         | HEIGHT SYMBOL                                                             { $$ = HeightFunctionGrammarAction($2); }
              | INSERT SYMBOL expression                                                  { $$ = InsertFunctionGrammarAction($2, $3); }
              | REMOVE SYMBOL expression                                                  { $$ = RemoveFunctionGrammarAction($2, $3); }
              | INORDER SYMBOL                                                            { $$ = InorderFunctionGrammarAction($2); }
@@ -127,9 +127,9 @@ function_call: PRINT SYMBOL                                                     
              | REDUCE expression SYMBOL                                                  { $$ = ReduceFunctionGrammarAction($2, $3); }
              | FIND SYMBOL expression                                                    { $$ = FindFunctionGrammarAction($2, $3); }
              | PRESENT expression SYMBOL                                                 { $$ = PresentFunctionGrammarAction($2, $3); }
-             | declaration ADD_TREE SYMBOL                                               { $$ = DeclarationFunctionGrammarAction($2, $3); }
+             | declaration ADD_TREE SYMBOL                                               { $$ = DeclarationFunctionGrammarAction($2, $3); } // TODO: revisar
              ;
-
+// CHECK: mover el add_tree aca???
 declaration: NEW_TREE tree_type SYMBOL                                                   { $$ = TreeDeclarationGrammarAction($1); }
            | INT_TYPE SYMBOL                                                             { $$ = IntDeclarationGrammarAction($1); }
            | INT_TYPE SYMBOL ASSIGN expression                                           { $$ = IntDeclarationAndAssignmentGrammarAction($1, $3); }

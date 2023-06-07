@@ -55,11 +55,11 @@ declarationName     [A-Za-z][A-Za-z0-9]*
 "if"                                        { return IF;}
 "else"                                      { return ELSE;}
 
-"int"                                       {yylval.token = INT_TYPE; return INT_TYPE;}
+"int"                                       {yylval.token = INT; return INT;}
 
-"RBT"                                       {yylval.token = RED_BLACK_TREE_TYPE; return RED_BLACK_TREE_TYPE;}
-"AVL"                                       {yylval.token = AVL_TREE_TYPE; return AVL_TREE_TYPE;}
-"BST"                                       {yylval.token = BST_TREE_TYPE; return BST_TREE_TYPE;}
+"RBT"                                       {yylval.token = RBT; return RBT;}
+"AVL"                                       {yylval.token = AVL; return AVL;}
+"BST"                                       {yylval.token = BST; return BST;}
 
 "new"                                       {yylval.token = NEW_TREE; return NEW_TREE;}
 "print"                                     {yylval.token = PRINT; return PRINT;}

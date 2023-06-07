@@ -7,33 +7,24 @@
 // Tipos de dato utilizados en las variables semánticas ($$, $1, $2, etc.).
 %union {
 	// No-terminales (backend).
-	/*
-	Program program;
-	Expression expression;
-	Factor factor;
-	Constant constant;
-	...
-	*/
-
-	// No-terminales (frontend).
-	int program;
-    int block;
-    int statement_list;
-    int statement;
-    int if_statement;
-    int for_statement;
-    int while_statement;
-    int function_call;
-    int declaration;
-    int assignment;
-    int expression;
-    int range_expression;
-    int factor;
-    int constant;
-    int tree_type;
-
+    Program * program;
+    StatementList * statement_list;
+    Statement * statement;
+    Assignment * assignment;
+    FunctionCall * function_call;
+    Declaration * declaration;
+    WhileStatement * while_statement;
+    ForStatement * for_statement;
+    RangeExpression * range_expression;
+    IfStatement * if_statement;
+    Block * block;
+    Expression * expression;
+    Factor * factor;
+    Symbol * symbol;
+    Constant * constant;
 
     char * varname;
+
 	// Terminales.
 	token token;
 	int integer;
@@ -47,8 +38,8 @@
 %token <token> COMMA
 %token <token> OPEN_PARENTHESIS CLOSE_PARENTHESIS OPEN_CURL_BRACKETS CLOSE_CURL_BRACKETS SEMI_COLON
 %token <token> FOR IN WHILE IF ELSE
-%token <token> INT_TYPE
-%token <token> RED_BLACK_TREE_TYPE AVL_TREE_TYPE BST_TREE_TYPE
+%token <token> INT
+%token <token> RBT AVL BST
 %token <token> NEW_TREE PRINT INSERT REMOVE INORDER POSTORDER PREORDER REDUCE FIND PRESENT ADD_TREE MAX MIN HEIGHT ROOT
 %token <token> SYMBOL
 
@@ -69,7 +60,6 @@
 %type <range_expression> range_expression
 %type <factor> factor
 %type <constant> constant
-%type <tree_type> tree_type
 
 // Reglas de asociatividad y precedencia (de menor a mayor).
 %left ADD SUB
@@ -130,9 +120,11 @@ function_call: PRINT SYMBOL                                                     
              | declaration ADD_TREE SYMBOL                                               { $$ = DeclarationFunctionGrammarAction($2, $3); } // TODO: revisar
              ;
 // CHECK: mover el add_tree aca???
-declaration: NEW_TREE tree_type SYMBOL                                                   { $$ = TreeDeclarationGrammarAction($1); }
-           | INT_TYPE SYMBOL                                                             { $$ = IntDeclarationGrammarAction($1); }
-           | INT_TYPE SYMBOL ASSIGN expression                                           { $$ = IntDeclarationAndAssignmentGrammarAction($1, $3); }
+declaration: NEW_TREE BST SYMBOL                                                         { $$ = TreeDeclarationGrammarAction($1); }
+           | NEW_TREE AVL SYMBOL                                                         { $$ = TreeDeclarationGrammarAction($1); }
+           | NEW_TREE RBT SYMBOL                                                         { $$ = TreeDeclarationGrammarAction($1); }
+           | INT SYMBOL                                                                  { $$ = IntDeclarationGrammarAction($1); }
+           | INT SYMBOL ASSIGN expression                                                { $$ = IntDeclarationAndAssignmentGrammarAction($1, $3); }
            ;
 
 assignment: SYMBOL ASSIGN expression                                                     { $$ = AssignmentGrammarAction($1, $3); }
@@ -164,9 +156,4 @@ factor: OPEN_PARENTHESIS expression CLOSE_PARENTHESIS                           
 
 constant: INTEGER                                                                        { $$ = ConstantGrammarAction($1); }
         ;
-
-tree_type: RED_BLACK_TREE_TYPE                                                           { $$ = TreeTypeGrammarAction($1); }
-         | AVL_TREE_TYPE                                                                 { $$ = TreeTypeGrammarAction($1); }
-         | BST_TREE_TYPE                                                                 { $$ = TreeTypeGrammarAction($1); }
-         ;
 %%

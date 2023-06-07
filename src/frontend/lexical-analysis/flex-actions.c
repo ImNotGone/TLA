@@ -76,7 +76,7 @@ token DeclarePatternAction(const char* lexeme, const int length) {
     strncpy(varName, lexeme, length);
     varName[length-1] = '\0';
     yylval.varname = varName;
-    return SYMBOL;
+    return VARIABLE;
 }
 
 token UnknownPatternAction(const char * lexeme, const int length) {

@@ -12,68 +12,42 @@
  */
 
 // Programa.
-int ProgramGrammarAction(const int value);
+Program * ProgramGrammarAction(const StatementList statements);
 
 // Block
-int BlockGrammarAction(int statementList);
+Block * BlockGrammarAction(const StatementList statements);
 
 //Statements
-int StatementListGrammarAction(const int leftValue, const int rightValue);
-int StatementGrammarAction(const int value);
-int IfStatementGrammarAction(const int exp, const int block1, const int block2);
-int ForStatementGrammarAction(const int symbol, const int range_expression, const int block);
-int WhileStatementGrammarAction(const int expression, const int block);
+StatementList StatementListGrammarAction(const Statement * statement, const StatementList next);
+
+// Statement
+// recibe void puntero asi puedo obtener cualquier tipo de statement
+// recibo el type para distinguir
+Statement * StatementGrammarAction(const void * statement, const StatementType type);
+
+IfStatement * IfStatementGrammarAction(const Expression * cond, const Block * if_block, const Block * else_block);
+ForStatement * ForStatementGrammarAction(const char * varname, const RangeExpression * range, const Block * block);
+WhileStatement * WhileStatementGrammarAction(const Expression * expression, const Block * block);
 
 // Expresión.
-int AdditionExpressionGrammarAction(const int leftValue, const int rightValue);
-int SubstractionExpressionGrammarAction(const int leftValue, const int rightValue);
-int MultiplicationExpressionGrammarAction(const int leftValue, const int rightValue);
-int DivisionExpressionGrammarAction(const int leftValue, const int rightValue);
-int ModulusExpressionGrammarAction(const int leftValue, const int rightValue);
-int FactorExpressionGrammarAction(const int value);
-int RangeExpressionGrammarAction(const int exp1, const int exp2);
-int ModulusExpressionGrammarAction(const int leftValue, const int rightValue);
-int AndExpressionGrammarAction(const int leftValue, const int rightValue);
-int OrExpressionGrammarAction(const int leftValue, const int rightValue);
-int NotExpressionGrammarAction(const int value);
-int GreaterThanExpressionGrammarAction(const int leftValue, const int rightValue);
-int GreaterThanOrEqualExpressionGrammarAction(const int leftValue, const int rightValue);
-int LessThanExpressionGrammarAction(const int leftValue, const int rightValue);
-int LessThanOrEqualExpressionGrammarAction(const int leftValue, const int rightValue);
-int EqualityExpressionGrammarAction(const int leftValue, const int rightValue);
-int InequalityExpressionGrammarAction(const int leftValue, const int rightValue);
+Expression * ExpressionGrammarAction(const Expression * left, const Expression * right, const Factor * factor, const ExpressionType type);
+RangeExpression * RangeExpressionGrammarAction(const Expression * exp1, const Expression * exp2);
 
 // Factores.
-int ExpressionFactorGrammarAction(const int value);
-int ConstantFactorGrammarAction(const int value);
-int ParenthesisFactorGrammarAction(const int value);
-int VariableFactorGrammarAction(const int value);
-int ConstantGrammarAction(const int value);
+Factor * FactorGrammarAction(const Expression * exp, const Constant * con, const char * varname, const FactorType type);
+Constant * ConstantGrammarAction(const int value);
 
 //Funciones
-int PrintFunctionGrammarAction(const int symbol);
-int MaxFunctionGrammarAction(const int symbol);
-int MinFunctionGrammarAction(const int symbol);
-int RootFunctionGrammarAction(const int symbol);
-int HeightFunctionGrammarAction(const int symbol);
-int InorderFunctionGrammarAction(const int symbol);
-int PostorderFunctionGrammarAction(const int symbol);
-int PreorderFunctionGrammarAction(const int symbol);
-int InsertFunctionGrammarAction(const int symbol1, const int symbol2);
-int RemoveFunctionGrammarAction(const int symbol1, const int symbol2);
-int ReduceFunctionGrammarAction(const int symbol1, const int symbol2);
-int FindFunctionGrammarAction(const int symbol1, const int symbol2);
-int PresentFunctionGrammarAction(const int symbol1, const int symbol2);
-int DeclarationFunctionGrammarAction(const int symbol1, const int symbol2);
+FunctionCall * FunctionGrammarAction(const char * varname, const Expression * exp, const FunctionCallType type);
 
 // Constantes.
 int IntegerConstantGrammarAction(const int value);
 
 //Declaraciones
-int TreeDeclarationGrammarAction(const int symbol);
-int IntDeclarationGrammarAction(const int symbol);
-int IntDeclarationAndAssignmentGrammarAction(const int symbol, const int expression);
-int AssignmentGrammarAction(const int symbol, const int expression);
+Declaration * DeclarationGrammarAction(const char * varname, const DeclarationType type);
+Declaration * IntDeclarationAndAssignmentGrammarAction(const char * varname, const Expression * exp);
+
+Assignment * AssignmentGrammarAction(const char * var, const Expression * exp);
 
 int TreeTypeGrammarAction(const int value);
 

@@ -7,7 +7,7 @@
 * de otras 2 expresiones.
 */
 typedef struct Expression Expression;
-typedef struct StatementList StatementList;
+typedef struct StatementNode * StatementList;
 /**
 * Para cada no-terminal se define una nueva estructura que representa su tipo
 * de dato y, por lo tanto, su nodo en el AST (Árbol de Sintaxis Abstracta).
@@ -31,28 +31,28 @@ typedef enum {
 	RBT_TYPE,
 	AVL_TYPE,
 	BST_TYPE,
-} SymbolType;
+} VariableType;
 
 // TODO: agregar value?
 typedef struct {
-	SymbolType type;
+	VariableType type;
 	char * name;
-} Symbol;
+} Variable;
 
 typedef enum {
 	EXPRESSION_FACTOR,
 	CONSTANT_FACTOR,
-	SYMBOL_FACTOR
+	VARIABLE_FACTOR
 } FactorType;
 
 typedef struct {
 	FactorType type;
 	Expression * expression;
 	Constant constant;
-	Symbol symbol;
+	Variable var;
 } Factor;
 
-typedef enum { 
+typedef enum {
 	ADDITION_EXPRESSION,
 	SUBTRACTION_EXPRESSION,
 	MULTIPLICATION_EXPRESSION,
@@ -67,7 +67,7 @@ typedef enum {
 	LEES_EQUAL_EXPRESSION,
 	GREATER_THAN_EXPRESSION,
 	GREATER_EQUAL_EXPRESSION,
-	FACTOR
+	FACTOR_EXPRESSION
 } ExpressionType;
 
 struct Expression {
@@ -78,7 +78,7 @@ struct Expression {
 };
 
 typedef struct {
-	StatementList * statements;
+	StatementList statements;
 } Block;
 
 typedef enum {
@@ -99,7 +99,7 @@ typedef struct {
 } RangeExpression;
 
 typedef struct {
-	Symbol symbol;
+	Variable var;
 	RangeExpression * range;
 	Block * block;
 } ForStatement;
@@ -134,19 +134,19 @@ typedef enum {
 
 typedef struct {
 	DeclarationType type;
-	Symbol * symbol;
+	Variable * var;
 	// TODO: agregar los campos necesarios ?
 } Declaration;
 
 typedef struct {
 	FunctionCallType type;
-	Symbol * symbol;
+	Variable * var;
 	Expression * expression;
 	Declaration * declaration;
 } FunctionCall;
 
 typedef struct {
-	Symbol * symbol;
+	Variable * var;
 	Expression * expression;
 } Assignment;
 
@@ -169,13 +169,13 @@ typedef struct {
 	Assignment * assignment;
 } Statement;
 
-struct StatementList {
-	Statement statement;
-	StatementList * next;
+struct StatementNode {
+	Statement * statement;
+	StatementList next;
 };
 
 typedef struct {
-	StatementList * statements;
+	StatementList statements;
 } Program;
 
 #endif

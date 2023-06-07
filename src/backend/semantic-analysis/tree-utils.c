@@ -9,11 +9,11 @@ void freeProgram(Program *program) {
         return;
     }
 
-    freeStatementList(program->statements); 
+    freeStatementList(program->statements);
     free(program);
 }
 
-void freeStatementList(StatementList *statementList) {
+void freeStatementList(StatementList statementList) {
     if (statementList == NULL) {
         return;
     }
@@ -61,7 +61,7 @@ void freeAssignment(Assignment *assignment) {
     }
 
     freeExpression(assignment->expression);
-    freeSymbol(assignment->symbol);
+    freeVariable(assignment->var);
     free(assignment);
 }
 
@@ -71,7 +71,7 @@ void freeFunctionCall(FunctionCall *functionCall) {
     }
 
     freeExpression(functionCall->expression);
-    freeSymbol(functionCall->symbol);
+    freeVariable(functionCall->var);
     freeDeclaration(functionCall->declaration);
     free(functionCall);
 }
@@ -81,7 +81,7 @@ void freeDeclaration(Declaration *declaration) {
         return;
     }
 
-    freeSymbol(declaration->symbol);
+    freeVariable(declaration->var);
     free(declaration);
 }
 
@@ -143,7 +143,7 @@ void freeExpression(Expression *expression) {
         return;
     }
 
-    if (expression->type == FACTOR) {
+    if (expression->type == FACTOR_EXPRESSION) {
         freeFactor(expression->factor);
     } else {
         freeExpression(expression->leftExpression);
@@ -162,8 +162,8 @@ void freeFactor(Factor *factor) {
         case EXPRESSION_FACTOR:
             freeExpression(factor->expression);
             break;
-        case SYMBOL_FACTOR:
-            freeSymbol(factor->symbol);
+        case VARIABLE_FACTOR:
+            freeVariable(factor->var);
             break;
         default:
             break;
@@ -172,11 +172,11 @@ void freeFactor(Factor *factor) {
     free(factor);
 }
 
-void freeSymbol(Symbol *symbol) {
-    if (symbol == NULL) {
+void freeVariable(Variable *var) {
+    if (var == NULL) {
         return;
     }
 
-    free(symbol->name);
-    free(symbol);
+    free(var->name);
+    free(var);
 }

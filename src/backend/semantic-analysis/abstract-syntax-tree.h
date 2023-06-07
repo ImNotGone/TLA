@@ -27,10 +27,10 @@ typedef struct {
 */
 
 typedef enum {
-	INT,
-	RBT,
-	AVL,
-	BST,
+	INT_TYPE,
+	RBT_TYPE,
+	AVL_TYPE,
+	BST_TYPE,
 } SymbolType;
 
 // TODO: agregar value?
@@ -40,9 +40,9 @@ typedef struct {
 } Symbol;
 
 typedef enum {
-	EXPRESSION,
-	CONSTANT,
-	SYMBOL
+	EXPRESSION_FACTOR,
+	CONSTANT_FACTOR,
+	SYMBOL_FACTOR
 } FactorType;
 
 typedef struct {
@@ -52,21 +52,21 @@ typedef struct {
 	Symbol symbol;
 } Factor;
 
-typedef enum {
-	ADDITION,
-	SUBTRACTION,
-	MULTIPLICATION,
-	DIVISION,
-	MODULUS,
-	AND,
-	NOT,
-	OR,
-	EQUALS,
-	NOT_EQUALS,
-	LESS_THAN,
-	LEES_EQUAL,
-	GREATER_THAN,
-	GREATER_EQUAL,
+typedef enum { 
+	ADDITION_EXPRESSION,
+	SUBTRACTION_EXPRESSION,
+	MULTIPLICATION_EXPRESSION,
+	DIVISION_EXPRESSION,
+	MODULUS_EXPRESSION,
+	AND_EXPRESSION,
+	NOT_EXPRESSION,
+	OR_EXPRESSION,
+	EQUALS_EXPRESSION,
+	NOT_EQUALS_EXPRESSION,
+	LESS_THAN_EXPRESSION,
+	LEES_EQUAL_EXPRESSION,
+	GREATER_THAN_EXPRESSION,
+	GREATER_EQUAL_EXPRESSION,
 	FACTOR
 } ExpressionType;
 
@@ -82,8 +82,8 @@ typedef struct {
 } Block;
 
 typedef enum {
-	IF_ELSE,
-	IF
+	IF_ELSE_TYPE,
+	IF_TYPE,
 } IfStatementType;
 
 typedef struct {
@@ -110,20 +110,20 @@ typedef struct {
 } WhileStatement;
 
 typedef enum {
-	PRINT,
-	MAX,
-	MIN,
-	ROOT,
-	HEIGHT,
-	INSERT,
-	REMOVE,
-	INORDER,
-	POSTORDER,
-	PREORDER,
-	REDUCE,
-	FIND,
-	PRESENT,
-	ADD_TREE
+	PRINT_CALL,
+	MAX_CALL,
+	MIN_CALL,
+	ROOT_CALL,
+	HEIGHT_CALL,
+	INSERT_CALL,
+	REMOVE_CALL,
+	INORDER_CALL,
+	POSTORDER_CALL,
+	PREORDER_CALL,
+	REDUCE_CALL,
+	FIND_CALL,
+	PRESENT_CALL,
+	ADD_TREE_CALL
 } FunctionCallType;
 
 typedef enum {
@@ -154,9 +154,9 @@ typedef enum {
 	IF_STATEMENT,
 	FOR_STATEMENT,
 	WHILE_STATEMENT,
-	FUNCTION_CALL,
-	DECLARATION,
-	ASSIGNMENT,
+	FUNCTION_CALL_STATEMENT,
+	DECLARATION_STATEMENT,
+	ASSIGNMENT_STATEMENT,
 } StatementType;
 
 typedef struct {

@@ -105,6 +105,7 @@ typedef struct {
 } ForStatement;
 
 typedef struct {
+	Expression * condition;
 	Block * block;
 } WhileStatement;
 

@@ -49,7 +49,7 @@ typedef struct {
 	FactorType type;
 	Expression * expression;
 	Constant constant;
-	Variable var;
+	Variable * var;
 } Factor;
 
 typedef enum {
@@ -105,7 +105,7 @@ typedef struct {
 } ForStatement;
 
 typedef struct {
-	Expression * expression;
+	Expression * condition;
 	Block * block;
 } WhileStatement;
 

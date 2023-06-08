@@ -13,8 +13,15 @@ public class Node<T extends Comparable<? super T>>{
             this.left=null;
             this.right=null;
             this.h=0;
-            this.color=0;
         }
+
+        public Node() {
+                this.data = null;
+                this.h = 0;
+                this.color = 0;
+                this.left = null;
+                this.right = null;
+            }
 
     	public T getData() {
             return data;
@@ -33,6 +40,10 @@ public class Node<T extends Comparable<? super T>>{
         	return right;
         }
 
+        public Node<T> getParent() {
+                	return parent;
+                }
+
         public void setLeft(Node<T> left) {
             this.left = left;
         }
@@ -40,6 +51,10 @@ public class Node<T extends Comparable<? super T>>{
         public void setRight(Node<T> right) {
             this.right = right;
         }
+
+        public void setParent(Node<T> parent) {
+                    this.parent = parent;
+                }
 
         public int getH(){
             return h;
@@ -51,5 +66,13 @@ public class Node<T extends Comparable<? super T>>{
 
         private boolean isLeaf() {
         	return left == null && right == null;
+        }
+
+        public int getColor(){
+            return color;
+        }
+
+        public void setColor(int color){
+            this.color= color;
         }
 }

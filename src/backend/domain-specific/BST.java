@@ -1,4 +1,4 @@
-public class BST<T extends Comparable<? super T>> {
+public class BST<T extends Comparable<? super T>>{
     private Node<T> root;
 
     public BST() {

@@ -49,6 +49,15 @@ public class BST<T extends Comparable<? super T>> {
             }
             return root;
         }
+
+    public T min(){
+        return minValue(root);
+    }
+
+    public T max(){
+        return maxValue(root);
+    }
+
     private T minValue(Node<T> root)  {
          T minval = root.getData();
          while (root.getLeft() != null)  {
@@ -57,6 +66,15 @@ public class BST<T extends Comparable<? super T>> {
         }
         return minval;
     }
+
+    private T maxValue(Node<T> root)  {
+             T maxval = root.getData();
+             while (root.getRight() != null)  {
+               maxval = root.getRight().getData();
+               root = root.getRight();
+            }
+            return maxval;
+        }
 
 
 }

@@ -30,7 +30,7 @@ void yyerror(const char * string) {
 * indica que efectivamente el programa de entrada se pudo generar con esta
 * gramática, o lo que es lo mismo, que el programa pertenece al lenguaje.
 */
-Program * ProgramGrammarAction(const StatementList statements) {
+Program * ProgramGrammarAction(StatementList statements) {
 	LogDebug("\tProgramGrammarAction");
 	/*
 	* "state" es una variable global que almacena el estado del compilador,
@@ -50,22 +50,22 @@ Program * ProgramGrammarAction(const StatementList statements) {
     return createProgram(statements);
 }
 
-Block * BlockGrammarAction(const StatementList statements) {
+Block * BlockGrammarAction(StatementList statements) {
     LogDebug("\tBlockGrammarAction");
     return createBlock(statements);
 }
 
-StatementList StatementListGrammarAction(const Statement * statement, const StatementList next) {
+StatementList StatementListGrammarAction(Statement * statement, StatementList next) {
     LogDebug("\tStatementListGrammarAction");
     return createStatementList(statement, next);
 }
 
-Statement * StatementGrammarAction(const void * statement, const StatementType type) {
+Statement * StatementGrammarAction(void * statement, StatementType type) {
     LogDebug("\tStatementGrammarAction for (%d)", type);
     return createStatement(type, statement);
 }
 
-IfStatement * IfStatementGrammarAction(const Expression * cond, const Block * if_block, const Block * else_block) {
+IfStatement * IfStatementGrammarAction(Expression * cond, Block * if_block, Block * else_block) {
     //Todo ver impresion de block2 en caso de NULL
 //    LogDebug("\tIfStatementGrammarAction(%d, %d, %d)", exp, block1, block2);
     IfStatementType type = IF_TYPE;
@@ -75,66 +75,66 @@ IfStatement * IfStatementGrammarAction(const Expression * cond, const Block * if
     return createIfStatement(type, cond, if_block, else_block);
 }
 
-ForStatement * ForStatementGrammarAction(const char * varname, const RangeExpression * range, const Block * block) {
+ForStatement * ForStatementGrammarAction(char * varname, RangeExpression * range, Block * block) {
     LogDebug("\tForStatementGrammarAction");
     // TODO: ver q hacer con variable
     return createForStatement(varname, range, block);
 }
 
-WhileStatement * WhileStatementGrammarAction(const Expression * cond, const Block * block) {
+WhileStatement * WhileStatementGrammarAction(Expression * cond, Block * block) {
     LogDebug("\tWhileStatementGrammarAction");
     return createWhileStatement(cond, block);
 }
 
-FunctionCall * FunctionGrammarAction(const char * varname, const Expression * exp, const FunctionCallType type) {
+FunctionCall * FunctionGrammarAction(char * varname, Expression * exp, FunctionCallType type) {
     LogDebug("\tFunctionStatementGrammarAction of type (%d)", type);
     // TODO: ver q hacer con variable
     // TODO: ver q hacer con declaration
     return createFunctionCall(type, varname, exp, NULL);
 }
 
-Assignment * AssignmentGrammarAction(const char * var, const Expression * exp) {
+Assignment * AssignmentGrammarAction(char * var, Expression * exp) {
     LogDebug("\tAssignmentGrammarAction");
     // TODO: ver q hacer con variable
     return createAssignment(var, exp);
 }
 
-RangeExpression * RangeExpressionGrammarAction(const Expression * exp1, const Expression * exp2){
+RangeExpression * RangeExpressionGrammarAction(Expression * exp1, Expression * exp2){
     LogDebug("\tRangeExpressionGrammarAction");
     return createRangeExpression(exp1, exp2);
 }
 
-Expression * ExpressionGrammarAction(const Expression * left, const Expression * right, const Factor * factor, const ExpressionType type) {
+Expression * ExpressionGrammarAction(Expression * left, Expression * right, Factor * factor, ExpressionType type) {
     LogDebug("\tExpressionGrammarAction of type (%d)", type);
     return createExpression(type, left, right, factor);
 }
 
-Factor * FactorGrammarAction(const Expression * exp, const Constant * con, const char * varname, const FactorType type) {
+Factor * FactorGrammarAction(Expression * exp, Constant * con, char * varname, FactorType type) {
     LogDebug("\tFactorGrammarAction of type (%d)", type);
     // TODO: ver q hacer con variable
     return createFactor(type, exp, con, varname);
 }
 
-Constant * ConstantGrammarAction(const int value) {
+Constant * ConstantGrammarAction(int value) {
     LogDebug("\tConstantGrammarAction");
     return createConstant(value);
 }
 
-Declaration * DeclarationGrammarAction(const char * varname, const DeclarationType type) {
+Declaration * DeclarationGrammarAction(char * varname, DeclarationType type) {
     LogDebug("\tDeclarationGrammarAction");
     // TODO: ver q hacer con variable
     // TODO: ver lo de assingment
     return createDeclaration(type, varname, NULL);
 }
 
-Declaration * IntDeclarationAndAssignmentGrammarAction(const char * varname, const Expression * exp) {
+Declaration * IntDeclarationAndAssignmentGrammarAction(char * varname, Expression * exp) {
     LogDebug("\tIntDeclarationAndAssignmentGrammarAction");
     // TODO: ver q hacer con variable
     // TODO: ver q hacer con exp
     return createDeclaration(INT_DECLARATION, varname, NULL);
 }
 
-int IntegerConstantGrammarAction(const int value) {
+int IntegerConstantGrammarAction(int value) {
 	LogDebug("\tIntegerConstantGrammarAction(%d)", value);
 	return value;
 }

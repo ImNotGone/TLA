@@ -12,41 +12,41 @@
  */
 
 // Programa.
-Program * ProgramGrammarAction(const StatementList statements);
+Program * ProgramGrammarAction(StatementList statements);
 
 // Block
-Block * BlockGrammarAction(const StatementList statements);
+Block * BlockGrammarAction(StatementList statements);
 
 //Statements
-StatementList StatementListGrammarAction(const Statement * statement, const StatementList next);
+StatementList StatementListGrammarAction(Statement * statement, StatementList next);
 
 // Statement
 // recibe void puntero asi puedo obtener cualquier tipo de statement
 // recibo el type para distinguir
-Statement * StatementGrammarAction(const void * statement, const StatementType type);
+Statement * StatementGrammarAction(void * statement, StatementType type);
 
-IfStatement * IfStatementGrammarAction(const Expression * cond, const Block * if_block, const Block * else_block);
-ForStatement * ForStatementGrammarAction(const char * varname, const RangeExpression * range, const Block * block);
-WhileStatement * WhileStatementGrammarAction(const Expression * expression, const Block * block);
+IfStatement * IfStatementGrammarAction(Expression * cond, Block * if_block, Block * else_block);
+ForStatement * ForStatementGrammarAction(char * varname, RangeExpression * range, Block * block);
+WhileStatement * WhileStatementGrammarAction(Expression * expression, Block * block);
 
 // Expresión.
-Expression * ExpressionGrammarAction(const Expression * left, const Expression * right, const Factor * factor, const ExpressionType type);
-RangeExpression * RangeExpressionGrammarAction(const Expression * exp1, const Expression * exp2);
+Expression * ExpressionGrammarAction(Expression * left, Expression * right, Factor * factor, ExpressionType type);
+RangeExpression * RangeExpressionGrammarAction(Expression * exp1, Expression * exp2);
 
 // Factores.
-Factor * FactorGrammarAction(const Expression * exp, const Constant * con, const char * varname, const FactorType type);
-Constant * ConstantGrammarAction(const int value);
+Factor * FactorGrammarAction(Expression * exp, Constant * con, char * varname, FactorType type);
+Constant * ConstantGrammarAction(int value);
 
 //Funciones
-FunctionCall * FunctionGrammarAction(const char * varname, const Expression * exp, const FunctionCallType type);
+FunctionCall * FunctionGrammarAction(char * varname, Expression * exp, FunctionCallType type);
 
 // Constantes.
-int IntegerConstantGrammarAction(const int value);
+int IntegerConstantGrammarAction(int value);
 
 //Declaraciones
-Declaration * DeclarationGrammarAction(const char * varname, const DeclarationType type);
-Declaration * IntDeclarationAndAssignmentGrammarAction(const char * varname, const Expression * exp);
+Declaration * DeclarationGrammarAction(char * varname, DeclarationType type);
+Declaration * IntDeclarationAndAssignmentGrammarAction(char * varname, Expression * exp);
 
-Assignment * AssignmentGrammarAction(const char * var, const Expression * exp);
+Assignment * AssignmentGrammarAction(char * var, Expression * exp);
 
 #endif

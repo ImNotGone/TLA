@@ -49,6 +49,4 @@ Declaration * IntDeclarationAndAssignmentGrammarAction(const char * varname, con
 
 Assignment * AssignmentGrammarAction(const char * var, const Expression * exp);
 
-int TreeTypeGrammarAction(const int value);
-
 #endif

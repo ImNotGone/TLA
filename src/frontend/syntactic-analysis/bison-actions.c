@@ -120,11 +120,6 @@ Declaration * IntDeclarationAndAssignmentGrammarAction(const char * varname, con
     return NULL;
 }
 
-int TreeTypeGrammarAction(const int value) {
-    LogDebug("\tTreeTypeGrammarAction(%d)", value);
-    return value;
-}
-
 int IntegerConstantGrammarAction(const int value) {
 	LogDebug("\tIntegerConstantGrammarAction(%d)", value);
 	return value;

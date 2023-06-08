@@ -48,7 +48,7 @@ typedef enum {
 typedef struct {
 	FactorType type;
 	Expression * expression;
-	Constant constant;
+	Constant * constant;
 	Variable * var;
 } Factor;
 
@@ -99,7 +99,7 @@ typedef struct {
 } RangeExpression;
 
 typedef struct {
-	Variable var;
+	Variable * var;
 	RangeExpression * range;
 	Block * block;
 } ForStatement;
@@ -133,9 +133,14 @@ typedef enum {
 } DeclarationType;
 
 typedef struct {
+	Variable * var;
+	Expression * expression;
+} Assignment;
+
+typedef struct {
 	DeclarationType type;
 	Variable * var;
-	// TODO: agregar los campos necesarios ?
+    Assignment * assignment;
 } Declaration;
 
 typedef struct {
@@ -144,11 +149,6 @@ typedef struct {
 	Expression * expression;
 	Declaration * declaration;
 } FunctionCall;
-
-typedef struct {
-	Variable * var;
-	Expression * expression;
-} Assignment;
 
 typedef enum {
 	IF_STATEMENT,

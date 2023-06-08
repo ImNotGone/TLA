@@ -34,9 +34,9 @@ void freeFactor(Factor * factor);
 void freeVariable(Variable * variable);
 
 // ===================== Create functions ========================
-Program * createProgram(StatementList * statements);
+Program * createProgram(StatementList statements);
 
-StatementList * createStatementList(Statement statement, StatementList * next);
+StatementList createStatementList(Statement * statement, StatementList next);
 
 Statement * createStatement(StatementType type, void * statement);
 
@@ -44,7 +44,7 @@ Assignment * createAssignment(Variable * variable, Expression * expression);
 
 FunctionCall * createFunctionCall(FunctionCallType type, Variable * variable, Expression * expression, Declaration * declaration);
 
-Declaration * createDeclaration(DeclarationType type, Variable * variable);
+Declaration * createDeclaration(DeclarationType type, Variable * variable, Assignment * assignment);
 
 WhileStatement * createWhileStatement(Expression * condition, Block * block);
 
@@ -54,9 +54,9 @@ RangeExpression * createRangeExpression(Expression * expressionLeft, Expression 
 
 IfStatement * createIfStatement(IfStatementType type, Expression * condition, Block * blockIf, Block * blockElse);
 
-Block * createBlock(StatementList * statements);
+Block * createBlock(StatementList statements);
 
-Expression * createExpression(ExpressionType type, void * expression);
+Expression * createExpression(ExpressionType type, Expression * left, Expression * right, Factor * factor);
 
 Factor * createFactor(FactorType type, void * factor);
 

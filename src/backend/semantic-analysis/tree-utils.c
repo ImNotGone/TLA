@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <assert.h>
 #include "tree-utils.h"
 #include "abstract-syntax-tree.h"
 
@@ -180,3 +181,158 @@ void freeVariable(Variable *var) {
     free(var->name);
     free(var);
 }
+
+Program * createProgram(StatementList statements) {
+    Program * new = malloc(sizeof(Program));
+
+    new->statements = statements;
+
+    return new;
+}
+
+StatementList createStatementList(Statement * statement, StatementList next) {
+    StatementList new = malloc(sizeof(struct StatementNode));
+
+    new->statement = statement;
+    new->next = next;
+
+    return new;
+}
+
+Statement * createStatement(StatementType type, void * statement) {
+    Statement * new = calloc(1, sizeof(Statement));
+
+    new->type = type;
+    switch (type) {
+        case IF_STATEMENT: new->ifStatement = statement; break;
+        case FOR_STATEMENT: new->forStatement = statement; break;
+        case WHILE_STATEMENT: new->whileStatement = statement; break;
+        case ASSIGNMENT_STATEMENT: new->assignment = statement; break;
+        case DECLARATION_STATEMENT: new->declaration = statement; break;
+        case FUNCTION_CALL_STATEMENT: new->functionCall = statement; break;
+        default: assert(0 && "Illegal State"); break;
+    }
+
+    return new;
+}
+
+Assignment * createAssignment(Variable * variable, Expression * expression) {
+    Assignment * new = malloc(sizeof(Assignment));
+
+    new->var = variable;
+    new->expression = expression;
+
+    return new;
+}
+
+FunctionCall * createFunctionCall(FunctionCallType type, Variable * variable, Expression * expression, Declaration * declaration) {
+    FunctionCall * new = malloc(sizeof(FunctionCall));
+
+    new->type = type;
+    new->var = variable;
+    new->expression = expression;
+    new->declaration = declaration;
+
+    return new;
+}
+
+Declaration * createDeclaration(DeclarationType type, Variable * variable, Assignment * assignment) {
+    Declaration * new = malloc(sizeof(Declaration));
+
+    new->type = type;
+    new->var = variable;
+    new->assignment = assignment;
+
+    return new;
+}
+
+WhileStatement * createWhileStatement(Expression * condition, Block * block) {
+    WhileStatement * new = malloc(sizeof(WhileStatement));
+
+    new->condition = condition;
+    new->block = block;
+
+    return new;
+}
+
+ForStatement * createForStatement(Variable * variable, RangeExpression * range, Block * block) {
+    ForStatement * new = malloc(sizeof(ForStatement));
+
+    new->var = variable;
+    new->block = block;
+    new->range = range;
+
+    return new;
+}
+
+RangeExpression * createRangeExpression(Expression * left, Expression * right) {
+    RangeExpression * new = malloc(sizeof(RangeExpression));
+
+    new->expressionLeft = left;
+    new->expressionRight = right;
+
+    return new;
+}
+
+IfStatement * createIfStatement(IfStatementType type, Expression * condition, Block * blockIf, Block * blockElse) {
+    IfStatement * new = malloc(sizeof(IfStatement));
+
+    new->type = type;
+    new->condition = condition;
+    new->blockIf = blockIf;
+    new->blockElse = blockElse;
+
+    return new;
+}
+
+Block * createBlock(StatementList statements) {
+    Block * new = malloc(sizeof(Block));
+
+    new->statements = statements;
+
+    return new;
+}
+
+Expression * createExpression(ExpressionType type, Expression * left, Expression * right, Factor * factor) {
+    Expression * new = malloc(sizeof(Expression));
+
+    new->type = type;
+    new->leftExpression = left;
+    new->rightExpression = right;
+    new->factor = factor;
+
+    return new;
+}
+
+Factor * createFactor(FactorType type, void * factor) {
+    Factor * new = calloc(1, sizeof(Factor));
+
+    new->type = type;
+
+    switch (type) {
+        case EXPRESSION_FACTOR: new->expression = factor;
+        case CONSTANT_FACTOR: new->constant = factor;
+        case VARIABLE_FACTOR: new->var = factor;
+        default: assert(0 && "Illegal State");
+    }
+
+    return new;
+}
+
+Variable * createVariable(VariableType type, char * name) {
+    Variable * new = malloc(sizeof(Variable));
+
+    new->type = type;
+    new->name = name; // TODO: malloc & strcpy?
+
+    return new;
+}
+
+Constant * createConstant(int value) {
+    Constant * new = malloc(sizeof(Constant));
+
+    new->value = value;
+
+    return new;
+}
+

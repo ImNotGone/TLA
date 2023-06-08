@@ -1,6 +1,7 @@
 #include "../../backend/domain-specific/calculator.h"
 #include "../../backend/support/logger.h"
 #include "../../backend/semantic-analysis/abstract-syntax-tree.h"
+#include "../../backend/semantic-analysis/tree-utils.h"
 #include "bison-actions.h"
 #include <stdio.h>
 #include <string.h>
@@ -46,78 +47,91 @@ Program * ProgramGrammarAction(const StatementList statements) {
 	*/
 	//state.result = value;
 	//return value;
-    return NULL;
+    return createProgram(statements);
 }
 
 Block * BlockGrammarAction(const StatementList statements) {
     LogDebug("\tBlockGrammarAction");
-    return NULL;
+    return createBlock(statements);
 }
 
 StatementList StatementListGrammarAction(const Statement * statement, const StatementList next) {
     LogDebug("\tStatementListGrammarAction");
-    return NULL;
+    return createStatementList(statement, next);
 }
 
 Statement * StatementGrammarAction(const void * statement, const StatementType type) {
     LogDebug("\tStatementGrammarAction for (%d)", type);
-    return NULL;
+    return createStatement(type, statement);
 }
 
 IfStatement * IfStatementGrammarAction(const Expression * cond, const Block * if_block, const Block * else_block) {
     //Todo ver impresion de block2 en caso de NULL
 //    LogDebug("\tIfStatementGrammarAction(%d, %d, %d)", exp, block1, block2);
-    return NULL;
+    IfStatementType type = IF_TYPE;
+    if (else_block == NULL) {
+        type = IF_ELSE_TYPE;
+    }
+    return createIfStatement(type, cond, if_block, else_block);
 }
 
 ForStatement * ForStatementGrammarAction(const char * varname, const RangeExpression * range, const Block * block) {
     LogDebug("\tForStatementGrammarAction");
-    return NULL;
+    // TODO: ver q hacer con variable
+    return createForStatement(varname, range, block);
 }
 
-WhileStatement * WhileStatementGrammarAction(const Expression * expression, const Block * block) {
+WhileStatement * WhileStatementGrammarAction(const Expression * cond, const Block * block) {
     LogDebug("\tWhileStatementGrammarAction");
-    return NULL;
+    return createWhileStatement(cond, block);
 }
 
 FunctionCall * FunctionGrammarAction(const char * varname, const Expression * exp, const FunctionCallType type) {
     LogDebug("\tFunctionStatementGrammarAction of type (%d)", type);
-    return NULL;
+    // TODO: ver q hacer con variable
+    // TODO: ver q hacer con declaration
+    return createFunctionCall(type, varname, exp, NULL);
 }
 
 Assignment * AssignmentGrammarAction(const char * var, const Expression * exp) {
     LogDebug("\tAssignmentGrammarAction");
-    return NULL;
+    // TODO: ver q hacer con variable
+    return createAssignment(var, exp);
 }
 
 RangeExpression * RangeExpressionGrammarAction(const Expression * exp1, const Expression * exp2){
     LogDebug("\tRangeExpressionGrammarAction");
-    return NULL;
+    return createRangeExpression(exp1, exp2);
 }
 
 Expression * ExpressionGrammarAction(const Expression * left, const Expression * right, const Factor * factor, const ExpressionType type) {
     LogDebug("\tExpressionGrammarAction of type (%d)", type);
-    return NULL;
+    return createExpression(type, left, right, factor);
 }
 
 Factor * FactorGrammarAction(const Expression * exp, const Constant * con, const char * varname, const FactorType type) {
     LogDebug("\tFactorGrammarAction of type (%d)", type);
-    return NULL;
+    // TODO: ver q hacer con variable
+    return createFactor(type, exp, con, varname);
 }
 
 Constant * ConstantGrammarAction(const int value) {
     LogDebug("\tConstantGrammarAction");
-    return NULL;
+    return createConstant(value);
 }
 
 Declaration * DeclarationGrammarAction(const char * varname, const DeclarationType type) {
     LogDebug("\tDeclarationGrammarAction");
-    return NULL;
+    // TODO: ver q hacer con variable
+    // TODO: ver lo de assingment
+    return createDeclaration(type, varname, NULL);
 }
 
 Declaration * IntDeclarationAndAssignmentGrammarAction(const char * varname, const Expression * exp) {
     LogDebug("\tIntDeclarationAndAssignmentGrammarAction");
-    return NULL;
+    // TODO: ver q hacer con variable
+    // TODO: ver q hacer con exp
+    return createDeclaration(INT_DECLARATION, varname, NULL);
 }
 
 int IntegerConstantGrammarAction(const int value) {

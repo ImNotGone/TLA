@@ -304,17 +304,13 @@ Expression * createExpression(ExpressionType type, Expression * left, Expression
     return new;
 }
 
-Factor * createFactor(FactorType type, void * factor) {
-    Factor * new = calloc(1, sizeof(Factor));
+Factor * createFactor(FactorType type, Expression * exp, Constant * con, Variable * var) {
+    Factor * new = malloc(sizeof(Factor));
 
     new->type = type;
-
-    switch (type) {
-        case EXPRESSION_FACTOR: new->expression = factor;
-        case CONSTANT_FACTOR: new->constant = factor;
-        case VARIABLE_FACTOR: new->var = factor;
-        default: assert(0 && "Illegal State");
-    }
+    new->expression = exp;
+    new->constant = con;
+    new->var = var;
 
     return new;
 }

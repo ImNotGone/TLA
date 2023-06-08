@@ -58,7 +58,7 @@ Block * createBlock(StatementList statements);
 
 Expression * createExpression(ExpressionType type, Expression * left, Expression * right, Factor * factor);
 
-Factor * createFactor(FactorType type, void * factor);
+Factor * createFactor(FactorType type, Expression * exp, Constant * con, Variable * var);
 
 Variable * createVariable(VariableType type, char * name);
 

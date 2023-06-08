@@ -20,7 +20,6 @@
     Block * block;
     Expression * expression;
     Factor * factor;
-    Variable * variable;
     Constant * constant;
 
     char * varname;
@@ -120,10 +119,10 @@ function_call: PRINT VARIABLE[var]                                              
              | declaration ADD_TREE VARIABLE[var]                                        { $$ = FunctionGrammarAction($var, NULL, ADD_TREE_CALL ); } // TODO: revisar
              ;
 // CHECK: mover el add_tree aca???
-declaration: NEW_TREE BST VARIABLE[var]                                                  { $$ = DeclarationGrammarAction($var, BST_TYPE); }
-           | NEW_TREE AVL VARIABLE[var]                                                  { $$ = DeclarationGrammarAction($var, AVL_TYPE); }
-           | NEW_TREE RBT VARIABLE[var]                                                  { $$ = DeclarationGrammarAction($var, RBT_TYPE); }
-           | INT VARIABLE[var]                                                           { $$ = DeclarationGrammarAction($var, INT_TYPE); }
+declaration: NEW_TREE BST VARIABLE[var]                                                  { $$ = DeclarationGrammarAction($var, BST_DECLARATION); }
+           | NEW_TREE AVL VARIABLE[var]                                                  { $$ = DeclarationGrammarAction($var, AVL_DECLARATION); }
+           | NEW_TREE RBT VARIABLE[var]                                                  { $$ = DeclarationGrammarAction($var, RBT_DECLARATION); }
+           | INT VARIABLE[var]                                                           { $$ = DeclarationGrammarAction($var, INT_DECLARATION); }
            | INT VARIABLE[var] ASSIGN expression[exp]                                    { $$ = IntDeclarationAndAssignmentGrammarAction($var, $exp); }
            ;
 

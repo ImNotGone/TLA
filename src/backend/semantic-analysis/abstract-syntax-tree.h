@@ -27,19 +27,6 @@ typedef struct {
 */
 
 typedef enum {
-	INT_TYPE,
-	RBT_TYPE,
-	AVL_TYPE,
-	BST_TYPE,
-} VariableType;
-
-// TODO: agregar value?
-typedef struct {
-	VariableType type;
-	char * name;
-} Variable;
-
-typedef enum {
 	EXPRESSION_FACTOR,
 	CONSTANT_FACTOR,
 	VARIABLE_FACTOR
@@ -49,7 +36,7 @@ typedef struct {
 	FactorType type;
 	Expression * expression;
 	Constant * constant;
-	Variable * var;
+	char * varname;
 } Factor;
 
 typedef enum {
@@ -99,7 +86,7 @@ typedef struct {
 } RangeExpression;
 
 typedef struct {
-	Variable * var;
+	char * varname;
 	RangeExpression * range;
 	Block * block;
 } ForStatement;
@@ -127,25 +114,27 @@ typedef enum {
 } FunctionCallType;
 
 typedef enum {
-	TREE_DECLARATION,
+    RBT_DECLARATION,
+    BST_DECLARATION,
+    AVL_DECLARATION,
 	INT_DECLARATION,
 	// INT_DECLARATION_AND_ASSIGNMENT?
 } DeclarationType;
 
 typedef struct {
-	Variable * var;
+	char * varname;
 	Expression * expression;
 } Assignment;
 
 typedef struct {
 	DeclarationType type;
-	Variable * var;
+	char * varname;
     Assignment * assignment;
 } Declaration;
 
 typedef struct {
 	FunctionCallType type;
-	Variable * var;
+	char * varname;
 	Expression * expression;
 	Declaration * declaration;
 } FunctionCall;

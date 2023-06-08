@@ -31,7 +31,7 @@ void freeExpression(Expression * expression);
 
 void freeFactor(Factor * factor);
 
-void freeVariable(Variable * variable);
+void freeVariable(char * variable);
 
 // ===================== Create functions ========================
 Program * createProgram(StatementList statements);
@@ -40,15 +40,15 @@ StatementList createStatementList(Statement * statement, StatementList next);
 
 Statement * createStatement(StatementType type, void * statement);
 
-Assignment * createAssignment(Variable * variable, Expression * expression);
+Assignment * createAssignment(char * variable, Expression * expression);
 
-FunctionCall * createFunctionCall(FunctionCallType type, Variable * variable, Expression * expression, Declaration * declaration);
+FunctionCall * createFunctionCall(FunctionCallType type, char * variable, Expression * expression, Declaration * declaration);
 
-Declaration * createDeclaration(DeclarationType type, Variable * variable, Assignment * assignment);
+Declaration * createDeclaration(DeclarationType type, char * variable, Assignment * assignment);
 
 WhileStatement * createWhileStatement(Expression * condition, Block * block);
 
-ForStatement * createForStatement(Variable * variable, RangeExpression * range, Block * block);
+ForStatement * createForStatement(char * variable, RangeExpression * range, Block * block);
 
 RangeExpression * createRangeExpression(Expression * expressionLeft, Expression * expressionRight);
 
@@ -58,9 +58,7 @@ Block * createBlock(StatementList statements);
 
 Expression * createExpression(ExpressionType type, Expression * left, Expression * right, Factor * factor);
 
-Factor * createFactor(FactorType type, Expression * exp, Constant * con, Variable * var);
-
-Variable * createVariable(VariableType type, char * name);
+Factor * createFactor(FactorType type, Expression * exp, Constant * con, char * var);
 
 Constant * createConstant(int value);
 

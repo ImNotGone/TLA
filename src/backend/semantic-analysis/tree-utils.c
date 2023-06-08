@@ -62,7 +62,7 @@ void freeAssignment(Assignment *assignment) {
     }
 
     freeExpression(assignment->expression);
-    freeVariable(assignment->var);
+    freeVariable(assignment->varname);
     free(assignment);
 }
 
@@ -72,7 +72,7 @@ void freeFunctionCall(FunctionCall *functionCall) {
     }
 
     freeExpression(functionCall->expression);
-    freeVariable(functionCall->var);
+    freeVariable(functionCall->varname);
     freeDeclaration(functionCall->declaration);
     free(functionCall);
 }
@@ -82,7 +82,7 @@ void freeDeclaration(Declaration *declaration) {
         return;
     }
 
-    freeVariable(declaration->var);
+    freeVariable(declaration->varname);
     free(declaration);
 }
 
@@ -164,7 +164,7 @@ void freeFactor(Factor *factor) {
             freeExpression(factor->expression);
             break;
         case VARIABLE_FACTOR:
-            freeVariable(factor->var);
+            freeVariable(factor->varname);
             break;
         default:
             break;
@@ -173,13 +173,11 @@ void freeFactor(Factor *factor) {
     free(factor);
 }
 
-void freeVariable(Variable *var) {
-    if (var == NULL) {
+void freeVariable(char *varname) {
+    if (varname == NULL) {
         return;
     }
-
-    free(var->name);
-    free(var);
+    free(varname);
 }
 
 Program * createProgram(StatementList statements) {
@@ -216,31 +214,31 @@ Statement * createStatement(StatementType type, void * statement) {
     return new;
 }
 
-Assignment * createAssignment(Variable * variable, Expression * expression) {
+Assignment * createAssignment(char * varname, Expression * expression) {
     Assignment * new = malloc(sizeof(Assignment));
 
-    new->var = variable;
+    new->varname = varname;
     new->expression = expression;
 
     return new;
 }
 
-FunctionCall * createFunctionCall(FunctionCallType type, Variable * variable, Expression * expression, Declaration * declaration) {
+FunctionCall * createFunctionCall(FunctionCallType type, char * varname, Expression * expression, Declaration * declaration) {
     FunctionCall * new = malloc(sizeof(FunctionCall));
 
     new->type = type;
-    new->var = variable;
+    new->varname = varname;
     new->expression = expression;
     new->declaration = declaration;
 
     return new;
 }
 
-Declaration * createDeclaration(DeclarationType type, Variable * variable, Assignment * assignment) {
+Declaration * createDeclaration(DeclarationType type, char * varname, Assignment * assignment) {
     Declaration * new = malloc(sizeof(Declaration));
 
     new->type = type;
-    new->var = variable;
+    new->varname = varname;
     new->assignment = assignment;
 
     return new;
@@ -255,10 +253,10 @@ WhileStatement * createWhileStatement(Expression * condition, Block * block) {
     return new;
 }
 
-ForStatement * createForStatement(Variable * variable, RangeExpression * range, Block * block) {
+ForStatement * createForStatement(char * varname, RangeExpression * range, Block * block) {
     ForStatement * new = malloc(sizeof(ForStatement));
 
-    new->var = variable;
+    new->varname = varname;
     new->block = block;
     new->range = range;
 
@@ -304,22 +302,13 @@ Expression * createExpression(ExpressionType type, Expression * left, Expression
     return new;
 }
 
-Factor * createFactor(FactorType type, Expression * exp, Constant * con, Variable * var) {
+Factor * createFactor(FactorType type, Expression * exp, Constant * con, char * var) {
     Factor * new = malloc(sizeof(Factor));
 
     new->type = type;
     new->expression = exp;
     new->constant = con;
-    new->var = var;
-
-    return new;
-}
-
-Variable * createVariable(VariableType type, char * name) {
-    Variable * new = malloc(sizeof(Variable));
-
-    new->type = type;
-    new->name = name; // TODO: malloc & strcpy?
+    new->varname = var;
 
     return new;
 }

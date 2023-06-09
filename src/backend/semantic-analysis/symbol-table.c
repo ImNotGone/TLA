@@ -1,6 +1,7 @@
 #include "symbol-table.h"
 #include "hashmap.h"
 #include <stdint.h>
+#include <string.h>
 
 #define SEED 0x13572468
 
@@ -23,19 +24,25 @@ static uint64_t symbolHashFunction(tAny key) {
     return h;
 }
 
+static bool symbolKeyEquals(tAny key1, tAny key2) {
+    struct key aux1 = *(struct key *) key1;
+    struct key aux2 = *(struct key *) key2;
+    return strcmp(aux1.varname, aux2.varname) == 0;
+}
+
 void symbolTableInit() {
     if(table != NULL) {
         symbolTableDestroy();
     }
-    table = hashMapInit(sizeof(struct key), sizeof(struct value), symbolHashFunction);
+    table = hashMapInit(sizeof(struct key), sizeof(struct value), symbolHashFunction, symbolKeyEquals);
 }
 
-bool symbolTableFind(struct key key, struct value * value) {
-    return hashMapFind(table, &key, value);
+bool symbolTableFind(struct key * key, struct value * value) {
+    return hashMapFind(table, key, value);
 }
 
-void symbolTableInsert(struct key key, struct value value) {
-    hashMapInsertOrUpdate(table, &key, &value);
+void symbolTableInsert(struct key * key, struct value * value) {
+    hashMapInsertOrUpdate(table, key, value);
 }
 
 void symbolTableDestroy() {

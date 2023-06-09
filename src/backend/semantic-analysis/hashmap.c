@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include "../support/logger.h"
 
 typedef struct entry{
     tAny key;
@@ -15,6 +16,7 @@ typedef struct hashMapCDT {
     uint64_t usedSize;
     double threshold;
     hashFp prehash;
+    keyEqualsFp keyEquals;
     entry * lookup;
     uint64_t lookupSize;
     uint64_t keySize;
@@ -24,7 +26,7 @@ typedef struct hashMapCDT {
 #define INITIAL_SIZE 20
 typedef enum {FREE = 0, USED, BRIDGE} status;
 
-hashMapADT hashMapInit(uint64_t keySize, uint64_t valueSize, hashFp prehash) {
+hashMapADT hashMapInit(uint64_t keySize, uint64_t valueSize, hashFp prehash, keyEqualsFp keyEquals) {
     hashMapADT new = malloc(sizeof(hashMapCDT));
     if(new == NULL || (new->lookup = calloc(INITIAL_SIZE, sizeof(entry))) == NULL) {
         free(new);
@@ -34,6 +36,7 @@ hashMapADT hashMapInit(uint64_t keySize, uint64_t valueSize, hashFp prehash) {
     new->usedSize = 0;
     new->threshold = 0.75;
     new->prehash = prehash;
+    new->keyEquals = keyEquals;
     new->lookupSize = INITIAL_SIZE;
     new->keySize = keySize;
     new->valueSize = valueSize;
@@ -85,6 +88,7 @@ void hashMapInsertOrUpdate(hashMapADT hm, tAny key, tAny value) {
     // =====
 
     uint64_t pos = hash(hm, key);
+    LogDebug("hashMapFind: pos = %lu", pos);
     bool found = false;
     if(hm->lookup[pos].status == USED) {
         for(uint64_t i = 1; i < hm->lookupSize && !found; i++) {
@@ -107,6 +111,9 @@ void hashMapInsertOrUpdate(hashMapADT hm, tAny key, tAny value) {
 }
 
 static bool keyEquals(hashMapADT hm, tAny key1, tAny key2) {
+    if(hm->keyEquals != NULL) {
+        return hm->keyEquals(key1, key2);
+    }
     return memcmp(key1, key2, hm->keySize) == 0;
 }
 
@@ -138,15 +145,18 @@ bool hashMapRemove(hashMapADT hm, tAny key) {
 
 
 bool hashMapFind(hashMapADT hm, tAny key, tAny value) {
-    if(key == NULL || value == NULL) return false;
+    if(key == NULL) return false;
 
     uint64_t pos = hash(hm, key);
+    LogDebug("hashMapFind: pos = %lu", pos);
     for(uint64_t i = 0; i < hm->lookupSize; i++) {
         uint64_t index = (pos + i) % hm->lookupSize;
         entry * aux = &hm->lookup[index];
         if(aux->status == FREE) return false;
         if(aux->status == USED && keyEquals(hm, aux->key, key)) {
-            memcpy(value, aux->value, hm->valueSize);
+            if(value != NULL) {
+                memcpy(value, aux->value, hm->valueSize);
+            }
             return true;
         }
     }

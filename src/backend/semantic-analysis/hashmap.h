@@ -9,9 +9,10 @@
 
 typedef void * tAny;
 typedef uint64_t (*hashFp)(tAny);
+typedef bool (*keyEqualsFp)(tAny, tAny);
 typedef struct hashMapCDT * hashMapADT;
 
-hashMapADT hashMapInit(uint64_t keySize, uint64_t valueSize, hashFp prehash);
+hashMapADT hashMapInit(uint64_t keySize, uint64_t valueSize, hashFp prehash, keyEqualsFp keyEquals);
 
 void hashMapInsertOrUpdate(hashMapADT hm, tAny key, tAny value);
 

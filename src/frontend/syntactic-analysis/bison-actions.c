@@ -2,8 +2,10 @@
 #include "../../backend/support/logger.h"
 #include "../../backend/semantic-analysis/abstract-syntax-tree.h"
 #include "../../backend/semantic-analysis/tree-utils.h"
+#include "../../backend/semantic-analysis/symbol-table.h"
 #include "bison-actions.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 /**
@@ -88,14 +90,12 @@ WhileStatement * WhileStatementGrammarAction(Expression * cond, Block * block) {
 
 FunctionCall * FunctionGrammarAction(char * varname, Expression * exp, FunctionCallType type) {
     LogDebug("\tFunctionStatementGrammarAction of type (%d)", type);
-    // TODO: ver q hacer con variable
     // TODO: ver q hacer con declaration
     return createFunctionCall(type, varname, exp, NULL);
 }
 
 Assignment * AssignmentGrammarAction(char * var, Expression * exp) {
     LogDebug("\tAssignmentGrammarAction");
-    // TODO: ver q hacer con variable
     return createAssignment(var, exp);
 }
 
@@ -111,7 +111,6 @@ Expression * ExpressionGrammarAction(Expression * left, Expression * right, Fact
 
 Factor * FactorGrammarAction(Expression * exp, Constant * con, char * varname, FactorType type) {
     LogDebug("\tFactorGrammarAction of type (%d)", type);
-    // TODO: ver q hacer con variable
     return createFactor(type, exp, con, varname);
 }
 
@@ -122,14 +121,20 @@ Constant * ConstantGrammarAction(int value) {
 
 Declaration * DeclarationGrammarAction(char * varname, DeclarationType type) {
     LogDebug("\tDeclarationGrammarAction");
-    // TODO: ver q hacer con variable
+    struct key key = {.varname = varname};
+    // TODO: fix
+    if(symbolTableFind(&key, NULL)) {
+        LogError("Redeclaration of var, %s", varname);
+        exit(1);
+    }
+    struct value value = {.type=0};
+    symbolTableInsert(&key, &value);
     // TODO: ver lo de assingment
     return createDeclaration(type, varname, NULL);
 }
 
 Declaration * IntDeclarationAndAssignmentGrammarAction(char * varname, Expression * exp) {
     LogDebug("\tIntDeclarationAndAssignmentGrammarAction");
-    // TODO: ver q hacer con variable
     // TODO: ver q hacer con exp
     return createDeclaration(INT_DECLARATION, varname, NULL);
 }

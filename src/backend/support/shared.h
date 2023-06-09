@@ -2,6 +2,7 @@
 #define SHARED_HEADER
 
 #include <stdio.h>
+#include <stdbool.h>
 #include "../semantic-analysis/abstract-syntax-tree.h"
 
 // Descriptor del archivo de entrada que utiliza Bison.
@@ -36,11 +37,14 @@ extern int yylex(void);
 extern int yyparse(void);
 
 // Emular tipo "boolean".
+/*
 typedef enum {
 
 	false = 0,
 	true = 1
 } boolean;
+*/
+typedef bool boolean;
 
 // El tipo de los tokens emitidos por Flex.
 typedef int token;

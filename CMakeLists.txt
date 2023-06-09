@@ -18,6 +18,7 @@ if (CMAKE_C_COMPILER_ID STREQUAL "GNU")
     # Opciones para GCC.
     add_compile_options(-static-libgcc)
     add_compile_options(-std=gnu99)
+    add_compile_options(-g)
     add_compile_options(-O3)
 
     # Compilar el scanner con Flex.

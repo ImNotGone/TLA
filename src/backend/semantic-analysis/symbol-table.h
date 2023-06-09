@@ -25,9 +25,9 @@ struct value {
 
 void symbolTableInit();
 
-bool symbolTableFind(struct key key, struct value * value);
+bool symbolTableFind(struct key * key, struct value * value);
 
-void symbolTableInsert(struct key key, struct value value);
+void symbolTableInsert(struct key * key, struct value * value);
 
 void symbolTableDestroy();
 #endif

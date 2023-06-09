@@ -1,6 +1,6 @@
 // Based on: https://github.com/Bibeknam/algorithmtutorprograms/blob/master/data-structures/red-black-trees/RedBlackTree.java
 
-public class RBT<T extends Comparable<? super T>>{
+public class RBT<T extends Comparable<? super T>> implements Tree{
 
     private Node<T> root;
     private Node<T> TNULL;
@@ -251,6 +251,11 @@ private void preOrderHelper(Node<T> node) {
 		return searchTreeHelper(this.root, k);
 	}
 
+	@Override
+	public T min(){
+        return minimum(root).getData();
+	}
+
 	// find the node with the minimum key
 	public Node<T> minimum(Node<T> node) {
 		while (node.getLeft() != TNULL) {
@@ -258,6 +263,11 @@ private void preOrderHelper(Node<T> node) {
 		}
 		return node;
 	}
+
+	@Override
+    	public T max(){
+            return maximum(root).getData();
+    	}
 
 	// find the node with the maximum key
 	public Node<T> maximum(Node<T> node) {
@@ -307,9 +317,10 @@ private void preOrderHelper(Node<T> node) {
 
     	// insert the key to the tree in its appropriate position
     	// and fix the tree
-    	public void addNode(T key) {
+    	@Override
+    	public void insert(T element) {
     		// Ordinary Binary Search Insertion
-    		Node<T> node = new Node<T>(key);
+    		Node<T> node = new Node<T>(element);
 
     		node.setParent(TNULL);
     		node.setLeft(TNULL);
@@ -354,8 +365,9 @@ private void preOrderHelper(Node<T> node) {
     		fixInsert(node);
     	}
 
-    	public Node<T> getRoot(){
-    		return this.root;
+        @Override
+    	public T root(){
+    		return this.root.getData();
     	}
 
     	public void print() {
@@ -363,8 +375,9 @@ private void preOrderHelper(Node<T> node) {
         }
 
     	// delete the node from the tree
-    	public void deleteNode(T data) {
-    		deleteNodeHelper(this.root, data);
+    	@Override
+    	public void remove(T element) {
+    		deleteNodeHelper(this.root, element);
     	}
 
 

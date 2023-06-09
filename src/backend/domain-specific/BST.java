@@ -1,4 +1,4 @@
-public class BST<T extends Comparable<? super T>>{
+public class BST<T extends Comparable<? super T>> implements Tree{
     private Node<T> root;
 
     public BST() {
@@ -9,8 +9,9 @@ public class BST<T extends Comparable<? super T>>{
        this.root = root;
     }
 
-    public void addNode(T data) {
-       root = recursiveAddNode(root,data);
+    @Override
+    public void insert(T element) {
+       root = recursiveAddNode(root,element);
     }
 
     private Node<T> recursiveAddNode(Node<T> node, T data) {
@@ -28,8 +29,9 @@ public class BST<T extends Comparable<? super T>>{
             return node;
     }
 
-    public void deleteNode(T data) {
-       root = recursiveDeleteNode(root, data);
+    @Override
+    public void remove(T element) {
+       root = recursiveDeleteNode(root, element);
     }
 
     private Node<T> recursiveDeleteNode(Node<T> root, T data)  {
@@ -50,12 +52,19 @@ public class BST<T extends Comparable<? super T>>{
             return root;
         }
 
+    @Override
     public T min(){
         return minValue(root);
     }
 
+    @Override
     public T max(){
         return maxValue(root);
+    }
+
+    @Override
+    public T root(){
+        return root.getData();
     }
 
     private T minValue(Node<T> root)  {

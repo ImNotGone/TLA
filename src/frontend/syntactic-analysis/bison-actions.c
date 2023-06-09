@@ -90,6 +90,11 @@ WhileStatement * WhileStatementGrammarAction(Expression * cond, Block * block) {
 
 FunctionCall * FunctionGrammarAction(char * varname, Expression * exp, FunctionCallType type) {
     LogDebug("\tFunctionStatementGrammarAction of type (%d)", type);
+    struct key key = {.varname = varname};
+    if(!symbolTableFind(&key, NULL)) {
+        LogError("Variable %s undeclared", varname);
+        exit(1);
+    }
     // TODO: ver q hacer con declaration
     return createFunctionCall(type, varname, exp, NULL);
 }

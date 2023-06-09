@@ -11,16 +11,16 @@ typedef void * tAny;
 typedef uint64_t (*hashFp)(tAny);
 typedef struct hashMapCDT * hashMapADT;
 
-hashMapADT newHashMap(uint64_t keySize, uint64_t valueSize, hashFp prehash);
+hashMapADT hashMapInit(uint64_t keySize, uint64_t valueSize, hashFp prehash);
 
-void insertOrUpdate(hashMapADT hm, tAny key, tAny value);
+void hashMapInsertOrUpdate(hashMapADT hm, tAny key, tAny value);
 
-bool remove(hashMapADT hm, tAny key);
+bool hashMapRemove(hashMapADT hm, tAny key);
 
-bool find(hashMapADT hm, tAny key, tAny value);
+bool hashMapFind(hashMapADT hm, tAny key, tAny value);
 
-uint64_t size(hashMapADT hm);
+uint64_t hashMapsize(hashMapADT hm);
 
-void freeHashMap(hashMapADT hm);
+void hashMapDestroy(hashMapADT hm);
 
 #endif

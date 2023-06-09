@@ -1,7 +1,9 @@
 #include "backend/code-generation/generator.h"
 #include "backend/support/logger.h"
 #include "backend/support/shared.h"
+#include "backend/semantic-analysis/tree-utils.h"
 #include "frontend/syntactic-analysis/bison-parser.h"
+#include "backend/semantic-analysis/symbol-table.h"
 #include <stdio.h>
 
 // Estado de la aplicación.
@@ -22,6 +24,7 @@ const int main(const int argumentCount, const char ** arguments) {
 	// Compilar el programa de entrada.
 	LogInfo("Compilando...\n");
 	const int result = yyparse();
+    symbolTableInit();
 	switch (result) {
 		case 0:
 			// La variable "succeed" es la que setea Bison al identificar el símbolo
@@ -32,6 +35,7 @@ const int main(const int argumentCount, const char ** arguments) {
 			}
 			else {
 				LogError("Se produjo un error en la aplicacion.");
+                symbolTableDestroy();
 				return -1;
 			}
 			break;
@@ -44,6 +48,8 @@ const int main(const int argumentCount, const char ** arguments) {
 		default:
 			LogError("Error desconocido mientras se ejecutaba el analizador Bison (codigo %d).", result);
 	}
+    symbolTableDestroy();
+    freeProgram(state.program);
 	LogInfo("Fin.");
 	return result;
 }

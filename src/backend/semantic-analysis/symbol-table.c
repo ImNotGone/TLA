@@ -27,18 +27,18 @@ void symbolTableInit() {
     if(table != NULL) {
         symbolTableDestroy();
     }
-    table = newHashMap(sizeof(struct key), sizeof(struct value), symbolHashFunction);
+    table = hashMapInit(sizeof(struct key), sizeof(struct value), symbolHashFunction);
 }
 
 bool symbolTableFind(struct key key, struct value * value) {
-    return find(table, &key, value);
+    return hashMapFind(table, &key, value);
 }
 
 void symbolTableInsert(struct key key, struct value value) {
-    insertOrUpdate(table, &key, &value);
+    hashMapInsertOrUpdate(table, &key, &value);
 }
 
 void symbolTableDestroy() {
-    freeHashMap(table);
+    hashMapDestroy(table);
     table = NULL;
 }

@@ -24,7 +24,7 @@ typedef struct hashMapCDT {
 #define INITIAL_SIZE 20
 typedef enum {FREE = 0, USED, BRIDGE} status;
 
-hashMapADT newHashMap(uint64_t keySize, uint64_t valueSize, hashFp prehash) {
+hashMapADT hashMapInit(uint64_t keySize, uint64_t valueSize, hashFp prehash) {
     hashMapADT new = malloc(sizeof(hashMapCDT));
     if(new == NULL || (new->lookup = calloc(INITIAL_SIZE, sizeof(entry))) == NULL) {
         free(new);
@@ -57,7 +57,7 @@ static void resize(hashMapADT hm) {
     hm->usedSize = 0;
     for(uint64_t i = 0; i < oldSize; i++) {
         if(oldTable[i].status == USED) {
-            insertOrUpdate(hm, oldTable[i].key, oldTable[i].value);
+            hashMapInsertOrUpdate(hm, oldTable[i].key, oldTable[i].value);
             free(oldTable[i].key);
             free(oldTable[i].value);
         }
@@ -65,12 +65,12 @@ static void resize(hashMapADT hm) {
     free(oldTable);
 }
 
-void insertOrUpdate(hashMapADT hm, tAny key, tAny value) {
+void hashMapInsertOrUpdate(hashMapADT hm, tAny key, tAny value) {
     if(hm == NULL || key == NULL || value == NULL) {
         return;
     }
 
-    bool updated = remove(hm, key);
+    bool updated = hashMapRemove(hm, key);
 
     // ===== CREATE NEW ENTRY =====
     entry newEntry;
@@ -110,7 +110,7 @@ static bool keyEquals(hashMapADT hm, tAny key1, tAny key2) {
     return memcmp(key1, key2, hm->keySize) == 0;
 }
 
-bool remove(hashMapADT hm, tAny key) {
+bool hashMapRemove(hashMapADT hm, tAny key) {
     if(key == NULL) return false;
 
     uint64_t pos = hash(hm, key);
@@ -137,7 +137,7 @@ bool remove(hashMapADT hm, tAny key) {
 }
 
 
-bool find(hashMapADT hm, tAny key, tAny value) {
+bool hashMapFind(hashMapADT hm, tAny key, tAny value) {
     if(key == NULL || value == NULL) return false;
 
     uint64_t pos = hash(hm, key);
@@ -153,11 +153,11 @@ bool find(hashMapADT hm, tAny key, tAny value) {
     return false;
 }
 
-uint64_t size(hashMapADT hm) {
+uint64_t hashMapSize(hashMapADT hm) {
     return hm->usedSize;
 }
 
-void freeHashMap(hashMapADT hm) {
+void hashMapDestroy(hashMapADT hm) {
     for(uint64_t i = 0; i < hm->lookupSize; i++) {
         entry * aux = &hm->lookup[i];
         if(aux->status == USED) {

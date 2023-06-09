@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 /**
  * Implementación de "bison-grammar.h".
@@ -124,24 +125,40 @@ Constant * ConstantGrammarAction(int value) {
     return createConstant(value);
 }
 
-Declaration * DeclarationGrammarAction(char * varname, DeclarationType type) {
-    LogDebug("\tDeclarationGrammarAction");
+// TODO: add assignment
+static inline VarType SymbolTableDeclareAux(char * varname, DeclarationType type, bool hasValue) {
+    VarType varType;
+    struct metadata metadata = {.hasValue = hasValue};
+    switch (type) {
+        case INT_DECLARATION: varType = VAR_INT; break;
+        case RBT_DECLARATION: varType = VAR_RBT; break;
+        case AVL_DECLARATION: varType = VAR_AVL; break;
+        case BST_DECLARATION: varType = VAR_BST; break;
+        default: assert(0 && "Illegal State"); break;
+    }
     struct key key = {.varname = varname};
-    // TODO: fix
     if(symbolTableFind(&key, NULL)) {
         LogError("Redeclaration of var, %s", varname);
         exit(1);
     }
-    struct value value = {.type=0};
+    struct value value = {.type=varType, .metadata = metadata};
     symbolTableInsert(&key, &value);
+    return varType;
+}
+
+Declaration * DeclarationGrammarAction(char * varname, DeclarationType type) {
+    LogDebug("\tDeclarationGrammarAction");
+    VarType varType = SymbolTableDeclareAux(varname, type, false);
     // TODO: ver lo de assingment
-    return createDeclaration(type, varname, NULL);
+    return createDeclaration(varType, varname, NULL);
 }
 
 Declaration * IntDeclarationAndAssignmentGrammarAction(char * varname, Expression * exp) {
     LogDebug("\tIntDeclarationAndAssignmentGrammarAction");
+    // TODO: calcular value?
+    VarType varType = SymbolTableDeclareAux(varname, INT_DECLARATION, true);
     // TODO: ver q hacer con exp
-    return createDeclaration(INT_DECLARATION, varname, NULL);
+    return createDeclaration(varType, varname, NULL);
 }
 
 int IntegerConstantGrammarAction(int value) {

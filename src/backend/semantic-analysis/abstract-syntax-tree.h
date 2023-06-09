@@ -1,5 +1,6 @@
 #ifndef ABSTRACT_SYNTAX_TREE_HEADER
 #define ABSTRACT_SYNTAX_TREE_HEADER
+#include "symbol-table.h"
 
 /**
 * Se realiza este tipo de definiciones cuando el tipo de dato debe
@@ -127,7 +128,7 @@ typedef struct {
 } Assignment;
 
 typedef struct {
-	DeclarationType type;
+	VarType type;
 	char * varname;
     Assignment * assignment;
 } Declaration;

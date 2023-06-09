@@ -234,8 +234,10 @@ FunctionCall * createFunctionCall(FunctionCallType type, char * varname, Express
     return new;
 }
 
-Declaration * createDeclaration(DeclarationType type, char * varname, Assignment * assignment) {
+Declaration * createDeclaration(VarType type, char * varname, Assignment * assignment) {
     Declaration * new = malloc(sizeof(Declaration));
+
+
 
     new->type = type;
     new->varname = varname;

@@ -15,6 +15,7 @@ typedef enum VarType {
 } VarType;
 
 struct metadata {
+    bool hasValue;
     int value;
 };
 

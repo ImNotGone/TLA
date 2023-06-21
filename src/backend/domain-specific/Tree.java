@@ -1,12 +1,13 @@
+import java.util.Iterator;
 import java.util.function.Function;
 
-public interface Tree<T> {
+public interface Tree<T extends Comparable<? super T>> extends Iterable<T>{
 
   void insert(T element);
 
   void remove(T element);
 
-  <E> Tree<E> reduce(Function<T, E> function);
+  <E extends Comparable<? super E>> Tree<E> reduce(Function<T, E> function);
 
   boolean isPresent(T element);
 
@@ -16,7 +17,7 @@ public interface Tree<T> {
 
   T min();
 
-  T root();
+  Node<T> root();
 
   int height();
 
@@ -31,4 +32,9 @@ public interface Tree<T> {
   void preorder();
 
   void postorder();
+
+  @Override
+  default Iterator<T> iterator() {
+    return new BSTInOrderIterator<>(root());
+  }
 }

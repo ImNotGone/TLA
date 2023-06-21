@@ -1,11 +1,11 @@
 import java.util.Iterator;
 import java.util.Stack;
 
-class BSTInOrderIterator<T extends Comparable<? super T>> implements Iterator<T> {
+class BSTInorderIterator<T extends Comparable<? super T>> implements Iterator<T> {
     Stack<Node<T>> stack;
     Node<T> current;
 
-    public BSTInOrderIterator(Node<T> root) {
+    public BSTInorderIterator(Node<T> root) {
         stack= new Stack<>();
         current= root;
 

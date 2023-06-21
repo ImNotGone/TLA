@@ -35,6 +35,6 @@ public interface Tree<T extends Comparable<? super T>> extends Iterable<T>{
 
   @Override
   default Iterator<T> iterator() {
-    return new BSTInOrderIterator<>(root());
+    return new BSTInorderIterator<>(root());
   }
 }

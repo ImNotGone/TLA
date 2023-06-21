@@ -1,6 +1,6 @@
 import java.util.function.Function;
 
-class AVLTree<T extends Comparable<? super T>> implements Tree<T> {
+class AVLTree<T extends Comparable<? super T>> extends Tree<T> {
     private Node<T> root;
 
     @Override
@@ -13,44 +13,6 @@ class AVLTree<T extends Comparable<? super T>> implements Tree<T> {
         root = deleteNode(root, element);
     }
 
-    @Override
-    public <E extends Comparable<? super E>> Tree<E> reduce(Function<T, E> function) {
-        Tree<E> tree = new AVLTree<>();
-
-        for (T element : this) {
-            tree.insert(function.apply(element));
-        }
-
-        return tree;
-    }
-
-    @Override
-    public boolean isPresent(T element) {
-        if(this.root == null)
-            return false;
-        else
-            return this.contains(this.root, element);
-    }
-
-    private boolean contains(Node<T> node, T element) {
-        boolean found = false;
-        while (node != null && !found) {
-            if(node.getData().equals(element))
-                found = true;
-            else if(node.getData().compareTo(element) > 0)
-                node = node.getLeft();
-            else
-                node = node.getRight();
-        }
-        return found;
-    }
-
-    @Override
-    public void addTree(Tree<T> tree) {
-        for (T element : tree) {
-            this.insert(element);
-        }
-    }
 
     @Override
     public T max() {
@@ -74,11 +36,6 @@ class AVLTree<T extends Comparable<? super T>> implements Tree<T> {
     }
 
     @Override
-    public int height() {
-        return heightFromNode(root);
-    }
-
-    @Override
     public void draw() {
         //TODO: Implement when JavaFX is working
     }
@@ -89,29 +46,17 @@ class AVLTree<T extends Comparable<? super T>> implements Tree<T> {
     }
 
     @Override
-    public void inorder() {
-        getInorderFromNode(root);
-        System.out.println();
+    <E extends Comparable<? super E>> Tree<E> reduce(Function<T, E> function) {
+        Tree<E> tree = new AVLTree<>();
+
+        for (T element : this) {
+            tree.insert(function.apply(element));
+        }
+
+        return tree;
     }
 
-    @Override
-    public void preorder() {
-        getPreorderFromNode(root);
-        System.out.println();
-    }
 
-    @Override
-    public void postorder() {
-        getPostorderFromNode(root);
-        System.out.println();
-    }
-
-    // A utility function to get height of the tree
-    private int heightFromNode(Node<T> N) {
-        if (N == null)
-            return 0;
-        return N.getH();
-    }
 
     // A utility function to right rotate subtree rooted with y
     // See the diagram given above.
@@ -231,7 +176,7 @@ class AVLTree<T extends Comparable<? super T>> implements Tree<T> {
     private Node<T> deleteNode(Node<T> root, T element) {
         // STEP 1: PERFORM STANDARD BST DELETE
         if (root == null)
-            return root;
+            return null;
 
         // If the element to be deleted is smaller than
         // the root's element, then it lies in left subtree
@@ -318,30 +263,5 @@ class AVLTree<T extends Comparable<? super T>> implements Tree<T> {
         return root;
     }
 
-    // A utility function to print preorder traversal of
-    // the tree. The function also prints height of every
-    // node
-    private void getPreorderFromNode(Node<T> node) {
-        if (node != null) {
-            System.out.print(node.getData() + " ");
-            getPreorderFromNode(node.getLeft());
-            getPreorderFromNode(node.getRight());
-        }
-    }
 
-    private void getPostorderFromNode(Node<T> currentNode) {
-        if (currentNode != null) {
-            getPostorderFromNode(currentNode.getLeft());
-            getPostorderFromNode(currentNode.getRight());
-            System.out.print(currentNode.getData() + " ");
-        }
-    }
-
-    private void getInorderFromNode(Node<T> currentNode) {
-        if (currentNode != null) {
-            getInorderFromNode(currentNode.getLeft());
-            System.out.print(currentNode.getData()  + " ");
-            getInorderFromNode(currentNode.getRight());
-        }
-    }
 }

@@ -1,40 +1,111 @@
 import java.util.Iterator;
 import java.util.function.Function;
 
-public interface Tree<T extends Comparable<? super T>> extends Iterable<T>{
+public abstract class Tree<T extends Comparable<? super T>> implements Iterable<T>{
 
-  void insert(T element);
+  protected Node<T> root;
 
-  void remove(T element);
+  abstract void insert(T element);
 
-  <E extends Comparable<? super E>> Tree<E> reduce(Function<T, E> function);
+  abstract void remove(T element);
 
-  boolean isPresent(T element);
+  abstract <E extends Comparable<? super E>> Tree<E> reduce(Function<T, E> function);
 
-  void addTree(Tree<T> tree);
+  public void addTree(Tree<T> tree) {
+    for (T element : tree) {
+      this.insert(element);
+    }
+  }
 
-  T max();
+  abstract T max();
 
-  T min();
+  abstract T min();
 
-  Node<T> root();
+  public Node<T> root(){
+    return root;
+  }
 
-  int height();
+  public int height() {
+    return heightFromNode(root);
+  }
 
   // ===== For drawing =====
 
-  void draw();
+  abstract void draw();
 
-  void find();
+  abstract void find();
 
-  void inorder();
+  public void inorder() {
+    getInorderFromNode(root);
+    System.out.println();
+  }
 
-  void preorder();
+  public void preorder() {
+    getPreorderFromNode(root);
+    System.out.println();
+  }
 
-  void postorder();
+  public void postorder() {
+    getPostorderFromNode(root);
+    System.out.println();
+  }
 
   @Override
-  default Iterator<T> iterator() {
+  public Iterator<T> iterator() {
     return new BSTInorderIterator<>(root());
+  }
+
+  public boolean isPresent(T element) {
+    if(this.root == null)
+      return false;
+    else
+      return this.contains(this.root, element);
+  }
+
+  private boolean contains(Node<T> node, T element) {
+    boolean found = false;
+    while (node != null && !found) {
+      if(node.getData().equals(element))
+        found = true;
+      else if(node.getData().compareTo(element) > 0)
+        node = node.getLeft();
+      else
+        node = node.getRight();
+    }
+    return found;
+  }
+
+  // A utility function to print preorder traversal of
+  // the tree. The function also prints height of every
+  // node
+  private void getPreorderFromNode(Node<T> node) {
+    if (node != null) {
+      System.out.print(node.getData() + " ");
+      getPreorderFromNode(node.getLeft());
+      getPreorderFromNode(node.getRight());
+    }
+  }
+
+  private void getPostorderFromNode(Node<T> currentNode) {
+    if (currentNode != null) {
+      getPostorderFromNode(currentNode.getLeft());
+      getPostorderFromNode(currentNode.getRight());
+      System.out.print(currentNode.getData() + " ");
+    }
+  }
+
+  private void getInorderFromNode(Node<T> currentNode) {
+    if (currentNode != null) {
+      getInorderFromNode(currentNode.getLeft());
+      System.out.print(currentNode.getData()  + " ");
+      getInorderFromNode(currentNode.getRight());
+    }
+  }
+
+  // A utility function to get height of the tree
+  protected int heightFromNode(Node<T> N) {
+    if (N == null)
+      return 0;
+    return N.getH();
   }
 }

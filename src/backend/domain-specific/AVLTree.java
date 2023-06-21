@@ -13,7 +13,6 @@ class AVLTree<T extends Comparable<? super T>> extends Tree<T> {
         root = deleteNode(root, element);
     }
 
-
     @Override
     public T max() {
         if(root==null)

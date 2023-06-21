@@ -11,6 +11,83 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
         root = TNULL;
     }
 
+    // insert the key to the tree in its appropriate position
+    // and fix the tree
+    @Override
+    public void insert(T element) {
+        // Ordinary Binary Search Insertion
+        Node<T> node = new Node<T>(element);
+
+        node.setParent(TNULL);
+        node.setLeft(TNULL);
+        node.setRight(TNULL);
+        node.setColor(1); // new node must be red
+
+        Node<T> y = TNULL;
+        Node<T> x = this.root;
+
+        while (x != TNULL) {
+            y = x;
+
+            if (node.getData().compareTo(x.getData()) < 0) {
+                x = x.getLeft();
+            } else {
+                x = x.getRight();
+            }
+        }
+
+        // y is parent of x
+        node.setParent(y);
+        if (y == TNULL) {
+            root = node;
+        } else if (node.getData().compareTo(y.getData()) < 0) {
+            y.setLeft(node);
+        } else {
+            y.setRight(node);
+        }
+
+        // if new node is a root node, simply return
+        if (node.getParent() == TNULL) {
+            node.setColor(0);
+            return;
+        }
+
+        // if the grandparent is null, simply return
+        if (node.getParent().getParent() == TNULL) {
+            return;
+        }
+
+        // Fix the tree
+        fixInsert(node);
+    }
+
+    // delete the node from the tree
+    @Override
+    public void remove(T element) {
+        deleteNodeHelper(this.root, element);
+    }
+
+    @Override
+    <E extends Comparable<? super E>> Tree<E> reduce(Function<T, E> function) {
+        Tree<E> tree = new RBT<>();
+
+        for (T element : this) {
+            tree.insert(function.apply(element));
+        }
+
+        return tree;
+    }
+
+    @Override
+    void draw() {
+        //TODO: Implement when JavaFX is ready
+    }
+
+    @Override
+    void find() {
+        //TODO: Implement when JavaFX is ready
+    }
+
     private void preOrderHelper(Node<T> node) {
         if (node != TNULL) {
             System.out.print(node.getData() + " ");
@@ -315,82 +392,5 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
         }
         y.setRight(x);
         x.setParent(y);
-    }
-
-    // insert the key to the tree in its appropriate position
-    // and fix the tree
-    @Override
-    public void insert(T element) {
-        // Ordinary Binary Search Insertion
-        Node<T> node = new Node<T>(element);
-
-        node.setParent(TNULL);
-        node.setLeft(TNULL);
-        node.setRight(TNULL);
-        node.setColor(1); // new node must be red
-
-        Node<T> y = TNULL;
-        Node<T> x = this.root;
-
-        while (x != TNULL) {
-            y = x;
-
-            if (node.getData().compareTo(x.getData()) < 0) {
-                x = x.getLeft();
-            } else {
-                x = x.getRight();
-            }
-        }
-
-        // y is parent of x
-        node.setParent(y);
-        if (y == TNULL) {
-            root = node;
-        } else if (node.getData().compareTo(y.getData()) < 0) {
-            y.setLeft(node);
-        } else {
-            y.setRight(node);
-        }
-
-        // if new node is a root node, simply return
-        if (node.getParent() == TNULL) {
-            node.setColor(0);
-            return;
-        }
-
-        // if the grandparent is null, simply return
-        if (node.getParent().getParent() == TNULL) {
-            return;
-        }
-
-        // Fix the tree
-        fixInsert(node);
-    }
-
-    // delete the node from the tree
-    @Override
-    public void remove(T element) {
-        deleteNodeHelper(this.root, element);
-    }
-
-    @Override
-    <E extends Comparable<? super E>> Tree<E> reduce(Function<T, E> function) {
-        Tree<E> tree = new RBT<>();
-
-        for (T element : this) {
-            tree.insert(function.apply(element));
-        }
-
-        return tree;
-    }
-
-    @Override
-    void draw() {
-        //TODO: Implement when JavaFX is ready
-    }
-
-    @Override
-    void find() {
-        //TODO: Implement when JavaFX is ready
     }
 }

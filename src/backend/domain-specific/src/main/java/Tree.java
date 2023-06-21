@@ -1,9 +1,14 @@
+import guru.nidi.graphviz.attribute.Style;
 import guru.nidi.graphviz.model.MutableGraph;
+import guru.nidi.graphviz.model.MutableNode;
 
 import java.util.Iterator;
 import java.util.function.Function;
 
-public abstract class Tree<T extends Comparable<? super T>> implements Iterable<T>{
+import static guru.nidi.graphviz.model.Factory.mutNode;
+import static guru.nidi.graphviz.model.Factory.nodeAttrs;
+
+public abstract class Tree<T extends Comparable<? super T>> implements Iterable<Node<T>>{
 
   protected Node<T> root;
   protected MutableGraph graph;
@@ -15,8 +20,8 @@ public abstract class Tree<T extends Comparable<? super T>> implements Iterable<
   abstract <E extends Comparable<? super E>> Tree<E> reduce(Function<T, E> function);
 
   public void addTree(Tree<T> tree) {
-    for (T element : tree) {
-      this.insert(element);
+    for (Node<T> element : tree) {
+      this.insert(element.getData());
     }
   }
 
@@ -34,9 +39,18 @@ public abstract class Tree<T extends Comparable<? super T>> implements Iterable<
 
   // ===== For drawing =====
 
-  abstract void draw();
+  public void draw(){
+    for (Node<T> node : this) {
+      MutableNode mutNode = mutNode(node.getData().toString());
+      if(node.getLeft() != null)
+        mutNode.addLink(mutNode(node.getLeft().getData().toString()));
+      if(node.getRight() != null)
+        mutNode.addLink(mutNode(node.getRight().getData().toString()));
+      graph.add(mutNode);
+    }
+  }
 
-  abstract void find();
+  abstract void find(T element);
 
   public void inorder() {
     getInorderFromNode(root);
@@ -54,7 +68,7 @@ public abstract class Tree<T extends Comparable<? super T>> implements Iterable<
   }
 
   @Override
-  public Iterator<T> iterator() {
+  public Iterator<Node<T>> iterator() {
     return new BSTInorderIterator<>(root());
   }
 

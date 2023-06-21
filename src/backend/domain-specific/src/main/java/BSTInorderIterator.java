@@ -1,7 +1,7 @@
 import java.util.Iterator;
 import java.util.Stack;
 
-class BSTInorderIterator<T extends Comparable<? super T>> implements Iterator<T> {
+class BSTInorderIterator<T extends Comparable<? super T>> implements Iterator<Node<T>> {
     Stack<Node<T>> stack;
     Node<T> current;
 
@@ -17,7 +17,7 @@ class BSTInorderIterator<T extends Comparable<? super T>> implements Iterator<T>
     }
 
     @Override
-    public T next() {
+    public Node<T> next() {
         while(current != null) {
             stack.push(current);
             current= current.getLeft();
@@ -25,6 +25,6 @@ class BSTInorderIterator<T extends Comparable<? super T>> implements Iterator<T>
 
         Node<T> elementToProcess= stack.pop();
         current= elementToProcess.getRight();
-        return elementToProcess.getData();
+        return elementToProcess;
     }
 }

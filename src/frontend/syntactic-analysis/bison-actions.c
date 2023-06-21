@@ -1,5 +1,4 @@
 #include "bison-actions.h"
-#include "../../backend/domain-specific/calculator.h"
 #include "../../backend/semantic-analysis/abstract-syntax-tree.h"
 #include "../../backend/semantic-analysis/symbol-table.h"
 #include "../../backend/semantic-analysis/tree-utils.h"

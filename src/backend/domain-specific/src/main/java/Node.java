@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class Node<T extends Comparable<? super T>>{
 
         private T data;
@@ -6,10 +8,11 @@ public class Node<T extends Comparable<? super T>>{
     	private int h; //altura en la que se encuentra el nodo
     	//Para el RBT
     	private Node<T> parent;
-    	private int color;
+    	private Color color;
 
         public Node(T data){
             this.data=data;
+            this.color=Color.BLACK;
             this.left=null;
             this.right=null;
             this.h=0;
@@ -18,7 +21,7 @@ public class Node<T extends Comparable<? super T>>{
         public Node() {
                 this.data = null;
                 this.h = 0;
-                this.color = 0;
+                this.color = Color.BLACK;
                 this.left = null;
                 this.right = null;
             }
@@ -68,11 +71,11 @@ public class Node<T extends Comparable<? super T>>{
         	return left == null && right == null;
         }
 
-        public int getColor(){
+        public Color getColor(){
             return color;
         }
 
-        public void setColor(int color){
+        public void setColor(Color color){
             this.color= color;
         }
 }

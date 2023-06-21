@@ -1,9 +1,12 @@
+import guru.nidi.graphviz.model.MutableGraph;
+
 import java.util.Iterator;
 import java.util.function.Function;
 
 public abstract class Tree<T extends Comparable<? super T>> implements Iterable<T>{
 
   protected Node<T> root;
+  protected MutableGraph graph;
 
   abstract void insert(T element);
 

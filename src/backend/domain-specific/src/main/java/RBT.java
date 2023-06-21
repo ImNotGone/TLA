@@ -1,5 +1,6 @@
 // Based on: https://github.com/Bibeknam/algorithmtutorprograms/blob/master/data-structures/red-black-trees/RedBlackTree.java
 
+import java.awt.*;
 import java.util.function.Function;
 
 public class RBT<T extends Comparable<? super T>> extends Tree<T> {
@@ -16,12 +17,12 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
     @Override
     public void insert(T element) {
         // Ordinary Binary Search Insertion
-        Node<T> node = new Node<T>(element);
+        Node<T> node = new Node<>(element);
 
         node.setParent(TNULL);
         node.setLeft(TNULL);
         node.setRight(TNULL);
-        node.setColor(1); // new node must be red
+        node.setColor(Color.RED); // new node must be red
 
         Node<T> y = TNULL;
         Node<T> x = this.root;
@@ -48,7 +49,7 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
 
         // if new node is a root node, simply return
         if (node.getParent() == TNULL) {
-            node.setColor(0);
+            node.setColor(Color.BLACK);
             return;
         }
 
@@ -126,70 +127,70 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
     // fix the rb tree modified by the delete operation
     private void fixDelete(Node<T> x) {
         Node<T> s;
-        while (x != root && x.getColor() == 0) {
+        while (x != root && x.getColor() == Color.BLACK) {
             if (x == x.getParent().getLeft()) {
                 s = x.getParent().getRight();
-                if (s.getColor() == 1) {
+                if (s.getColor() == Color.RED) {
                     // case 3.1
-                    s.setColor(0);
-                    x.getParent().setColor(1);
+                    s.setColor(Color.BLACK);
+                    x.getParent().setColor(Color.RED);
                     leftRotate(x.getParent());
                     s = x.getParent().getRight();
                 }
 
-                if (s.getLeft().getColor() == 0 && s.getRight().getColor() == 0) {
+                if (s.getLeft().getColor() == Color.BLACK && s.getRight().getColor() == Color.BLACK) {
                     // case 3.2
-                    s.setColor(1);
+                    s.setColor(Color.RED);
                     x = x.getParent();
                 } else {
-                    if (s.getRight().getColor() == 0) {
+                    if (s.getRight().getColor() == Color.BLACK) {
                         // case 3.3
-                        s.getLeft().setColor(0);
-                        s.setColor(1);
+                        s.getLeft().setColor(Color.BLACK);
+                        s.setColor(Color.RED);
                         rightRotate(s);
                         s = x.getParent().getRight();
                     }
 
                     // case 3.4
                     s.setColor(x.getParent().getColor());
-                    x.getParent().setColor(0);
-                    s.getRight().setColor(0);
+                    x.getParent().setColor(Color.BLACK);
+                    s.getRight().setColor(Color.BLACK);
                     leftRotate(x.getParent());
                     x = root;
                 }
             } else {
                 s = x.getParent().getLeft();
-                if (s.getColor() == 1) {
+                if (s.getColor() == Color.RED) {
                     // case 3.1
-                    s.setColor(0);
-                    x.getParent().setColor(1);
+                    s.setColor(Color.BLACK);
+                    x.getParent().setColor(Color.RED);
                     rightRotate(x.getParent());
                     s = x.getParent().getLeft();
                 }
 
-                if (s.getRight().getColor() == 0) {
+                if (s.getRight().getColor() == Color.BLACK) {
                     // case 3.2
-                    s.setColor(1);
+                    s.setColor(Color.RED);
                     x = x.getParent();
                 } else {
-                    if (s.getLeft().getColor() == 0) {
+                    if (s.getLeft().getColor() == Color.BLACK) {
                         // case 3.3
-                        s.getRight().setColor(0);
-                        s.setColor(1);
+                        s.getRight().setColor(Color.BLACK);
+                        s.setColor(Color.RED);
                         leftRotate(s);
                         s = x.getParent().getLeft();
                     }
 
                     // case 3.4
                     s.setColor(x.getParent().getColor());
-                    x.getParent().setColor(0);
-                    s.getLeft().setColor(0);
+                    x.getParent().setColor(Color.BLACK);
+                    s.getLeft().setColor(Color.BLACK);
                     rightRotate(x.getParent());
                     x = root;
                 }
             }
         }
-        x.setColor(0);
+        x.setColor(Color.BLACK);
     }
 
 
@@ -226,7 +227,7 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
         }
 
         y = z;
-        int yOriginalColor = y.getColor();
+        Color yOriginalColor = y.getColor();
         if (z.getLeft() == TNULL) {
             x = z.getRight();
             rbTransplant(z, z.getRight());
@@ -250,7 +251,7 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
             y.getLeft().setParent(y);
             y.setColor(z.getColor());
         }
-        if (yOriginalColor == 0) {
+        if (yOriginalColor == Color.BLACK) {
             fixDelete(x);
         }
     }
@@ -258,14 +259,14 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
     // fix the red-black tree
     private void fixInsert(Node<T> k) {
         Node<T> u;
-        while (k.getParent().getColor() == 1) {
+        while (k.getParent().getColor() == Color.RED) {
             if (k.getParent() == k.getParent().getParent().getRight()) {
                 u = k.getParent().getParent().getLeft(); // uncle
-                if (u.getColor() == 1) {
+                if (u.getColor() == Color.RED) {
                     // case 3.1
-                    u.setColor(0);
-                    k.getParent().setColor(0);
-                    k.getParent().getParent().setColor(1);
+                    u.setColor(Color.BLACK);
+                    k.getParent().setColor(Color.BLACK);
+                    k.getParent().getParent().setColor(Color.RED);
                     k = k.getParent().getParent();
                 } else {
                     if (k == k.getParent().getLeft()) {
@@ -274,18 +275,18 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
                         rightRotate(k);
                     }
                     // case 3.2.1
-                    k.getParent().setColor(0);
-                    k.getParent().getParent().setColor(1);
+                    k.getParent().setColor(Color.BLACK);
+                    k.getParent().getParent().setColor(Color.RED);
                     leftRotate(k.getParent().getParent());
                 }
             } else {
                 u = k.getParent().getParent().getRight(); // uncle
 
-                if (u.getColor() == 1) {
+                if (u.getColor() == Color.RED) {
                     // mirror case 3.1
-                    u.setColor(0);
-                    k.getParent().setColor(0);
-                    k.getParent().getParent().setColor(1);
+                    u.setColor(Color.BLACK);
+                    k.getParent().setColor(Color.BLACK);
+                    k.getParent().getParent().setColor(Color.RED);
                     k = k.getParent().getParent();
                 } else {
                     if (k == k.getParent().getRight()) {
@@ -294,8 +295,8 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
                         leftRotate(k);
                     }
                     // mirror case 3.2.1
-                    k.getParent().setColor(0);
-                    k.getParent().getParent().setColor(1);
+                    k.getParent().setColor(Color.BLACK);
+                    k.getParent().getParent().setColor(Color.RED);
                     rightRotate(k.getParent().getParent());
                 }
             }
@@ -303,7 +304,7 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
                 break;
             }
         }
-        root.setColor(0);
+        root.setColor(Color.BLACK);
     }
 
     // Pre-Order traversal

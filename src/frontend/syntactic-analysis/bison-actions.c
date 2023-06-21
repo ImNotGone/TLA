@@ -127,12 +127,28 @@ FunctionCall *FunctionGrammarAction(char *varname, Expression *exp, FunctionCall
         LogError("Variable %s undeclared", varname);
         exit(1);
     }
-    // TODO: ver q hacer con declaration
+
     return createFunctionCall(type, varname, exp, NULL);
 }
 
 Assignment *AssignmentGrammarAction(char *var, Expression *exp) {
     LogDebug("\tAssignmentGrammarAction");
+
+    struct key key = {.varname = var};
+    struct value value;
+    if (!symbolTableFind(&key, &value)) {
+        LogError("Variable %s undeclared", var);
+        exit(1);
+    }
+
+    if (value.type != VAR_INT) {
+        LogError("Variable %s is not an integer", var);
+        exit(1);
+    }
+
+    value.metadata.hasValue = true;
+    symbolTableInsert(&key, &value);
+
     return createAssignment(var, exp);
 }
 

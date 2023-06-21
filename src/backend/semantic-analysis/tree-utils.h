@@ -44,7 +44,7 @@ Assignment * createAssignment(char * variable, Expression * expression);
 
 FunctionCall * createFunctionCall(FunctionCallType type, char * variable, Expression * expression, Declaration * declaration);
 
-Declaration * createDeclaration(DeclarationType type, char * variable, Assignment * assignment);
+Declaration * createDeclaration(VarType type, char * variable, Assignment * assignment);
 
 WhileStatement * createWhileStatement(Expression * condition, Block * block);
 

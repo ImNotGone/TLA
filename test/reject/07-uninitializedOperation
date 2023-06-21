@@ -1,0 +1,5 @@
+int i = 91218;
+
+int uninitialized;
+
+int invalid1 = i + uninitialized;

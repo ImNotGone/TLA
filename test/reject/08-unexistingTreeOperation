@@ -1,6 +1,3 @@
-// False positive for now
-// Fix in backend
-
 insert t1 10;
 
 remove t1 10;

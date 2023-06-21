@@ -1,6 +1,3 @@
-// False positive for now
-// Fix in backend
-
 new BST tree;
 
 int i = 91218;

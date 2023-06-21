@@ -8,7 +8,7 @@ public interface Tree<T> {
 
   <E> Tree<E> reduce(Function<T, E> function);
 
-  boolean isPresent();
+  boolean isPresent(T element);
 
   void addTree(Tree<T> tree);
 

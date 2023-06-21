@@ -39,6 +39,7 @@ Constant * ConstantGrammarAction(int value);
 
 //Funciones
 FunctionCall * FunctionGrammarAction(char * varname, Expression * exp, FunctionCallType type);
+FunctionCall * FunctionDeclarationGrammarAction(char *varname, Declaration *declaration, FunctionCallType callType);
 
 // Constantes.
 int IntegerConstantGrammarAction(int value);

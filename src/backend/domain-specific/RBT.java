@@ -3,7 +3,6 @@
 import java.util.function.Function;
 
 public class RBT<T extends Comparable<? super T>> extends Tree<T> {
-
     private Node<T> root;
     private Node<T> TNULL;
 
@@ -83,7 +82,7 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
                 }
             } else {
                 s = x.getParent().getLeft();
-                if (s.getColor == 1) {
+                if (s.getColor() == 1) {
                     // case 3.1
                     s.setColor(0);
                     x.getParent().setColor(1);
@@ -205,7 +204,7 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
             } else {
                 u = k.getParent().getParent().getRight(); // uncle
 
-                if (u.getColor == 1) {
+                if (u.getColor() == 1) {
                     // mirror case 3.1
                     u.setColor(0);
                     k.getParent().setColor(0);
@@ -393,9 +392,5 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
     @Override
     void find() {
         //TODO: Implement when JavaFX is ready
-    }
-
-    public void print() {
-        BTreePrinter.printNode(root);
     }
 }

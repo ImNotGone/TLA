@@ -3,5 +3,5 @@ insert t1 5;
 insert t1 3;
 insert t1 4;
 insert t1 7;
-min t1;
-max t1;
+int a = min t1;
+int b = max t1;

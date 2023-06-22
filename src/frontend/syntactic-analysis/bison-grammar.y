@@ -41,6 +41,7 @@
 %token <token> INT BOOL
 %token <token> RBT AVL BST
 %token <token> NEW_TREE PRINT INSERT REMOVE INORDER POSTORDER PREORDER REDUCE FIND PRESENT ADD_TREE MAX MIN HEIGHT ROOT
+%token <token> EVEN ODD
 
 %token <varname> VARIABLE
 %token <integer> INTEGER
@@ -116,7 +117,8 @@ function_call: PRINT VARIABLE[var]                                              
              | INORDER VARIABLE[var]                                                     { $$ = FunctionGrammarAction($var, NULL, INORDER_CALL); }
              | POSTORDER VARIABLE[var]                                                   { $$ = FunctionGrammarAction($var, NULL, POSTORDER_CALL); }
              | PREORDER VARIABLE[var]                                                    { $$ = FunctionGrammarAction($var, NULL, PREORDER_CALL); }
-             | REDUCE expression[exp] VARIABLE[var]                                      { $$ = FunctionGrammarAction($var, $exp, REDUCE_CALL); }
+             | REDUCE EVEN VARIABLE[var]                                                 { $$ = FunctionGrammarAction($var, NULL, REDUCE_EVEN_CALL); }
+             | REDUCE ODD VARIABLE[var]                                                  { $$ = FunctionGrammarAction($var, NULL, REDUCE_ODD_CALL); }
              | FIND VARIABLE[var] expression[exp]                                        { $$ = FunctionGrammarAction($var, $exp, FIND_CALL); }
              | PRESENT expression[exp] VARIABLE[var]                                     { $$ = FunctionGrammarAction($var, $exp, PRESENT_CALL); }
              | declaration[decl] ADD_TREE VARIABLE[var]                                  { $$ = FunctionDeclarationGrammarAction($var, $decl, ADD_TREE_CALL); } // TODO: revisar

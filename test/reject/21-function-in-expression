@@ -1,0 +1,8 @@
+
+new RBT t1;
+
+insert t1 1;
+
+if (present 1 t1) {
+  insert t1 max t1;
+}

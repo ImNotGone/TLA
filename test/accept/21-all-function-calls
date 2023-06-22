@@ -1,0 +1,30 @@
+new AVL t1;
+
+insert t1 1;
+insert t1 2;
+insert t1 3;
+
+int a = max t1;
+int b = min t1;
+
+root t1;
+
+int c = height t1;
+
+remove t1 1 + 1;
+
+inorder t1;
+postorder t1;
+preorder t1;
+
+find t1 3;
+
+bool d = present 2 t1;
+
+new RBT t2 <- t1;
+
+reduce odd t1;
+
+insert t2 4;
+
+reduce even t2;

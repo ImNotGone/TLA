@@ -2,4 +2,6 @@ new BST t1;
 insert t1 1;
 insert t1 3;
 insert t1 5;
-height t1;
+
+int a = height t1;
+

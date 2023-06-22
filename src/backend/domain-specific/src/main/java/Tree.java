@@ -40,6 +40,10 @@ public abstract class Tree<T extends Comparable<? super T>> implements Iterable<
         return root;
     }
 
+    public void printRoot() {
+        System.out.println(root.getData());
+    }
+
     public int height() {
         return heightFromNode(root);
     }

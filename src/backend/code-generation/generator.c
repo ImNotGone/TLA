@@ -44,6 +44,7 @@ void GeneratorStatement(Statement *statement) {
             break;
         case ASSIGNMENT_STATEMENT:
             GeneratorAssignment(statement->assignment);
+            Output(";\n");
             break;
     }
 }
@@ -80,7 +81,7 @@ void GeneratorFunctionCall(FunctionCall *functionCall) {
             Output("min()");
             break;
         case ROOT_CALL:
-            Output("root()");
+            Output("printRoot()");
             break;
         case HEIGHT_CALL:
             Output("height()");
@@ -104,10 +105,11 @@ void GeneratorFunctionCall(FunctionCall *functionCall) {
         case PREORDER_CALL:
             Output("preorder()");
             break;
-        case REDUCE_CALL:
-            Output("reduce(");
-            GeneratorExpression(functionCall->expression);
-            Output(")");
+        case REDUCE_EVEN_CALL:
+            Output("reduce(x -> x %c 2 == 0)", '%');
+            break;
+        case REDUCE_ODD_CALL:
+            Output("reduce(x -> x %c 2 != 0)", '%');
             break;
         case FIND_CALL:
             Output("find(");

@@ -72,7 +72,9 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
         Tree<E> tree = new RBT<>();
 
         for (Node<T> element : this) {
-            tree.insert(function.apply(element.getData()));
+            if (element.getData() != null) {
+                tree.insert(function.apply(element.getData()));
+            }
         }
 
         return tree;

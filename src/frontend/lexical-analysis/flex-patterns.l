@@ -75,6 +75,8 @@ declarationName     [A-Za-z][A-Za-z0-9]*
 "postorder"                                 {yylval.token = POSTORDER; return POSTORDER;}
 "preorder"                                  {yylval.token = PREORDER; return PREORDER;}
 "reduce"                                    {yylval.token = REDUCE; return REDUCE;}
+"even"                                      {yylval.token = EVEN; return EVEN;}
+"odd"                                       {yylval.token = ODD; return ODD;}
 "find"                                      {yylval.token = FIND; return FIND;}
 "present"                                   {yylval.token = PRESENT; return PRESENT;}
 "<-"                                        { return ADD_TREE; }

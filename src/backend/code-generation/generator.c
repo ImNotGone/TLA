@@ -61,6 +61,13 @@ void GeneratorAssignment(Assignment *assignment) {
 }
 
 void GeneratorFunctionCall(FunctionCall *functionCall) {
+
+    if (functionCall->type == ADD_TREE_CALL) {
+        GeneratorDeclaration(functionCall->declaration);
+        Output("%s.add(%s);\n", functionCall->declaration->varname, functionCall->varname);
+        return;
+    }
+
     Output("%s.", functionCall->varname);
 
     switch (functionCall->type) {
@@ -110,12 +117,6 @@ void GeneratorFunctionCall(FunctionCall *functionCall) {
             break;
         case PRESENT_CALL:
             Output("present(");
-            GeneratorExpression(functionCall->expression);
-            Output(")");
-            break;
-        case ADD_TREE_CALL:
-            GeneratorDeclaration(functionCall->declaration);
-            Output("%s.add(", functionCall->declaration->varname);
             GeneratorExpression(functionCall->expression);
             Output(")");
             break;

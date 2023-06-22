@@ -117,6 +117,11 @@ FunctionCall *FunctionDeclarationGrammarAction(char *varname, Declaration *decla
         exit(1);
     }
 
+    if (declaration->type == INT_DECLARATION) {
+        LogError("Variable %s is an integer", declaration->varname);
+        exit(1);
+    }
+
     return createFunctionCall(callType, varname, NULL, declaration);
 }
 

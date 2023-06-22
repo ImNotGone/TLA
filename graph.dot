@@ -1,0 +1,15 @@
+digraph "tree" {
+"1" ["fillcolor"="white","color"="red","style"="filled"]
+"nil0" ["label"="nil"]
+"nil1" ["label"="nil"]
+"2" ["fillcolor"="white","color"="black","style"="filled"]
+"3" ["fillcolor"="white","color"="red","style"="filled"]
+"nil2" ["label"="nil"]
+"nil3" ["label"="nil"]
+"1" -> "nil0"
+"1" -> "nil1"
+"2" -> "1"
+"2" -> "3"
+"3" -> "nil2"
+"3" -> "nil3"
+}

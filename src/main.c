@@ -21,6 +21,14 @@ const int main(const int argumentCount, const char ** arguments) {
 		LogInfo("Argumento %d: '%s'", i, arguments[i]);
 	}
 
+    bool testMode = false;
+    if (argumentCount == 2) {
+        char *test = "--test";
+        if (strcmp(arguments[1], test) == 0) {
+            testMode = true;
+        }
+    }
+
 	// Compilar el programa de entrada.
 	LogInfo("Compilando...\n");
     symbolTableInit();
@@ -32,11 +40,29 @@ const int main(const int argumentCount, const char ** arguments) {
 			if (state.succeed) {
 				LogInfo("La compilacion fue exitosa.");
 
-                FILE * file = fopen("./src/backend/domain-specific/src/main/java/Main.java", "w");
                 
+                if (testMode) {
+                    symbolTableDestroy();
+                    freeProgram(state.program);
+                    LogInfo("Fin.");
+                    return 0;
+                }
+                
+                FILE * file = fopen("./src/backend/domain-specific/src/main/java/Main.java", "w");
+
                 SetOutputFile(file);
 
 				GeneratorProgram(state.program);
+
+                fclose(file);
+
+                LogInfo("El archivo Main.java fue generado exitosamente.");
+
+                // Compile the generated file
+                system("mvn -f ./src/backend/domain-specific/pom.xml clean compile");
+                
+                // Run the generated file
+                system("mvn -f ./src/backend/domain-specific/pom.xml exec:java -Dexec.mainClass=\"Main\"");
 			}
 			else {
 				LogError("Se produjo un error en la aplicacion.");

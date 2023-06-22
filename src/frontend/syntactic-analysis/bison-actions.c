@@ -35,6 +35,7 @@ static int usedSymbolsCount = 0;
 static inline VarType SymbolTableDeclareAux(char *varname, DeclarationType type, bool hasValue);
 
 static void AddUsedSymbol(char *varname, VarType expectedType);
+static int getExpressionType(Expression * expression);
 static void ValidateUsedSymbols();
 
 /**
@@ -159,11 +160,19 @@ Assignment *AssignmentGrammarAction(char *var, Expression *exp, FunctionCall *fu
 
 RangeExpression *RangeExpressionGrammarAction(Expression *exp1, Expression *exp2) {
     LogDebug("\tRangeExpressionGrammarAction");
+    if (getExpressionType(exp1)!=VAR_INT || getExpressionType(exp2)!=VAR_INT){
+        LogError("Parametros invalidos\n");
+        exit(1);
+    }
     return createRangeExpression(exp1, exp2);
 }
 
 Expression *ExpressionGrammarAction(Expression *left, Expression *right, Factor *factor, ExpressionType type) {
     LogDebug("\tExpressionGrammarAction of type (%d)", type);
+    if(getExpressionType(left)!= getExpressionType(right)){
+        LogError("Parametros invalidos\n");
+        exit(1);
+    }
     return createExpression(type, left, right, factor);
 }
 
@@ -271,5 +280,27 @@ static void ValidateUsedSymbols() {
             LogError("Variable %s is not of type %d", key.varname, usedSymbolsExpectedType[i]);
             exit(1);
         }
+    }
+}
+
+static int getExpressionType(Expression * expression) {
+    switch(expression->type) {
+        case ADDITION_EXPRESSION:
+        case SUBTRACTION_EXPRESSION:
+        case MULTIPLICATION_EXPRESSION:
+        case DIVISION_EXPRESSION:
+            return VAR_INT;
+        case FACTOR_EXPRESSION:
+            switch(expression->factor->type) {
+                case CONSTANT_FACTOR:
+                    return VAR_INT;
+                case EXPRESSION_FACTOR:
+                    return getExpressionType(expression);
+                default:
+                    return -1;
+            }
+            //TODO BOOLEAN expressions
+        default:
+            return -1;
     }
 }

@@ -141,6 +141,16 @@ void GeneratorDeclaration(Declaration *declaration) {
             Output("int ");
             if (declaration->assignment != NULL) {
                 GeneratorAssignment(declaration->assignment);
+                Output(";\n");
+            } else {
+                Output("%s;\n", declaration->varname);
+            }
+            break;
+        case BOOL_DECLARATION:
+            Output("boolean ");
+            if (declaration->assignment != NULL) {
+                GeneratorAssignment(declaration->assignment);
+                Output(";\n");
             } else {
                 Output("%s;\n", declaration->varname);
             }
@@ -186,7 +196,9 @@ void GeneratorBlock(Block *block) {
 }
 
 void GeneratorExpression(Expression *expression) {
-    Output("(");
+    if (expression->type == MODULUS_EXPRESSION) {
+        printf("MODULUS\n");
+    }
     switch (expression->type) {
         case ADDITION_EXPRESSION:
             GeneratorExpression(expression->leftExpression);
@@ -210,7 +222,7 @@ void GeneratorExpression(Expression *expression) {
             break;
         case MODULUS_EXPRESSION:
             GeneratorExpression(expression->leftExpression);
-            Output(" % ");
+            Output(" %c ", '%');
             GeneratorExpression(expression->rightExpression);
             break;
         case AND_EXPRESSION:
@@ -263,7 +275,6 @@ void GeneratorExpression(Expression *expression) {
         default:
             break;
     }
-    Output(")");
 }
 
 void GeneratorFactor(Factor *factor) {

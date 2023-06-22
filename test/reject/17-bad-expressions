@@ -3,6 +3,8 @@
 int a = 0;
 int b = 1;
 
+a = b + true;
+
 b = (a == 3);
 
 if (a & 8) {

@@ -63,13 +63,14 @@
 %type <constant> constant
 
 // Reglas de asociatividad y precedencia (de menor a mayor).
-%left ADD SUB
-%left MUL DIV
-%left MOD
-%left AND OR NOT
+%left ASSIGN
+%left OR
+%left AND
 %left EQ NE
 %left LT LE GT GE
-%left ASSIGN
+%left ADD SUB
+%left MUL DIV MOD
+%left NOT
 
 // El símbolo inicial de la gramatica.
 %start program
@@ -160,7 +161,7 @@ factor: OPEN_PARENTHESIS expression[exp] CLOSE_PARENTHESIS                      
       | VARIABLE[var]                                                                    { $$ = FactorGrammarAction(NULL, NULL, $var, VARIABLE_FACTOR); }
       ;
 
-constant: INTEGER                                                                        { $$ = ConstantGrammarAction($1, false, INT_CONSTANT); }
-        | BOOLEAN                                                                        { $$ = ConstantGrammarAction(-1, $1, BOOL_CONSTANT); }
+constant: INTEGER[integer]                                                               { $$ = ConstantGrammarAction($integer, false, INT_CONSTANT); }
+        | BOOLEAN[boolean]                                                               { $$ = ConstantGrammarAction(-1, $boolean, BOOL_CONSTANT); }
         ;
 %%

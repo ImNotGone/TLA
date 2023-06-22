@@ -35,7 +35,8 @@ static int usedSymbolsCount = 0;
 static inline VarType SymbolTableDeclareAux(char *varname, DeclarationType type, bool hasValue);
 
 static void AddUsedSymbol(char *varname, VarType expectedType);
-static int getExpressionType(Expression * expression);
+static int getExpressionType(Expression *expression);
+static int getFunctionCallType(FunctionCall *functionCall);
 static void ValidateUsedSymbols();
 
 /**
@@ -89,6 +90,12 @@ Statement *StatementGrammarAction(void *statement, StatementType type) {
 IfStatement *IfStatementGrammarAction(Expression *cond, Block *if_block, Block *else_block) {
     // Todo ver impresion de block2 en caso de NULL
     //    LogDebug("\tIfStatementGrammarAction(%d, %d, %d)", exp, block1, block2);
+    
+    if (getExpressionType(cond) != VAR_BOOL) {
+        LogError("Condition must be a boolean expression");
+        exit(1);
+    }
+
     IfStatementType type = IF_ELSE_TYPE;
     if (else_block == NULL) {
         type = IF_TYPE;
@@ -106,6 +113,12 @@ ForStatement *ForStatementGrammarAction(char *varname, RangeExpression *range, B
 
 WhileStatement *WhileStatementGrammarAction(Expression *cond, Block *block) {
     LogDebug("\tWhileStatementGrammarAction");
+
+    if (getExpressionType(cond) != VAR_BOOL) {
+        LogError("Condition must be a boolean expression");
+        exit(1);
+    }
+
     return createWhileStatement(cond, block);
 }
 
@@ -148,7 +161,17 @@ Assignment *AssignmentGrammarAction(char *var, Expression *exp, FunctionCall *fu
     }
 
     if (value.type != VAR_INT && value.type != VAR_BOOL) {
-        LogError("Variable %s is not an integer", var);
+        LogError("Variable %s is not an integer nor a boolean", var);
+        exit(1);
+    }
+
+    if (functionCall != NULL && getFunctionCallType(functionCall) != value.type) {
+        LogError("Function return cannot be assigned to %s", var);
+        exit(1);
+    }
+
+    if (exp != NULL && getExpressionType(exp) != value.type) {
+        LogError("Expression cannot be assigned to %s", var);
         exit(1);
     }
 
@@ -161,7 +184,7 @@ Assignment *AssignmentGrammarAction(char *var, Expression *exp, FunctionCall *fu
 RangeExpression *RangeExpressionGrammarAction(Expression *exp1, Expression *exp2) {
     LogDebug("\tRangeExpressionGrammarAction");
 
-    if ((exp1 != NULL && getExpressionType(exp1) != VAR_INT) || (exp2 && getExpressionType(exp2) != VAR_INT)){
+    if ((exp1 != NULL && getExpressionType(exp1) != VAR_INT) || (exp2 && getExpressionType(exp2) != VAR_INT)) {
         LogError("Parametros invalidos\n");
         exit(1);
     }
@@ -170,23 +193,35 @@ RangeExpression *RangeExpressionGrammarAction(Expression *exp1, Expression *exp2
 
 Expression *ExpressionGrammarAction(Expression *left, Expression *right, Factor *factor, ExpressionType type) {
     LogDebug("\tExpressionGrammarAction of type (%d)", type);
-
-    if(left != NULL && right != NULL && getExpressionType(left) != getExpressionType(right)){
+    
+    VarType leftType, rightType;
+    if (left != NULL && right != NULL && (leftType = getExpressionType(left)) != (rightType = getExpressionType(right))) {
         LogError("Parametros invalidos\n");
         exit(1);
     }
+
+    VarType expectedFactorType;
+    if (type == AND_EXPRESSION || type == OR_EXPRESSION || type == NOT_EXPRESSION) {
+        expectedFactorType = VAR_BOOL;
+    } else {
+        expectedFactorType = VAR_INT;
+    }
+    
+    if (left != NULL && left->type == FACTOR_EXPRESSION && left->factor->type == VARIABLE_FACTOR) {
+        AddUsedSymbol(left->factor->varname, expectedFactorType);
+    }
+
+    if (right != NULL && right->type == FACTOR_EXPRESSION && right->factor->type == VARIABLE_FACTOR) {
+        AddUsedSymbol(right->factor->varname, expectedFactorType);
+    }
+
     return createExpression(type, left, right, factor);
 }
 
 Factor *FactorGrammarAction(Expression *exp, Constant *con, char *varname, FactorType type) {
     LogDebug("\tFactorGrammarAction of type (%d)", type);
 
-    if (type == VARIABLE_FACTOR) {
-        struct key key = {.varname = varname};
-        struct value value;
-
-        AddUsedSymbol(varname, VAR_INT);
-    }
+    
     return createFactor(type, exp, con, varname);
 }
 
@@ -232,13 +267,22 @@ static inline VarType SymbolTableDeclareAux(char *varname, DeclarationType type,
 Declaration *DeclarationGrammarAction(char *varname, DeclarationType type) {
     LogDebug("\tDeclarationGrammarAction");
     VarType varType = SymbolTableDeclareAux(varname, type, false);
-    // TODO: ver lo de assingment
     return createDeclaration(varType, varname, NULL);
 }
 
 Declaration *IntDeclarationAndAssignmentGrammarAction(char *varname, Expression *exp, FunctionCall *functionCall) {
     LogDebug("\tIntDeclarationAndAssignmentGrammarAction");
     VarType varType = SymbolTableDeclareAux(varname, INT_DECLARATION, true);
+
+    if (functionCall != NULL && getFunctionCallType(functionCall) != VAR_INT) {
+        LogError("Function return cannot be assigned to %s", varname);
+        exit(1);
+    }
+
+    if (exp != NULL && getExpressionType(exp) != VAR_INT) {
+        LogError("Expression cannot be assigned to %s", varname);
+        exit(1);
+    }
 
     Assignment *assignment = createAssignment(varname, exp, functionCall);
     return createDeclaration(varType, varname, assignment);
@@ -248,6 +292,16 @@ Declaration *BoolDeclarationAndAssignmentGrammarAction(char *varname, Expression
     LogDebug("\tBoolDeclarationAndAssignmentGrammarAction");
     VarType varType = SymbolTableDeclareAux(varname, BOOL_DECLARATION, true);
 
+    if (functionCall != NULL && getFunctionCallType(functionCall) != VAR_BOOL) {
+        LogError("Function return cannot be assigned to %s", varname);
+        exit(1);
+    }
+
+    if (exp != NULL && getExpressionType(exp) != VAR_BOOL) {
+        LogError("Expression cannot be assigned to %s", varname);
+        exit(1);
+    }
+
     Assignment *assignment = createAssignment(varname, exp, functionCall);
     return createDeclaration(varType, varname, assignment);
 }
@@ -255,6 +309,16 @@ Declaration *BoolDeclarationAndAssignmentGrammarAction(char *varname, Expression
 // Adds to the used symbols array
 static void AddUsedSymbol(char *varname, VarType expectedType) {
     struct key key = {.varname = varname};
+
+    for (int i = 0; i < usedSymbolsCount; i++) {
+        if (strcmp(usedSymbols[i].varname, varname) == 0) {
+            if (usedSymbolsExpectedType[i] != expectedType) {
+                LogError("Variable %s conflicting types", varname);
+                exit(1);
+            }
+            return;
+        }
+    }
 
     if (usedSymbolsCount == 0) {
         usedSymbols = malloc(sizeof(struct key));
@@ -264,8 +328,12 @@ static void AddUsedSymbol(char *varname, VarType expectedType) {
         usedSymbolsExpectedType = realloc(usedSymbolsExpectedType, sizeof(VarType) * (usedSymbolsCount + 10));
     }
 
+    printf("Adding %s\n", varname);
+
     usedSymbols[usedSymbolsCount] = key;
     usedSymbolsExpectedType[usedSymbolsCount++] = expectedType;
+
+    printf("Added %s\n", usedSymbols[usedSymbolsCount - 1].varname);
 }
 
 // Validates that all the symbols used in the program are declared
@@ -291,44 +359,66 @@ static void ValidateUsedSymbols() {
     }
 }
 
-static int getExpressionType(Expression * expression) {
+static int getExpressionType(Expression *expression) {
     struct key key;
     struct value value;
-    switch(expression->type) {
-        case ADDITION_EXPRESSION:
-        case SUBTRACTION_EXPRESSION:
-        case MULTIPLICATION_EXPRESSION:
-        case DIVISION_EXPRESSION:
-        case MODULUS_EXPRESSION:
-            return VAR_INT;
-        case AND_EXPRESSION:
-        case OR_EXPRESSION:
-        case EQUALS_EXPRESSION:
-        case NOT_EQUALS_EXPRESSION:
-        case LESS_THAN_EXPRESSION:
-        case LEES_EQUAL_EXPRESSION:
-        case GREATER_THAN_EXPRESSION:
-        case GREATER_EQUAL_EXPRESSION:
-            return VAR_BOOL;
-        case FACTOR_EXPRESSION:
-            switch(expression->factor->type) {
-                case CONSTANT_FACTOR:
-                    return expression->factor->constant->type == INT_CONSTANT ? VAR_INT : VAR_BOOL;
-                case EXPRESSION_FACTOR:
-                    return getExpressionType(expression);
-                case VARIABLE_FACTOR:
-                    key.varname = expression->factor->varname;
-                    if (!symbolTableFind(&key, &value)) {
-                        LogError("Variable %s undeclared", key.varname);
-                        exit(1);
-                    }
-                    return value.type;
-                default:
-                    LogError("Invalid factor type");
-                    exit(1);
+    switch (expression->type) {
+    case ADDITION_EXPRESSION:
+    case SUBTRACTION_EXPRESSION:
+    case MULTIPLICATION_EXPRESSION:
+    case DIVISION_EXPRESSION:
+    case MODULUS_EXPRESSION:
+        return (getExpressionType(expression->leftExpression) == VAR_INT && getExpressionType(expression->rightExpression) == VAR_INT)
+                   ? VAR_INT
+                   : -1;
+    case AND_EXPRESSION:
+    case OR_EXPRESSION:
+        return (getExpressionType(expression->leftExpression) == VAR_BOOL && getExpressionType(expression->rightExpression) == VAR_BOOL)
+                   ? VAR_BOOL
+                   : -1;
+    case NOT_EXPRESSION:
+        return getExpressionType(expression->leftExpression) == VAR_BOOL ? VAR_BOOL : -1;
+    case EQUALS_EXPRESSION:
+    case NOT_EQUALS_EXPRESSION:
+    case LESS_THAN_EXPRESSION:
+    case LEES_EQUAL_EXPRESSION:
+    case GREATER_THAN_EXPRESSION:
+    case GREATER_EQUAL_EXPRESSION:
+        return (getExpressionType(expression->leftExpression) == getExpressionType(expression->rightExpression))
+                   ? VAR_BOOL
+                   : -1;
+    case FACTOR_EXPRESSION:
+        switch (expression->factor->type) {
+        case CONSTANT_FACTOR:
+            return expression->factor->constant->type == INT_CONSTANT ? VAR_INT : VAR_BOOL;
+        case EXPRESSION_FACTOR:
+            return getExpressionType(expression->factor->expression);
+        case VARIABLE_FACTOR:
+            key.varname = expression->factor->varname;
+            if (!symbolTableFind(&key, &value)) {
+                // It is a for loop iterator
+                return VAR_INT;
             }
+            return value.type;
         default:
-            LogError("Invalid expression type");
+            LogError("Invalid factor type");
             exit(1);
+        }
+    default:
+        LogError("Invalid expression type");
+        exit(1);
+    }
+}
+
+static int getFunctionCallType(FunctionCall *functionCall) {
+    switch (functionCall->type) {
+    case MAX_CALL:
+    case MIN_CALL:
+    case HEIGHT_CALL:
+        return VAR_INT;
+    case PRESENT_CALL:
+        return VAR_BOOL;
+    default:
+        return -1;
     }
 }

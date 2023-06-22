@@ -335,6 +335,8 @@ Constant * createConstant(int intValue, bool boolValue, ConstantType type) {
         new->boolValue = boolValue;
     }
 
+    new->type = type;
+
     return new;
 }
 

@@ -63,7 +63,7 @@ void GeneratorFunctionCall(FunctionCall *functionCall) {
 
     if (functionCall->type == ADD_TREE_CALL) {
         GeneratorDeclaration(functionCall->declaration);
-        Output("%s.add(%s);\n", functionCall->declaration->varname, functionCall->varname);
+        Output("%s.addTree(%s);\n", functionCall->declaration->varname, functionCall->varname);
         return;
     }
 
@@ -115,7 +115,7 @@ void GeneratorFunctionCall(FunctionCall *functionCall) {
             Output(")");
             break;
         case PRESENT_CALL:
-            Output("present(");
+            Output("isPresent(");
             GeneratorExpression(functionCall->expression);
             Output(")");
             break;
@@ -129,13 +129,13 @@ void GeneratorFunctionCall(FunctionCall *functionCall) {
 void GeneratorDeclaration(Declaration *declaration) {
     switch (declaration->type) {
         case RBT_DECLARATION:
-            Output("Tree %s = new RBT();\n", declaration->varname);
+            Output("Tree<Integer> %s = new RBT<>();\n", declaration->varname);
             break;
         case AVL_DECLARATION:
-            Output("Tree %s = new AVL();\n", declaration->varname);
+            Output("Tree<Integer> %s = new AVL<>();\n", declaration->varname);
             break;
         case BST_DECLARATION:
-            Output("Tree %s = new BST();\n", declaration->varname);
+            Output("Tree<Integer> %s = new BST<>();\n", declaration->varname);
             break;
         case INT_DECLARATION:
             Output("int ");
@@ -287,11 +287,16 @@ void GeneratorConstant(Constant *constant) {
 }
 
 #include <stdarg.h>
-#include <stdio.h>
+
+static FILE *outputFile;
+
+void SetOutputFile(FILE *file) {
+    outputFile = file;
+}
 
 void Output(char *format, ...) {
     va_list args;
     va_start(args, format);
-    vprintf(format, args);
+    vfprintf(outputFile, format, args);
     va_end(args);
 }

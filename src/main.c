@@ -31,6 +31,11 @@ const int main(const int argumentCount, const char ** arguments) {
 			// inicial de la gramática satisfactoriamente.
 			if (state.succeed) {
 				LogInfo("La compilacion fue exitosa.");
+
+                FILE * file = fopen("./src/backend/domain-specific/src/main/java/Main.java", "w");
+                
+                SetOutputFile(file);
+
 				GeneratorProgram(state.program);
 			}
 			else {

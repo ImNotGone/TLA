@@ -2,8 +2,11 @@
 #define GENERATOR_HEADER
 
 #include "../semantic-analysis/abstract-syntax-tree.h"
+#include <stdio.h>
 
 void Output(char *format, ...);
+
+void SetOutputFile(FILE *file);
 
 void GeneratorProgram(Program *program);
 

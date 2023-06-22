@@ -50,13 +50,13 @@ void GeneratorStatement(Statement *statement) {
 
 void GeneratorAssignment(Assignment *assignment) {
     Output("%s = ", assignment->varname);
-    if (assignment->expression == NULL) {
-        Output("null;\n");
-        return;
-    }
-    GeneratorExpression(assignment->expression);
-    Output(";\n");
+    if (assignment->expression != NULL) {
+        GeneratorExpression(assignment->expression);
+    } 
 
+    if (assignment->functionCall != NULL) {
+        GeneratorFunctionCall(assignment->functionCall);
+    }
 }
 
 void GeneratorFunctionCall(FunctionCall *functionCall) {

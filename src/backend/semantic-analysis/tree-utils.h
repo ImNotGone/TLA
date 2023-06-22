@@ -31,6 +31,8 @@ void freeExpression(Expression * expression);
 
 void freeFactor(Factor * factor);
 
+void freeConstant(Constant *constant);
+
 void freeVariable(char * variable);
 
 // ===================== Create functions ========================
@@ -60,6 +62,6 @@ Expression * createExpression(ExpressionType type, Expression * left, Expression
 
 Factor * createFactor(FactorType type, Expression * exp, Constant * con, char * var);
 
-Constant * createConstant(int value);
+Constant * createConstant(int intValue, bool boolValue, ConstantType type);
 
 #endif

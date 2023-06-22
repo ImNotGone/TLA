@@ -13,8 +13,16 @@ typedef struct StatementNode * StatementList;
 * Para cada no-terminal se define una nueva estructura que representa su tipo
 * de dato y, por lo tanto, su nodo en el AST (Árbol de Sintaxis Abstracta).
 */
+
+typedef enum {
+    INT_CONSTANT,
+    BOOL_CONSTANT,
+} ConstantType;
+
 typedef struct {
-	int value;
+	int intValue;
+    bool boolValue;
+    ConstantType type;
 } Constant;
 
 /**
@@ -120,6 +128,7 @@ typedef enum {
     AVL_DECLARATION,
 	INT_DECLARATION,
 	// INT_DECLARATION_AND_ASSIGNMENT?
+    BOOL_DECLARATION,
 } DeclarationType;
 
 

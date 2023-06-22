@@ -18,6 +18,7 @@
 
 /* Patrones reutilizables. */
 digit			    [0-9]
+boolean			    (true|false)
 endline			    [\n]
 whitespace		    [ \f\n\r\t\v]
 declarationName     [A-Za-z][A-Za-z0-9]*
@@ -56,6 +57,7 @@ declarationName     [A-Za-z][A-Za-z0-9]*
 "else"                                      { return ELSE;}
 
 "int"                                       {yylval.token = INT; return INT;}
+"bool"                                      {yylval.token = BOOL; return BOOL;}
 
 "RBT"                                       {yylval.token = RBT; return RBT;}
 "AVL"                                       {yylval.token = AVL; return AVL;}
@@ -84,6 +86,7 @@ declarationName     [A-Za-z][A-Za-z0-9]*
 <COMMENT>"*/"								{ EndCommentPatternAction(); BEGIN(INITIAL); }
 
 {digit}+									{ return IntegerPatternAction(yytext, yyleng); }
+{boolean}									{ return BooleanPatternAction(yytext, yyleng); }
 
 {whitespace}+								{ IgnoredPatternAction(yytext, yyleng); }
 

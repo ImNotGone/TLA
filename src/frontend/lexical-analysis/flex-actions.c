@@ -52,6 +52,13 @@ token IntegerPatternAction(const char * lexeme, const int length) {
 	return INTEGER;
 }
 
+token BooleanPatternAction(const char * lexeme, const int length) {
+    LogDebug("BooleanPatternAction: '%s' (length = %d).", lexeme, length);
+    bool isTrue = (strcmp(lexeme, "true") == 0);
+    yylval.boolean = isTrue;
+    return BOOLEAN;
+}
+
 token MultiplicationOperatorPatternAction(const char * lexeme) {
 	LogDebug("MultiplicationOperatorPatternAction: '%s'.", lexeme);
 	yylval.token = MUL;

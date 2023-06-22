@@ -283,7 +283,11 @@ void GeneratorFactor(Factor *factor) {
 }
 
 void GeneratorConstant(Constant *constant) {
-    Output("%d", constant->value);
+    if (constant->type == INT_CONSTANT) {
+        Output("%d", constant->intValue);
+    } else {
+        Output("%s", constant->boolValue ? "true" : "false");
+    }
 }
 
 #include <stdarg.h>

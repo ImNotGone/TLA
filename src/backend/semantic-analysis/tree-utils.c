@@ -167,11 +167,20 @@ void freeFactor(Factor *factor) {
         case VARIABLE_FACTOR:
             freeVariable(factor->varname);
             break;
-        default:
+        case CONSTANT_FACTOR:
+            freeConstant(factor->constant);
             break;
     }
 
     free(factor);
+}
+
+void freeConstant(Constant *constant) {
+    if (constant == NULL) {
+        return;
+    }
+
+    free(constant);
 }
 
 void freeVariable(char *varname) {
@@ -317,10 +326,14 @@ Factor * createFactor(FactorType type, Expression * exp, Constant * con, char * 
     return new;
 }
 
-Constant * createConstant(int value) {
+Constant * createConstant(int intValue, bool boolValue, ConstantType type) {
     Constant * new = malloc(sizeof(Constant));
 
-    new->value = value;
+    if (type == INT_CONSTANT) {
+        new->intValue = intValue;
+    } else {
+        new->boolValue = boolValue;
+    }
 
     return new;
 }

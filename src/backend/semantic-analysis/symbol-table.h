@@ -11,7 +11,8 @@ typedef enum VarType {
     VAR_RBT,
     VAR_BST,
     VAR_AVL,
-    VAR_INT
+    VAR_INT,
+    VAR_BOOL
 } VarType;
 
 struct metadata {

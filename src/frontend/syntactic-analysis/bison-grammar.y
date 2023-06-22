@@ -27,6 +27,7 @@
 	// Terminales.
 	token token;
 	int integer;
+    bool boolean;
 }
 
 // IDs y tipos de los tokens terminales generados desde Flex.
@@ -37,12 +38,13 @@
 %token <token> COMMA
 %token <token> OPEN_PARENTHESIS CLOSE_PARENTHESIS OPEN_CURL_BRACKETS CLOSE_CURL_BRACKETS SEMI_COLON
 %token <token> FOR IN WHILE IF ELSE
-%token <token> INT
+%token <token> INT BOOL
 %token <token> RBT AVL BST
 %token <token> NEW_TREE PRINT INSERT REMOVE INORDER POSTORDER PREORDER REDUCE FIND PRESENT ADD_TREE MAX MIN HEIGHT ROOT
 
 %token <varname> VARIABLE
 %token <integer> INTEGER
+%token <boolean> BOOLEAN
 
 // Tipos de dato para los no-terminales generados desde Bison.
 %type <program> program
@@ -123,8 +125,11 @@ declaration: NEW_TREE BST VARIABLE[var]                                         
            | NEW_TREE AVL VARIABLE[var]                                                  { $$ = DeclarationGrammarAction($var, AVL_DECLARATION); }
            | NEW_TREE RBT VARIABLE[var]                                                  { $$ = DeclarationGrammarAction($var, RBT_DECLARATION); }
            | INT VARIABLE[var]                                                           { $$ = DeclarationGrammarAction($var, INT_DECLARATION); }
+           | BOOL VARIABLE[var]                                                          { $$ = DeclarationGrammarAction($var, BOOL_DECLARATION); }
            | INT VARIABLE[var] ASSIGN expression[exp]                                    { $$ = IntDeclarationAndAssignmentGrammarAction($var, $exp, NULL); }
            | INT VARIABLE[var] ASSIGN function_call[call]                                { $$ = IntDeclarationAndAssignmentGrammarAction($var, NULL, $call); }
+           | BOOL VARIABLE[var] ASSIGN expression[exp]                                   { $$ = BoolDeclarationAndAssignmentGrammarAction($var, $exp, NULL); }
+           | BOOL VARIABLE[var] ASSIGN function_call[call]                               { $$ = BoolDeclarationAndAssignmentGrammarAction($var, NULL, $call); }
            ;
 
 assignment: VARIABLE[var] ASSIGN expression[exp]                                         { $$ = AssignmentGrammarAction($var, $exp, NULL); }
@@ -155,6 +160,7 @@ factor: OPEN_PARENTHESIS expression[exp] CLOSE_PARENTHESIS                      
       | VARIABLE[var]                                                                    { $$ = FactorGrammarAction(NULL, NULL, $var, VARIABLE_FACTOR); }
       ;
 
-constant: INTEGER                                                                        { $$ = ConstantGrammarAction($1); }
+constant: INTEGER                                                                        { $$ = ConstantGrammarAction($1, false, INT_CONSTANT); }
+        | BOOLEAN                                                                        { $$ = ConstantGrammarAction(-1, $1, BOOL_CONSTANT); }
         ;
 %%

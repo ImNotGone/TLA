@@ -147,7 +147,7 @@ Assignment *AssignmentGrammarAction(char *var, Expression *exp, FunctionCall *fu
         exit(1);
     }
 
-    if (value.type != VAR_INT) {
+    if (value.type != VAR_INT && value.type != VAR_BOOL) {
         LogError("Variable %s is not an integer", var);
         exit(1);
     }
@@ -190,9 +190,9 @@ Factor *FactorGrammarAction(Expression *exp, Constant *con, char *varname, Facto
     return createFactor(type, exp, con, varname);
 }
 
-Constant *ConstantGrammarAction(int value) {
+Constant *ConstantGrammarAction(int intValue, bool boolValue, ConstantType type) {
     LogDebug("\tConstantGrammarAction");
-    return createConstant(value);
+    return createConstant(intValue, boolValue, type);
 }
 
 // TODO: add assignment
@@ -202,6 +202,9 @@ static inline VarType SymbolTableDeclareAux(char *varname, DeclarationType type,
     switch (type) {
     case INT_DECLARATION:
         varType = VAR_INT;
+        break;
+    case BOOL_DECLARATION:
+        varType = VAR_BOOL;
         break;
     case RBT_DECLARATION:
         varType = VAR_RBT;
@@ -241,9 +244,12 @@ Declaration *IntDeclarationAndAssignmentGrammarAction(char *varname, Expression 
     return createDeclaration(varType, varname, assignment);
 }
 
-int IntegerConstantGrammarAction(int value) {
-    LogDebug("\tIntegerConstantGrammarAction(%d)", value);
-    return value;
+Declaration *BoolDeclarationAndAssignmentGrammarAction(char *varname, Expression *exp, FunctionCall *functionCall) {
+    LogDebug("\tBoolDeclarationAndAssignmentGrammarAction");
+    VarType varType = SymbolTableDeclareAux(varname, BOOL_DECLARATION, true);
+
+    Assignment *assignment = createAssignment(varname, exp, functionCall);
+    return createDeclaration(varType, varname, assignment);
 }
 
 // Adds to the used symbols array
@@ -286,23 +292,43 @@ static void ValidateUsedSymbols() {
 }
 
 static int getExpressionType(Expression * expression) {
+    struct key key;
+    struct value value;
     switch(expression->type) {
         case ADDITION_EXPRESSION:
         case SUBTRACTION_EXPRESSION:
         case MULTIPLICATION_EXPRESSION:
         case DIVISION_EXPRESSION:
+        case MODULUS_EXPRESSION:
             return VAR_INT;
+        case AND_EXPRESSION:
+        case OR_EXPRESSION:
+        case EQUALS_EXPRESSION:
+        case NOT_EQUALS_EXPRESSION:
+        case LESS_THAN_EXPRESSION:
+        case LEES_EQUAL_EXPRESSION:
+        case GREATER_THAN_EXPRESSION:
+        case GREATER_EQUAL_EXPRESSION:
+            return VAR_BOOL;
         case FACTOR_EXPRESSION:
             switch(expression->factor->type) {
                 case CONSTANT_FACTOR:
-                    return VAR_INT;
+                    return expression->factor->constant->type == INT_CONSTANT ? VAR_INT : VAR_BOOL;
                 case EXPRESSION_FACTOR:
                     return getExpressionType(expression);
+                case VARIABLE_FACTOR:
+                    key.varname = expression->factor->varname;
+                    if (!symbolTableFind(&key, &value)) {
+                        LogError("Variable %s undeclared", key.varname);
+                        exit(1);
+                    }
+                    return value.type;
                 default:
-                    return -1;
+                    LogError("Invalid factor type");
+                    exit(1);
             }
-            //TODO BOOLEAN expressions
         default:
-            return -1;
+            LogError("Invalid expression type");
+            exit(1);
     }
 }

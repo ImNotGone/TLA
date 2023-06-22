@@ -8,7 +8,6 @@ class BSTInorderIterator<T extends Comparable<? super T>> implements Iterator<No
     public BSTInorderIterator(Node<T> root) {
         stack= new Stack<>();
         current= root;
-
     }
 
     @Override

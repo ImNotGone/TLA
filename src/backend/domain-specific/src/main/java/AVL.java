@@ -1,6 +1,6 @@
 import java.util.function.Function;
 
-class AVLTree<T extends Comparable<? super T>> extends Tree<T> {
+class AVL<T extends Comparable<? super T>> extends Tree<T> {
     @Override
     public void insert(T element) {
         root = insert(root, element);
@@ -28,13 +28,8 @@ class AVLTree<T extends Comparable<? super T>> extends Tree<T> {
     }
 
     @Override
-    public Node<T> root() {
-        return root;
-    }
-
-    @Override
     <E extends Comparable<? super E>> Tree<E> reduce(Function<T, E> function) {
-        Tree<E> tree = new AVLTree<>();
+        Tree<E> tree = new AVL<>();
 
         for (Node<T> element : this) {
             tree.insert(function.apply(element.getData()));

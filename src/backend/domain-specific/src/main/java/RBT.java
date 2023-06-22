@@ -7,7 +7,7 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
     private Node<T> TNULL;
 
     public RBT() {
-        TNULL = new Node<T>();
+        TNULL = new Node<>();
         root = TNULL;
     }
 

@@ -160,7 +160,8 @@ Assignment *AssignmentGrammarAction(char *var, Expression *exp, FunctionCall *fu
 
 RangeExpression *RangeExpressionGrammarAction(Expression *exp1, Expression *exp2) {
     LogDebug("\tRangeExpressionGrammarAction");
-    if (getExpressionType(exp1)!=VAR_INT || getExpressionType(exp2)!=VAR_INT){
+
+    if ((exp1 != NULL && getExpressionType(exp1) != VAR_INT) || (exp2 && getExpressionType(exp2) != VAR_INT)){
         LogError("Parametros invalidos\n");
         exit(1);
     }
@@ -169,7 +170,8 @@ RangeExpression *RangeExpressionGrammarAction(Expression *exp1, Expression *exp2
 
 Expression *ExpressionGrammarAction(Expression *left, Expression *right, Factor *factor, ExpressionType type) {
     LogDebug("\tExpressionGrammarAction of type (%d)", type);
-    if(getExpressionType(left)!= getExpressionType(right)){
+
+    if(left != NULL && right != NULL && getExpressionType(left) != getExpressionType(right)){
         LogError("Parametros invalidos\n");
         exit(1);
     }

@@ -70,7 +70,7 @@ public class Node<T extends Comparable<? super T>> {
         this.h = h;
     }
 
-    private boolean isLeaf() {
+    public boolean isLeaf() {
         return left == null && right == null;
     }
 

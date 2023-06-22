@@ -1,12 +1,15 @@
 import guru.nidi.graphviz.attribute.Style;
+import guru.nidi.graphviz.engine.Format;
+import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.model.MutableNode;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.function.Function;
 
-import static guru.nidi.graphviz.model.Factory.mutNode;
-import static guru.nidi.graphviz.model.Factory.nodeAttrs;
+import static guru.nidi.graphviz.model.Factory.*;
 
 public abstract class Tree<T extends Comparable<? super T>> implements Iterable<Node<T>>{
 
@@ -39,15 +42,24 @@ public abstract class Tree<T extends Comparable<? super T>> implements Iterable<
 
   // ===== For drawing =====
 
-  public void draw(){
+  public void draw() throws IOException {
+    graph = mutGraph("tree").setDirected(true);
     for (Node<T> node : this) {
       MutableNode mutNode = mutNode(node.getData().toString());
+
+//      nodeAttrs().add("fillcolor", node.getFillColor());
+//      nodeAttrs().add("color", node.getBorderColor());
+//      nodeAttrs().add(Style.FILLED);
+//      mutNode.add(nodeAttrs());
+
       if(node.getLeft() != null)
         mutNode.addLink(mutNode(node.getLeft().getData().toString()));
       if(node.getRight() != null)
         mutNode.addLink(mutNode(node.getRight().getData().toString()));
+
       graph.add(mutNode);
     }
+    Graphviz.fromGraph(graph).render(Format.DOT).toFile(new File("graph.dot"));
   }
 
   abstract void find(T element);

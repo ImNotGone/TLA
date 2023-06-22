@@ -36,11 +36,6 @@ class AVLTree<T extends Comparable<? super T>> extends Tree<T> {
     }
 
     @Override
-    public void draw() {
-        //TODO: Implement when JavaFX is working
-    }
-
-    @Override
     public void find(T element) {
         recursiveFindNode(root, element);
     }

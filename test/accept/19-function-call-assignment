@@ -1,2 +1,10 @@
+// TODO: fix
+
 new AVL t1;
-new AVL t2 <- t1
+new AVL t2 <- t1;
+
+insert t1 1;
+
+int a = present t1 1;
+
+int max = max t1;

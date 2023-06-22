@@ -51,6 +51,10 @@ void GeneratorStatement(Statement *statement) {
 
 void GeneratorAssignment(Assignment *assignment) {
     Output("%s = ", assignment->varname);
+    if (assignment->expression == NULL) {
+        Output("null;\n");
+        return;
+    }
     GeneratorExpression(assignment->expression);
     Output(";\n");
 
@@ -188,61 +192,76 @@ void GeneratorExpression(Expression *expression) {
             GeneratorExpression(expression->leftExpression);
             Output(" + ");
             GeneratorExpression(expression->rightExpression);
+            break;
         case SUBTRACTION_EXPRESSION:
             GeneratorExpression(expression->leftExpression);
             Output(" - ");
             GeneratorExpression(expression->rightExpression);
+            break;
         case MULTIPLICATION_EXPRESSION:
             GeneratorExpression(expression->leftExpression);
             Output(" * ");
             GeneratorExpression(expression->rightExpression);
+            break;
         case DIVISION_EXPRESSION:
             GeneratorExpression(expression->leftExpression);
             Output(" / ");
             GeneratorExpression(expression->rightExpression);
+            break;
         case MODULUS_EXPRESSION:
             GeneratorExpression(expression->leftExpression);
             Output(" % ");
             GeneratorExpression(expression->rightExpression);
+            break;
         case AND_EXPRESSION:
             GeneratorExpression(expression->leftExpression);
             Output(" && ");
             GeneratorExpression(expression->rightExpression);
+            break;
         case NOT_EXPRESSION:
             Output("!");
             GeneratorExpression(expression->leftExpression);
+            break;
         case OR_EXPRESSION:
             GeneratorExpression(expression->leftExpression);
             Output(" || ");
             GeneratorExpression(expression->rightExpression);
+            break;
         case EQUALS_EXPRESSION:
             GeneratorExpression(expression->leftExpression);
             Output(" == ");
             GeneratorExpression(expression->rightExpression);
+            break;
         case NOT_EQUALS_EXPRESSION:
             GeneratorExpression(expression->leftExpression);
             Output(" != ");
             GeneratorExpression(expression->rightExpression);
+            break;
         case LESS_THAN_EXPRESSION:
             GeneratorExpression(expression->leftExpression);
             Output(" < ");
             GeneratorExpression(expression->rightExpression);
+            break;
         case LEES_EQUAL_EXPRESSION:
             GeneratorExpression(expression->leftExpression);
             Output(" <= ");
             GeneratorExpression(expression->rightExpression);
+            break;
         case GREATER_THAN_EXPRESSION:
             GeneratorExpression(expression->leftExpression);
             Output(" > ");
             GeneratorExpression(expression->rightExpression);
+            break;
         case GREATER_EQUAL_EXPRESSION:
             GeneratorExpression(expression->leftExpression);
             Output(" >= ");
             GeneratorExpression(expression->rightExpression);
+            break;
         case FACTOR_EXPRESSION:
             GeneratorFactor(expression->factor);
-
-        
+            break;
+        default:
+            break;
     }
     Output(")");
 }

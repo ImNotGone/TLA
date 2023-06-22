@@ -57,6 +57,7 @@ Program *ProgramGrammarAction(StatementList statements) {
      * es utilizada en la función "main".
      */
     state.succeed = true;
+    state.program = createProgram(statements);
     /*
      * Por otro lado, "result" contiene el resultado de aplicar el análisis
      * sintáctico mediante Bison, y almacenar el nood raíz del AST construido
@@ -66,7 +67,7 @@ Program *ProgramGrammarAction(StatementList statements) {
      */
     // state.result = value;
     // return value;
-    return createProgram(statements);
+    return state.program;
 }
 
 Block *BlockGrammarAction(StatementList statements) {
@@ -87,9 +88,9 @@ Statement *StatementGrammarAction(void *statement, StatementType type) {
 IfStatement *IfStatementGrammarAction(Expression *cond, Block *if_block, Block *else_block) {
     // Todo ver impresion de block2 en caso de NULL
     //    LogDebug("\tIfStatementGrammarAction(%d, %d, %d)", exp, block1, block2);
-    IfStatementType type = IF_TYPE;
+    IfStatementType type = IF_ELSE_TYPE;
     if (else_block == NULL) {
-        type = IF_ELSE_TYPE;
+        type = IF_TYPE;
     }
     return createIfStatement(type, cond, if_block, else_block);
 }
@@ -220,8 +221,9 @@ Declaration *IntDeclarationAndAssignmentGrammarAction(char *varname, Expression 
     LogDebug("\tIntDeclarationAndAssignmentGrammarAction");
     // TODO: calcular value?
     VarType varType = SymbolTableDeclareAux(varname, INT_DECLARATION, true);
-    // TODO: ver q hacer con exp
-    return createDeclaration(varType, varname, NULL);
+
+    Assignment *assignment = createAssignment(varname, exp);
+    return createDeclaration(varType, varname, assignment);
 }
 
 int IntegerConstantGrammarAction(int value) {

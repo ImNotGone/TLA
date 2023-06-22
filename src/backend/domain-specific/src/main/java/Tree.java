@@ -27,7 +27,8 @@ public abstract class Tree<T extends Comparable<? super T>> implements Iterable<
 
     public void addTree(Tree<T> tree) {
         for (Node<T> element : tree) {
-            this.insert(element.getData());
+            if(element.getData() != null)
+                this.insert(element.getData());
         }
     }
 

@@ -42,25 +42,6 @@ public class BST<T extends Comparable<? super T>> extends Tree<T> {
         return tree;
     }
 
-    @Override
-    void find(T element) {
-        recursiveFindNode(root, element);
-    }
-
-    private void recursiveFindNode(Node<T> node, T data){
-        if(node==null){
-            return;
-        }
-        else if(data.compareTo(node.getData()) < 0){
-            recursiveFindNode(node.getLeft(), data);
-            return;
-        } else if (data.compareTo(node.getData()) > 0) {
-            recursiveFindNode(node.getRight(), data);
-            return;
-        }
-        node.setFillColor(Color.GREEN);
-    }
-
     private Node<T> recursiveAddNode(Node<T> node, T data) {
         if (node == null) {
             node = new Node<T>(data);

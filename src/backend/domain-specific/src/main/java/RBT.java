@@ -78,15 +78,6 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
         return tree;
     }
 
-    @Override
-    void find(T element) {
-        Node<T> node= searchTree(element);
-        if(node!=null){
-            node.setFillColor(Color.GREEN);
-        }
-        //TODO: Implement when JavaFX is ready
-    }
-
     private void preOrderHelper(Node<T> node) {
         if (node != TNULL) {
             System.out.print(node.getData() + " ");
@@ -109,17 +100,6 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
             postOrderHelper(node.getRight());
             System.out.print(node.getData() + " ");
         }
-    }
-
-    private Node<T> searchTreeHelper(Node<T> node, T key) {
-        if (node == TNULL || key.compareTo(node.getData()) == 0) {
-            return node;
-        }
-
-        if (key.compareTo(node.getData()) < 0) {
-            return searchTreeHelper(node.getLeft(), key);
-        }
-        return searchTreeHelper(node.getRight(), key);
     }
 
     // fix the rb tree modified by the delete operation
@@ -321,12 +301,6 @@ public class RBT<T extends Comparable<? super T>> extends Tree<T> {
     // Left Subtree . Right Subtree . Node
     public void postorder() {
         postOrderHelper(this.root);
-    }
-
-    // search the tree for the key k
-    // and return the corresponding node
-    public Node<T> searchTree(T k) {
-        return searchTreeHelper(this.root, k);
     }
 
     @Override

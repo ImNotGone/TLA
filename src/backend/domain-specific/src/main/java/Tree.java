@@ -85,11 +85,14 @@ public abstract class Tree<T extends Comparable<? super T>> implements Iterable<
                 graph.add(mutNode);
             }
         }
-
         Graphviz.fromGraph(graph).render(Format.DOT).toFile(new File("graph.dot"));
     }
 
-    abstract void find(T element);
+    public void find(T element){
+        Node<T> node = findNode(root, element);
+        if(node != null)
+            node.setFillColor(Color.GREEN);
+    }
 
     public void inorder() {
         getInorderFromNode(root);
@@ -119,16 +122,7 @@ public abstract class Tree<T extends Comparable<? super T>> implements Iterable<
     }
 
     private boolean contains(Node<T> node, T element) {
-        boolean found = false;
-        while (node != null && !found) {
-            if (node.getData().equals(element))
-                found = true;
-            else if (node.getData().compareTo(element) > 0)
-                node = node.getLeft();
-            else
-                node = node.getRight();
-        }
-        return found;
+        return findNode(node, element) != null;
     }
 
     // A utility function to print preorder traversal of
@@ -171,6 +165,19 @@ public abstract class Tree<T extends Comparable<? super T>> implements Iterable<
                 }
         }
         return null;
+    }
+
+    private Node<T> findNode(Node<T> node, T element){
+        boolean found = false;
+        while (node != null && !found) {
+            if (node.getData().equals(element))
+                found = true;
+            else if (node.getData().compareTo(element) > 0)
+                node = node.getLeft();
+            else
+                node = node.getRight();
+        }
+        return node;
     }
 
     // A utility function to get height of the tree

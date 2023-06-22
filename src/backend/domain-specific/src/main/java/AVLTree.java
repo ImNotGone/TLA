@@ -2,8 +2,6 @@ import java.awt.*;
 import java.util.function.Function;
 
 class AVLTree<T extends Comparable<? super T>> extends Tree<T> {
-    private Node<T> root;
-
     @Override
     public void insert(T element) {
         root = insert(root, element);
@@ -36,25 +34,6 @@ class AVLTree<T extends Comparable<? super T>> extends Tree<T> {
     }
 
     @Override
-    public void find(T element) {
-        recursiveFindNode(root, element);
-    }
-
-    private void recursiveFindNode(Node<T> node, T data){
-        if(node==null){
-            return;
-        }
-        else if(data.compareTo(node.getData()) < 0){
-            recursiveFindNode(node.getLeft(), data);
-            return;
-        } else if (data.compareTo(node.getData()) > 0) {
-            recursiveFindNode(node.getRight(), data);
-            return;
-        }
-        node.setFillColor(Color.GREEN);
-    }
-
-    @Override
     <E extends Comparable<? super E>> Tree<E> reduce(Function<T, E> function) {
         Tree<E> tree = new AVLTree<>();
 
@@ -64,8 +43,6 @@ class AVLTree<T extends Comparable<? super T>> extends Tree<T> {
 
         return tree;
     }
-
-
 
     // A utility function to right rotate subtree rooted with y
     // See the diagram given above.

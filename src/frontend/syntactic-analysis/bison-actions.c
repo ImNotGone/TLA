@@ -230,7 +230,6 @@ Constant *ConstantGrammarAction(int intValue, bool boolValue, ConstantType type)
     return createConstant(intValue, boolValue, type);
 }
 
-// TODO: add assignment
 static inline VarType SymbolTableDeclareAux(char *varname, DeclarationType type, bool hasValue) {
     VarType varType;
     struct metadata metadata = {.hasValue = hasValue};

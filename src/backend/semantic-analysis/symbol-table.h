@@ -3,7 +3,6 @@
 #include "hashmap.h"
 
 struct key {
-    //TODO: add scope?
     char * varname;
 };
 
@@ -17,7 +16,6 @@ typedef enum VarType {
 
 struct metadata {
     bool hasValue;
-    int value;
 };
 
 struct value {

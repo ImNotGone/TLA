@@ -121,7 +121,7 @@ function_call: PRINT VARIABLE[var]                                              
              | REDUCE ODD VARIABLE[var]                                                  { $$ = FunctionGrammarAction($var, NULL, REDUCE_ODD_CALL); }
              | FIND VARIABLE[var] expression[exp]                                        { $$ = FunctionGrammarAction($var, $exp, FIND_CALL); }
              | PRESENT expression[exp] VARIABLE[var]                                     { $$ = FunctionGrammarAction($var, $exp, PRESENT_CALL); }
-             | declaration[decl] ADD_TREE VARIABLE[var]                                  { $$ = FunctionDeclarationGrammarAction($var, $decl, ADD_TREE_CALL); } // TODO: revisar
+             | declaration[decl] ADD_TREE VARIABLE[var]                                  { $$ = FunctionDeclarationGrammarAction($var, $decl, ADD_TREE_CALL); } 
              ;
 // CHECK: mover el add_tree aca???
 declaration: NEW_TREE BST VARIABLE[var]                                                  { $$ = DeclarationGrammarAction($var, BST_DECLARATION); }

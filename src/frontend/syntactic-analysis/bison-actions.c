@@ -136,7 +136,7 @@ FunctionCall *FunctionGrammarAction(char *varname, Expression *exp, FunctionCall
     return createFunctionCall(type, varname, exp, NULL);
 }
 
-Assignment *AssignmentGrammarAction(char *var, Expression *exp) {
+Assignment *AssignmentGrammarAction(char *var, Expression *exp, FunctionCall *functionCall) {
     LogDebug("\tAssignmentGrammarAction");
 
     struct key key = {.varname = var};
@@ -154,7 +154,7 @@ Assignment *AssignmentGrammarAction(char *var, Expression *exp) {
     value.metadata.hasValue = true;
     symbolTableInsert(&key, &value);
 
-    return createAssignment(var, exp);
+    return createAssignment(var, exp, functionCall);
 }
 
 RangeExpression *RangeExpressionGrammarAction(Expression *exp1, Expression *exp2) {
@@ -222,12 +222,11 @@ Declaration *DeclarationGrammarAction(char *varname, DeclarationType type) {
     return createDeclaration(varType, varname, NULL);
 }
 
-Declaration *IntDeclarationAndAssignmentGrammarAction(char *varname, Expression *exp) {
+Declaration *IntDeclarationAndAssignmentGrammarAction(char *varname, Expression *exp, FunctionCall *functionCall) {
     LogDebug("\tIntDeclarationAndAssignmentGrammarAction");
-    // TODO: calcular value?
     VarType varType = SymbolTableDeclareAux(varname, INT_DECLARATION, true);
 
-    Assignment *assignment = createAssignment(varname, exp);
+    Assignment *assignment = createAssignment(varname, exp, functionCall);
     return createDeclaration(varType, varname, assignment);
 }
 

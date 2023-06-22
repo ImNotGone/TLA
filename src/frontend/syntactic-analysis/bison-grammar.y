@@ -123,10 +123,12 @@ declaration: NEW_TREE BST VARIABLE[var]                                         
            | NEW_TREE AVL VARIABLE[var]                                                  { $$ = DeclarationGrammarAction($var, AVL_DECLARATION); }
            | NEW_TREE RBT VARIABLE[var]                                                  { $$ = DeclarationGrammarAction($var, RBT_DECLARATION); }
            | INT VARIABLE[var]                                                           { $$ = DeclarationGrammarAction($var, INT_DECLARATION); }
-           | INT VARIABLE[var] ASSIGN expression[exp]                                    { $$ = IntDeclarationAndAssignmentGrammarAction($var, $exp); }
+           | INT VARIABLE[var] ASSIGN expression[exp]                                    { $$ = IntDeclarationAndAssignmentGrammarAction($var, $exp, NULL); }
+           | INT VARIABLE[var] ASSIGN function_call[call]                                { $$ = IntDeclarationAndAssignmentGrammarAction($var, NULL, $call); }
            ;
 
-assignment: VARIABLE[var] ASSIGN expression[exp]                                         { $$ = AssignmentGrammarAction($var, $exp); }
+assignment: VARIABLE[var] ASSIGN expression[exp]                                         { $$ = AssignmentGrammarAction($var, $exp, NULL); }
+          | VARIABLE[var] ASSIGN function_call[call]                                     { $$ = AssignmentGrammarAction($var, NULL, $call); }
           ;
 
 expression: expression[left] ADD expression[right]                                       { $$ = ExpressionGrammarAction($left, $right, NULL,    ADDITION_EXPRESSION); }

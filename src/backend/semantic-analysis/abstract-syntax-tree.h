@@ -122,15 +122,11 @@ typedef enum {
 	// INT_DECLARATION_AND_ASSIGNMENT?
 } DeclarationType;
 
-typedef struct {
-	char * varname;
-	Expression * expression;
-} Assignment;
 
 typedef struct {
 	VarType type;
 	char * varname;
-    Assignment * assignment;
+    struct Assignment * assignment;
 } Declaration;
 
 typedef struct {
@@ -139,6 +135,12 @@ typedef struct {
 	Expression * expression;
 	Declaration * declaration;
 } FunctionCall;
+
+typedef struct Assignment {
+	char * varname;
+	Expression * expression;
+    FunctionCall * functionCall;
+} Assignment;
 
 typedef enum {
 	IF_STATEMENT,

@@ -40,7 +40,7 @@ StatementList createStatementList(Statement * statement, StatementList next);
 
 Statement * createStatement(StatementType type, void * statement);
 
-Assignment * createAssignment(char * variable, Expression * expression);
+Assignment * createAssignment(char * varname, Expression * expression, FunctionCall * functionCall);
 
 FunctionCall * createFunctionCall(FunctionCallType type, char * variable, Expression * expression, Declaration * declaration);
 

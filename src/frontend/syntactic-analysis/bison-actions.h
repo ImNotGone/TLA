@@ -37,17 +37,17 @@ RangeExpression * RangeExpressionGrammarAction(Expression * exp1, Expression * e
 Factor * FactorGrammarAction(Expression * exp, Constant * con, char * varname, FactorType type);
 Constant * ConstantGrammarAction(int value);
 
-//Funciones
+// Funciones
 FunctionCall * FunctionGrammarAction(char * varname, Expression * exp, FunctionCallType type);
 FunctionCall * FunctionDeclarationGrammarAction(char *varname, Declaration *declaration, FunctionCallType callType);
 
 // Constantes.
 int IntegerConstantGrammarAction(int value);
 
-//Declaraciones
+// Declaraciones
 Declaration * DeclarationGrammarAction(char * varname, DeclarationType type);
-Declaration * IntDeclarationAndAssignmentGrammarAction(char * varname, Expression * exp);
+Declaration * IntDeclarationAndAssignmentGrammarAction(char * varname, Expression * exp, FunctionCall * functionCall);
 
-Assignment * AssignmentGrammarAction(char * var, Expression * exp);
+Assignment * AssignmentGrammarAction(char * var, Expression * exp, FunctionCall * functionCall);
 
 #endif

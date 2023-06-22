@@ -63,6 +63,7 @@ void freeAssignment(Assignment *assignment) {
 
     freeExpression(assignment->expression);
     freeVariable(assignment->varname);
+    freeFunctionCall(assignment->functionCall);
     free(assignment);
 }
 
@@ -214,11 +215,12 @@ Statement * createStatement(StatementType type, void * statement) {
     return new;
 }
 
-Assignment * createAssignment(char * varname, Expression * expression) {
+Assignment * createAssignment(char * varname, Expression * expression, FunctionCall * functionCall) {
     Assignment * new = malloc(sizeof(Assignment));
 
     new->varname = varname;
     new->expression = expression;
+    new->functionCall = functionCall;
 
     return new;
 }

@@ -5,6 +5,7 @@ new AVL t2 <- t1;
 
 insert t1 1;
 
-int a = present t1 1;
+int a;
+a = present 1 t1;
 
-int max = max t1;
+int b = max t1;

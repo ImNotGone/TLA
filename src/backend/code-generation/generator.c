@@ -9,10 +9,9 @@
 
 void GeneratorProgram(Program *program) {
 
-    // TODO: Add imports
-
+    Output("import java.io.IOException;\n");
     Output("public class Main {\n");
-    Output("public static void main(String[] args) {\n");
+    Output("public static void main(String[] args) throws IOException {\n");
     GeneratorStatementList(program->statements);
     Output("}\n");
     Output("}\n");

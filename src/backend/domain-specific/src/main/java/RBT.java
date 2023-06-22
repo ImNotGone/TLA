@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.function.Function;
 
 public class RBT<T extends Comparable<? super T>> extends Tree<T> {
-    private Node<T> root;
     private Node<T> TNULL;
 
     public RBT() {

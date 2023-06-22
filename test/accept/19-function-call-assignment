@@ -1,0 +1,2 @@
+new AVL t1;
+new AVL t2 <- t1

@@ -110,7 +110,8 @@ void GeneratorFunctionCall(FunctionCall *functionCall) {
             Output(")");
             break;
         case ADD_TREE_CALL:
-            Output("addTree(");
+            GeneratorDeclaration(functionCall->declaration);
+            Output("%s.add(", functionCall->declaration->varname);
             GeneratorExpression(functionCall->expression);
             Output(")");
             break;
@@ -264,4 +265,14 @@ void GeneratorFactor(Factor *factor) {
 
 void GeneratorConstant(Constant *constant) {
     Output("%d", constant->value);
+}
+
+#include <stdarg.h>
+#include <stdio.h>
+
+void Output(char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    vprintf(format, args);
+    va_end(args);
 }

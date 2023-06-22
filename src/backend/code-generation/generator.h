@@ -1,7 +1,7 @@
 #ifndef GENERATOR_HEADER
 #define GENERATOR_HEADER
 
-#include "abstract-syntax-tree.h"
+#include "../semantic-analysis/abstract-syntax-tree.h"
 
 void Output(char *format, ...);
 
